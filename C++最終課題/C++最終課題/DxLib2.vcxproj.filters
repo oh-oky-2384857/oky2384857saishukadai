@@ -66,13 +66,13 @@
     <ClInclude Include="stringHandle.h">
       <Filter>ヘッダー ファイル\staticField</Filter>
     </ClInclude>
-    <ClInclude Include="inputManager.h">
-      <Filter>ヘッダー ファイル\gameManager</Filter>
-    </ClInclude>
     <ClInclude Include="inputDate.h">
       <Filter>ヘッダー ファイル\gameManager</Filter>
     </ClInclude>
     <ClInclude Include="cursorManager.h">
+      <Filter>ヘッダー ファイル\gameManager</Filter>
+    </ClInclude>
+    <ClInclude Include="inputManager.h">
       <Filter>ヘッダー ファイル\gameManager</Filter>
     </ClInclude>
   </ItemGroup>
@@ -99,6 +99,9 @@
       <Filter>ソース ファイル\staticField</Filter>
     </ClCompile>
     <ClCompile Include="cursorManager.cpp">
+      <Filter>ソース ファイル\gameManager</Filter>
+    </ClCompile>
+    <ClCompile Include="inputManager.cpp">
       <Filter>ソース ファイル\gameManager</Filter>
     </ClCompile>
   </ItemGroup>

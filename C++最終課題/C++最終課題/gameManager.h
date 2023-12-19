@@ -2,13 +2,16 @@
 #include <list>
 #include "manager.h"
 
+
 // ‘O•ûéŒ¾;
 class sceneManager;
+
 
 class gameManager :public manager {
 private:
 	sceneManager* nowScene;
 	std::list <manager*> managers;
+
 public:
 	gameManager();
 	~gameManager();
@@ -18,4 +21,6 @@ public:
 	void Print();
 
 	bool SetNewScene(sceneManager* newScene);
+
+	manager* GetManagerPtr(const char* managerName);
 };

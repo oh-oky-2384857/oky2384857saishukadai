@@ -4,18 +4,18 @@
 #include "titleManager.h"
 #include "sceneManager.h"
 #include "cursorManager.h"
-
+#include "inputManager.h"
 
 using namespace std;
 
 gameManager::gameManager() {
-	string* s = new string("gameManager");
-	manager::SetManagetrName(s);
+	manager::SetManagerName("gameManager");
 	nowScene = new titleManager(this);
 
 	managers =
 	{
-		new cursorManager
+		new cursorManager(this),
+		new inputManager(this)
 	};
 }
 
@@ -24,7 +24,10 @@ gameManager::~gameManager() {
 }
 
 void gameManager::Awake() {
-	nowScene->Awake();
+
+	for (manager* m : managers) {
+		m->Awake();
+	}
 }
 void gameManager::Update() {
 	nowScene->Update();
@@ -43,4 +46,13 @@ bool gameManager::SetNewScene(sceneManager* newScene) {
 	delete nowScene;
 	nowScene = newScene;
 	return true;
+}
+
+manager* gameManager::GetManagerPtr(const char* managerName) {
+	for (manager* m : managers) {
+		if (strcmp(m->GetManagerName()->c_str(), managerName) == 0) {
+			return m;
+		}
+	}
+	return nullptr;
 }

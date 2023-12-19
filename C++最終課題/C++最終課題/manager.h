@@ -25,7 +25,7 @@ public:
 
 	//managerNameİ’è;
 	//ˆø”stringŒ^;
-	bool SetManagetrName(std::string* s) { 
+	bool SetManagerName(std::string* s) { 
 		if (managerName == nullptr) {
 			//–¼‘O‚ªİ’è‚³‚ê‚Ä‚¢‚È‚¯‚ê‚Î;
 			managerName = s;	
@@ -38,7 +38,7 @@ public:
 	
 	//managerNameİ’è;
 	//ˆø”charŒ^;
-	bool SetManagetrName(char* c) {
+	bool SetManagerName(const char* c) {
 		if (managerName == nullptr) {
 			//–¼‘O‚ªİ’è‚³‚ê‚Ä‚¢‚È‚¯‚ê‚Î;
 			managerName = new std::string(c);

@@ -12,8 +12,7 @@ static const string TITLE_HANDLE_PATH = "./resource/titleResource/title.png";
 
 titleManager::titleManager(gameManager* pgm){
 
-	string* s = new string("titleManager");
-	manager::SetManagetrName(s);
+	manager::SetManagerName("titleManager");
 
 	titleHandle = LoadGraph(TITLE_HANDLE_PATH.c_str());
 	if (titleHandle == -1) {
