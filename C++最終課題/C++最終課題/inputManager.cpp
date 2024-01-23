@@ -1,8 +1,11 @@
 #include "inputManager.h"
 #include "inputDate.h"
+#include "gameManager.h"
 #include <string>
 
-inputManager::inputManager(gameManager* ptrGM){
+inputManager::inputManager(gameManager* ptrGM) :
+ptrGameManager(ptrGM) 
+{
 
 	manager::SetManagerName("inputManager");
 	inputs = new inputDate;
@@ -13,10 +16,13 @@ inputManager::~inputManager() {
 	delete inputs->mouse;
 	delete inputs;
 }
-void inputManager::Update() {
+bool inputManager::Awake(){
+	return true;
+}
+bool inputManager::Update() {
 
 	MouseUpdate();
-
+	return true;
 }
 void inputManager::MouseUpdate() {
 

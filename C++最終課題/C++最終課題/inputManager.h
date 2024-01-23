@@ -11,12 +11,12 @@ private:
 	//inputDateの保持;
 	inputDate* inputs;
 
-	gameManager* ptrGM;
+	gameManager* ptrGameManager;
 public:
 	inputManager(gameManager* ptrGM);
 	~inputManager();
-	void Awake() {};
-	void Update();
+	bool Awake() ;
+	bool Update();
 	void Print() {};
 
 	//マウスの更新処理;

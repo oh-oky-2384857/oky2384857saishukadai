@@ -9,7 +9,7 @@
 static const int CURSOR_UPDATE_CNT = 5;
 static const int CURSOR_HANDLE_NUM = 2;//カーソルの画像の種類;
 //カーソルの画像のパス;
-static const std::string CURSOR_HANDLE_PATH[CURSOR_HANDLE_NUM] =
+const std::string CURSOR_HANDLE_PATH[CURSOR_HANDLE_NUM] =
 {
 	"./resource/gameCommonResource/scorp1.png",
 	"./resource/gameCommonResource/scorp2.png",
@@ -38,15 +38,16 @@ cursorManager::~cursorManager() {
 	}
 	delete[] cursorHandles;
 }
-void cursorManager::Awake() {
+bool cursorManager::Awake() {
 	inputManager* ptrim =(inputManager*)ptrGameManager->GetManagerPtr("inputManager");
 	if (ptrim == nullptr) {
-		exit(0);
+		return false;
 	}
 	inputDates = ptrim->TellInputDataPtr()->mouse;
+	return true;
 }
-void cursorManager::Update() {
-
+bool cursorManager::Update() {
+	return true;
 }
 void cursorManager::Print() {
 	DrawGraph(inputDates->x - cursorWidth / 2, inputDates->y - cursorHeight / 2, cursorHandles[nowCursorHandle],true);

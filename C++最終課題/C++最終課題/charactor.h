@@ -8,8 +8,8 @@ private:
 	coordinate position;//’†SÀ•W
 
 public:
-	virtual void Awake() = 0;
-	virtual void Update() = 0;
+	virtual bool Awake() = 0;
+	virtual bool Update() = 0;
 	virtual void Print() = 0;
 
 	bool SetPos(coordinate pos) { position = pos; };

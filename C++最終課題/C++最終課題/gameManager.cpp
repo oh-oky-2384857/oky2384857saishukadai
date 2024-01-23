@@ -1,10 +1,12 @@
 #include <string>
 
 #include "gameManager.h"
+#include "blueScreen.h"
 #include "titleManager.h"
+
+#include "inputManager.h"
 #include "sceneManager.h"
 #include "cursorManager.h"
-#include "inputManager.h"
 
 using namespace std;
 
@@ -20,20 +22,26 @@ gameManager::gameManager() {
 }
 
 gameManager::~gameManager() {
-
+	managers.clear();
 }
 
-void gameManager::Awake() {
+bool gameManager::Awake() {
 
 	for (manager* m : managers) {
-		m->Awake();
+		if (!m->Awake())// Awake‚ÉŽ¸”s‚µ‚½‚ç;
+		{
+			ChangeBlueScreen();
+			break;
+		}
 	}
+	return true;
 }
-void gameManager::Update() {
+bool gameManager::Update() {
 	nowScene->Update();
 	for (manager* m : managers) {
 		m->Update();
 	}
+	return true;
 }
 void gameManager::Print() {
 	nowScene->Print();
@@ -55,4 +63,8 @@ manager* gameManager::GetManagerPtr(const char* managerName) {
 		}
 	}
 	return nullptr;
+}
+void gameManager::ChangeBlueScreen(errorData* data) {
+	delete nowScene;
+	nowScene = new blueScreenManager(this,data);
 }

@@ -5,7 +5,7 @@
 
 // ‘O•ûéŒ¾;
 class sceneManager;
-
+struct errorData;
 
 class gameManager :public manager {
 private:
@@ -16,11 +16,13 @@ public:
 	gameManager();
 	~gameManager();
 
-	void Awake();
-	void Update();
+	bool Awake();
+	bool Update();
 	void Print();
 
 	bool SetNewScene(sceneManager* newScene);
 
 	manager* GetManagerPtr(const char* managerName);
+
+	void ChangeBlueScreen(errorData* data);
 };

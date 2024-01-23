@@ -22,7 +22,7 @@ class cursorManager:public manager {
 public:
 	cursorManager(gameManager* ptrgm);
 	~cursorManager();
-	void Awake();
-	void Update();
+	bool Awake();
+	bool Update();
 	void Print();
 };
