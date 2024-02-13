@@ -36,6 +36,13 @@ enemyManager::~enemyManager() {
 		delete e;
 	}
 	datas.clear();
+	for (std::vector<enemyWave*> w : waves) {
+		for (enemyWave* e : w) {
+			delete e;
+		}
+		w.clear();
+	}
+	waves.clear();
 }
 bool enemyManager::Awake() {
 	//プレイヤーマネージャー取得;
