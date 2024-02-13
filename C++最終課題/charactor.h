@@ -8,10 +8,10 @@ private:
 	coordinate position;//íÜêSç¿ïW
 
 public:
-	virtual bool Awake() = 0;
-	virtual bool Update() = 0;
+	virtual void Awake() = 0;
+	virtual void Update() = 0;
 	virtual void Print() = 0;
 
 	bool SetPos(coordinate pos) { position = pos; };
-	const coordinate GetPos() { return position; };
+	coordinate GetPos() { return position; };
 };	

@@ -12,6 +12,6 @@ public:
 	virtual void Print() = 0;
 
 	bool SetPos(coordinate pos) { position = pos; };
-	const coordinate GetPos() const { return position; };
+	const coordinate GetPos() { return position; };
 
 };	

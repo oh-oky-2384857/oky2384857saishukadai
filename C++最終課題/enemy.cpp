@@ -5,9 +5,6 @@
 #include "enemyManager.h"
 #include "enemyData.h"
 
-#include "player.h"
-#include "playerManager.h"
-
 bool enemy::CheckHit(coordinate coord, int radius) {
 
 	//‚±‚ê‚Æcoord‚Ì‹——£‚ðŒvŽZ;
@@ -38,18 +35,12 @@ bool enemy001::Awake() {
 	return false;
 }
 bool enemy001::Update() {
+	coordinate pcoord = ptrEnemyManager->GetPlayerPosition();
 	Move();
-	const player* p = ptrEnemyManager->GetPlayerPtr();
-	coordinate pcoord = p->GetPos();
-	int pr = p->GetRadius();
-	if (CheckHit(pcoord, pr)) {//“–‚½‚Á‚½‚ç;
-		ptrEnemyManager->GetPlayerManagerPtr()->AddDamage(data->atk);
-	}
 	return true;
 }
 void enemy001::Print() {
-	const player* p = ptrEnemyManager->GetPlayerPtr();
-	coordinate pcoord = p->GetPos();
+	coordinate pcoord = ptrEnemyManager->GetPlayerPosition();
 	int xdist = pcoord.x - position.x;
 	int ydist = pcoord.y - position.y;
 

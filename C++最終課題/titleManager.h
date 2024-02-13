@@ -10,11 +10,10 @@ private:
 	// 外部ファイルから読み込む;
 	// ./resource/titleResource/title.png ;
 	int titleHandle;
-
 public:
 	titleManager(gameManager* pgm);
 	~titleManager();
-	bool Awake();
-	bool Update();
+	void Awake() {};
+	void Update() {};
 	void Print();
 };

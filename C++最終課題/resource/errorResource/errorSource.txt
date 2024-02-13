@@ -1,6 +1,3 @@
 gameManager
-titleManager
 gameMainManager
-mapManager
-playerManager
-enemyManager
+titleManager

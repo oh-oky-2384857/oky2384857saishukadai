@@ -14,13 +14,12 @@ public:
 	int height;				//      横幅;
 
 public :
-	bool Load(float ms , float hp,float atk,std::string* handleP) {
-		if (ms < 0 || hp <= 0 || atk < 0||handleP->size() == 0) {//無効なデータが入ったら;
+	bool Load(float ms , float hp,std::string* handleP) {
+		if (ms < 0 || hp <= 0 || handleP->empty()) {//無効なデータが入ったら;
 			return false;
 		}
 		moveSpeed = ms;
-		enemyData::hp = hp;
-		enemyData::atk = atk;
+		hp = hp;
 		handlePath = handleP;
 
 		return true;

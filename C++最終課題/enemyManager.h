@@ -7,7 +7,6 @@
 //‘O•ûéŒ¾;
 class enemy;
 
-class player;
 class playerManager;
 class gameMainManager;
 
@@ -39,6 +38,5 @@ public:
 
 	bool Add(enemyType et, coordinate pos);
 
-	const player* GetPlayerPtr()const;
-	inline playerManager* GetPlayerManagerPtr() {return ptrPlayerManager;}
+	const coordinate GetPlayerPosition()const;
 };

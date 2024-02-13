@@ -46,9 +46,8 @@ void gameMainManager::Print() {
 }
 
 manager* gameMainManager::GetManagerPtr(const char* managerName) {
-	std::string managerN = managerName;
 	for (manager* m : managers) {
-		if (managerN.compare(m->GetManagerNameInstans()) == 0) {
+		if (strcmp(m->GetManagerName()->c_str(), managerName) == 0) {
 			return m;
 		}
 	}

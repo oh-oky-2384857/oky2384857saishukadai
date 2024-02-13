@@ -5,8 +5,8 @@
 class object {
 public:
 	
-	virtual bool Awake() = 0;// コンストラクタの後に動かす;
+	virtual void Awake() = 0;// コンストラクタの後に動かす;
 							 //ほかのオブジェクトの生成を待つ場合など;
 	virtual void Print() = 0;
-	virtual bool Update() = 0;
+	virtual void Update() = 0;
 };

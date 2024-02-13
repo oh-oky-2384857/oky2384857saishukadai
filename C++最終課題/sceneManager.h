@@ -12,8 +12,8 @@ protected:
 
 public:
 	sceneManager() : manager(), ptrGameManager(nullptr){}
-	virtual bool Awake() = 0;
-	virtual bool Update() = 0;
+	virtual void Awake() = 0;
+	virtual void Update() = 0;
 	virtual void Print() = 0;
 
 	bool ChangeNewScene(sceneManager* nextScene);

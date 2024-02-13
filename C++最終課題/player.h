@@ -32,12 +32,7 @@ public:
 
 	bool LoadPlayerHandle();
 	bool LoadStatus();
-
-	inline int GetRadius() const {
-		//c•‚Æ‰¡•‚Ì‘å‚«‚¢‚Ù‚¤‚ð•Ô‚·;
-		return (playerHandleWidth > playerHandleHeight) ? playerHandleWidth : playerHandleHeight;
-	}
-
 	void AddMovePower(int moveX, int moveY);
+
 	bool AddDamage(int damage);
 };

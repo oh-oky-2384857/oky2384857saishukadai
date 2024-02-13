@@ -1,5 +1,4 @@
 #pragma once
-#include <string>
 
 enum class errorCode //エラーの種類;
 {
@@ -24,12 +23,10 @@ enum class errorSource //エラー発生場所;
 
 struct errorData {
 public:
-	errorData(errorCode code,errorSource source,std::string* note) {
+	errorData(errorCode code,errorSource source) {
 		this->code = code;
 		this->source = source;
-		this->note = note;
 	}
 	errorCode code;
 	errorSource source;
-	std::string* note;
 };

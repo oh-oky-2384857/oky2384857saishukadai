@@ -58,8 +58,8 @@ bool player::Update() {
 		position.y += (int)coordFractionY;
 		coordFractionY -= (int)coordFractionY;
 	}
-	invincibilityTimeCnt--;
 	return true;
+	invincibilityTimeCnt--;
 }
 void player::Print() {
 	DrawGraph(PLAYER_PRINT_POINT.x - playerHandleWidth / 2,
@@ -113,9 +113,6 @@ void player::AddMovePower(int moveX, int moveY) {
 }
 
 void player::PrintHpBar() {
-	if (playerHpNow < 0) {
-		return;
-	}
 	//Å‘å’l;
 	DrawBox(HP_BAR_PRINT_POINT.x, HP_BAR_PRINT_POINT.y,
 		HP_BAR_PRINT_POINT.x + HP_BAR_WIDTH, HP_BAR_PRINT_POINT.y + HP_BAR_HEIGHT, colorSample::fireBrick, true);

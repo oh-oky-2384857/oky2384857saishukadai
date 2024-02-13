@@ -19,6 +19,9 @@
     <Filter Include="ヘッダー ファイル\gameManager">
       <UniqueIdentifier>{76cdecff-086e-47ac-b428-ef35a5fa09d4}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ヘッダー ファイル\resorseManager">
+      <UniqueIdentifier>{bd4b759b-9e72-423e-9cdd-a7a922d84b95}</UniqueIdentifier>
+    </Filter>
     <Filter Include="ヘッダー ファイル\sceneManager">
       <UniqueIdentifier>{daf81df3-f3f6-4357-9b8b-6e40ce3f26de}</UniqueIdentifier>
     </Filter>
@@ -37,43 +40,13 @@
     <Filter Include="ヘッダー ファイル\staticField">
       <UniqueIdentifier>{e0fba1d2-0226-470e-b479-75c4233e33ec}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ソース ファイル\gameMain">
-      <UniqueIdentifier>{6720e455-4d7d-45ee-aaa8-be7cacc0eabb}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ヘッダー ファイル\gameMain">
-      <UniqueIdentifier>{675c1891-fc9e-4553-9add-628572bbcd80}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ソース ファイル\titleManager">
-      <UniqueIdentifier>{0707743d-ab5f-44ce-a9b7-ef5b5225f77e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ヘッダー ファイル\errorManagement">
-      <UniqueIdentifier>{5d41975e-d721-4612-a07d-64e3fd05e33c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ソース ファイル\errorManagement">
-      <UniqueIdentifier>{f2550112-7fae-4f62-87ed-0894c4afcd0f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ヘッダー ファイル\gameMain\entity">
-      <UniqueIdentifier>{eaa7e05a-41c4-42aa-9e7c-e70e40348fe2}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ヘッダー ファイル\titleManager">
-      <UniqueIdentifier>{215b2d34-d1e2-4290-9b5b-d151a355906a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ソース ファイル\gameMain\entity">
-      <UniqueIdentifier>{fd03a70e-ceed-4782-bd53-6f8b7e3b85ea}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ソース ファイル\gameMain\entity\enemy">
-      <UniqueIdentifier>{778745d4-4e21-49a2-981d-014a7c964d4c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ヘッダー ファイル\gameMain\entity\enemy">
-      <UniqueIdentifier>{925441f9-0116-47a3-ab49-27ab4a58bc69}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ヘッダー ファイル\gameMain\entity\shot">
-      <UniqueIdentifier>{cf59f3b3-7525-4610-b200-8fa9a69052f9}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="object.h">
       <Filter>ヘッダー ファイル\基底クラス</Filter>
+    </ClInclude>
+    <ClInclude Include="charactor.h">
+      <Filter>ヘッダー ファイル\派生中間クラス</Filter>
     </ClInclude>
     <ClInclude Include="manager.h">
       <Filter>ヘッダー ファイル\派生中間クラス</Filter>
@@ -87,8 +60,14 @@
     <ClInclude Include="gameManager.h">
       <Filter>ヘッダー ファイル\gameManager</Filter>
     </ClInclude>
+    <ClInclude Include="titleManager.h">
+      <Filter>ヘッダー ファイル\sceneManager</Filter>
+    </ClInclude>
     <ClInclude Include="stringHandle.h">
       <Filter>ヘッダー ファイル\staticField</Filter>
+    </ClInclude>
+    <ClInclude Include="inputManager.h">
+      <Filter>ヘッダー ファイル\gameManager</Filter>
     </ClInclude>
     <ClInclude Include="inputDate.h">
       <Filter>ヘッダー ファイル\gameManager</Filter>
@@ -96,58 +75,13 @@
     <ClInclude Include="cursorManager.h">
       <Filter>ヘッダー ファイル\gameManager</Filter>
     </ClInclude>
-    <ClInclude Include="inputManager.h">
-      <Filter>ヘッダー ファイル\gameManager</Filter>
-    </ClInclude>
-    <ClInclude Include="titleManager.h">
-      <Filter>ヘッダー ファイル\titleManager</Filter>
-    </ClInclude>
-    <ClInclude Include="playerManager.h">
-      <Filter>ヘッダー ファイル\gameMain</Filter>
-    </ClInclude>
-    <ClInclude Include="blueScreen.h">
-      <Filter>ヘッダー ファイル\errorManagement</Filter>
-    </ClInclude>
-    <ClInclude Include="errorCode.h">
-      <Filter>ヘッダー ファイル\errorManagement</Filter>
-    </ClInclude>
-    <ClInclude Include="soundManager.h">
-      <Filter>ヘッダー ファイル\gameManager</Filter>
-    </ClInclude>
-    <ClInclude Include="mapManager.h">
-      <Filter>ヘッダー ファイル\gameMain</Filter>
-    </ClInclude>
-    <ClInclude Include="enemyManager.h">
-      <Filter>ヘッダー ファイル\gameMain</Filter>
-    </ClInclude>
-    <ClInclude Include="entity.h">
-      <Filter>ヘッダー ファイル\派生中間クラス</Filter>
-    </ClInclude>
-    <ClInclude Include="player.h">
-      <Filter>ヘッダー ファイル\gameMain\entity</Filter>
-    </ClInclude>
-    <ClInclude Include="debugData.h">
-      <Filter>ヘッダー ファイル\errorManagement</Filter>
-    </ClInclude>
-    <ClInclude Include="enemy.h">
-      <Filter>ヘッダー ファイル\gameMain\entity\enemy</Filter>
-    </ClInclude>
-    <ClInclude Include="enemyData.h">
-      <Filter>ヘッダー ファイル\gameMain\entity\enemy</Filter>
-    </ClInclude>
-    <ClInclude Include="playerShot.h">
-      <Filter>ヘッダー ファイル\gameMain\entity\shot</Filter>
-    </ClInclude>
-    <ClInclude Include="shotData.h">
-      <Filter>ヘッダー ファイル\gameMain\entity\shot</Filter>
-    </ClInclude>
-    <ClInclude Include="vector2.h">
-      <Filter>ヘッダー ファイル\基底クラス</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="gameManager.cpp">
       <Filter>ソース ファイル\gameManager</Filter>
+    </ClCompile>
+    <ClCompile Include="titleManager.cpp">
+      <Filter>ソース ファイル\sceneManager</Filter>
     </ClCompile>
     <ClCompile Include="sceneManager.cpp">
       <Filter>ソース ファイル\sceneManager</Filter>
@@ -158,50 +92,14 @@
     <ClCompile Include="colorSample.h">
       <Filter>ヘッダー ファイル\staticField</Filter>
     </ClCompile>
+    <ClCompile Include="colorSample.cpp">
+      <Filter>ソース ファイル\staticField</Filter>
+    </ClCompile>
     <ClCompile Include="stringHandle.cpp">
       <Filter>ソース ファイル\staticField</Filter>
     </ClCompile>
     <ClCompile Include="cursorManager.cpp">
       <Filter>ソース ファイル\gameManager</Filter>
-    </ClCompile>
-    <ClCompile Include="inputManager.cpp">
-      <Filter>ソース ファイル\gameManager</Filter>
-    </ClCompile>
-    <ClCompile Include="gameMainManager.h">
-      <Filter>ヘッダー ファイル\gameMain</Filter>
-    </ClCompile>
-    <ClCompile Include="gameMainManager.cpp">
-      <Filter>ソース ファイル\gameMain</Filter>
-    </ClCompile>
-    <ClCompile Include="titleManager.cpp">
-      <Filter>ソース ファイル\titleManager</Filter>
-    </ClCompile>
-    <ClCompile Include="playerManager.cpp">
-      <Filter>ソース ファイル\gameMain</Filter>
-    </ClCompile>
-    <ClCompile Include="blueScreen.cpp">
-      <Filter>ソース ファイル\errorManagement</Filter>
-    </ClCompile>
-    <ClCompile Include="soundManager.cpp">
-      <Filter>ソース ファイル\gameManager</Filter>
-    </ClCompile>
-    <ClCompile Include="mapManagre.cpp">
-      <Filter>ソース ファイル\gameMain</Filter>
-    </ClCompile>
-    <ClCompile Include="colorSample.cpp">
-      <Filter>ソース ファイル\staticField</Filter>
-    </ClCompile>
-    <ClCompile Include="enemyManager.cpp">
-      <Filter>ソース ファイル\gameMain</Filter>
-    </ClCompile>
-    <ClCompile Include="player.cpp">
-      <Filter>ソース ファイル\gameMain\entity</Filter>
-    </ClCompile>
-    <ClCompile Include="enemy.cpp">
-      <Filter>ソース ファイル\gameMain\entity\enemy</Filter>
-    </ClCompile>
-    <ClCompile Include="playerShot.cpp">
-      <Filter>ソース ファイル\gameMain\entity</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

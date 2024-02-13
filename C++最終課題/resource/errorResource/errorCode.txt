@@ -1,6 +1,4 @@
-fileNotFound
-handleRoadFail
-processingFailure
-objectNotFound
-improperData
-others
+ファイルが見つからない
+ハンドル読み込み失敗
+処理失敗
+その他

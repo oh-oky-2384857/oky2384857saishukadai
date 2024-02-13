@@ -35,7 +35,7 @@ bool enemyManager::Awake() {
 	//プレイヤーマネージャー取得;
 	ptrPlayerManager = (playerManager*)ptrGameMain->GetManagerPtr("playerManager");
 	if (ptrPlayerManager == nullptr) {
-		errorData data = { errorCode::objectNotFound,errorSource::enemyManager ,nullptr};
+		errorData data = { errorCode::objectNotFound,errorSource::enemyManager };
 		ptrGameMain->ChangeBlueScreen(&data);
 		return false;
 	}
@@ -44,7 +44,7 @@ bool enemyManager::Awake() {
 	ifstream ifs(ENEMY_DATA_PATH.c_str());
 	if (ifs.fail()) {//失敗でブルスク;
 		ifs.close();
-		errorData data = { errorCode::fileNotFound,errorSource::enemyManager ,nullptr };
+		errorData data = { errorCode::fileNotFound,errorSource::enemyManager };
 		ptrGameMain->ChangeBlueScreen(&data);
 		return false;
 	}
@@ -59,8 +59,7 @@ bool enemyManager::Awake() {
 	inputSt.clear(); inputSt.str("");//初期化;
 
 	float msBuf;//移動速度のバッファ;
-	float hpBuf;//hpのバッファ;
-	float atkBuf;//攻撃力のバッファ;
+	float HpBuf;//hpのバッファ;
 	string pathBuf;
 	for (int i = 0; i < enemyTypeAmount; i++) {
 		//敵情報取得;
@@ -68,19 +67,14 @@ bool enemyManager::Awake() {
 		inputSt << input;
 
 		//データをコピー;
-		inputSt >> msBuf >> hpBuf>> atkBuf >> pathBuf;
+		inputSt >> msBuf >> HpBuf >> pathBuf;
 		string* newPathBuf = new string(pathBuf);
 		
 		enemyData* ed = new enemyData;
-		if (!ed->Load(msBuf, hpBuf, atkBuf,newPathBuf)) {
+		if (!ed->Load(msBuf, HpBuf, newPathBuf)) {
 			//読んだデータが不正だったら;
 			ifs.close();
-			stringstream ss;
-			ss << "ms" << msBuf << ",hp:" << hpBuf<<
-				",atk:"<< atkBuf << ",path:" << newPathBuf;
-			string* note = new string(ss.str());
-
-			errorData data = { errorCode::improperData,errorSource::enemyManager ,note };
+			errorData data = { errorCode::improperData,errorSource::enemyManager };
 			ptrGameMain->ChangeBlueScreen(&data);
 			return false;
 		}
@@ -95,7 +89,7 @@ bool enemyManager::Awake() {
 	//画像読み込み;
 	for (enemyData* e : datas) {
 		if (!e->LoadImg()) {
-			errorData data = { errorCode::handleRoadFail,errorSource::enemyManager ,nullptr };
+			errorData data = { errorCode::handleRoadFail,errorSource::enemyManager };
 			ptrGameMain->ChangeBlueScreen(&data);
 			return false;
 		}
@@ -112,7 +106,7 @@ bool enemyManager::Update() {
 		if (!e->Update()) {
 			//isEnemyがtrueだったら(enemyが生きてるのにfalseが返ってくるなら)エラー;
 			if (e->GetIsEnemy()) {
-				errorData data = { errorCode::processingFailure,errorSource::enemyManager ,nullptr };
+				errorData data = { errorCode::processingFailure,errorSource::enemyManager };
 				ptrGameMain->ChangeBlueScreen(&data);
 				return false;
 			}
@@ -142,6 +136,6 @@ bool enemyManager::Add(enemyType et, coordinate pos) {
 	return true;
 }
 
-const player* enemyManager::GetPlayerPtr()const {
-	return ptrPlayerManager->GetPlayerPtr();
-}
+const coordinate enemyManager::GetPlayerPosition() const { 
+	return ptrPlayerManager->GetPosition(); 
+};

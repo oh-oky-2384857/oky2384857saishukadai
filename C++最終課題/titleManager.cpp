@@ -1,55 +1,31 @@
 #include <DxLib.h>
 #include <string>
 
+#include "gameCommon.h"
 #include "titleManager.h"
 #include "gameManager.h"
 
-#include "gameMainManager.h"
-
-#include "blueScreen.h"
-#include "errorCode.h"
-
 using namespace std;
 
-const string TITLE_HANDLE_PATH = "./resource/titleResource/title.png";
+static const string TITLE_HANDLE_PATH = "./resource/titleResource/title.png";
 
 
 titleManager::titleManager(gameManager* pgm){
-	sceneManager::ptrGameManager = pgm;
-	manager::SetManagerName("titleManager");
 
+	string* s = new string("titleManager");
+	manager::SetManagetrName(s);
+
+	titleHandle = LoadGraph(TITLE_HANDLE_PATH.c_str());
+	if (titleHandle == -1) {
+		exit(1);
+	}
 }
 
 titleManager::~titleManager(){
 	DeleteGraph(titleHandle);
 }
 
-bool titleManager::Awake(){
-	titleHandle = LoadGraph(TITLE_HANDLE_PATH.c_str());
-	if (titleHandle == -1) {
-		errorData data = { errorCode::handleRoadFail, errorSource::titleManager ,nullptr };
-		sceneManager* newScene = new blueScreenManager(ptrGameManager,&data);
-
-		sceneManager::ChangeNewScene(newScene);
-		return false;
-	}
-	int x, y;
-	GetGraphSize(titleHandle, &x, &y);
-	int* a = new int;
-	return true;
-}
-
-bool titleManager::Update() {
-	if (GetMouseInput() & MOUSE_INPUT_RIGHT) {
-		//ÉVÅ[ÉìêÿÇËë÷Ç¶;
-		sceneManager* newScene = new gameMainManager(ptrGameManager);
-
-		sceneManager::ChangeNewScene(newScene);
-		return true;
-	}
-	return true;
-}
 void titleManager::Print()
 {
-	DrawGraph(0, 0, titleHandle, false);
+	DrawGraph(0, 0, titleHandle, true);
 }
