@@ -4,13 +4,14 @@
 #include "player.h"
 #include "gameMainManager.h"
 #include "gameCommon.h"
-#include "blueScreen.h"
-#include "errorCode.h"
 #include "inputDate.h"
+#include "shotData.h"
+#include "playerShotManager.h"
 
+#include "errorCode.h"
 
 playerManager::playerManager(gameMainManager* ptrGM) 
-	:ptrGameMain(ptrGM){
+	:ptrGameMain(ptrGM),nowShotData(nullptr){
 	//生成;
 	oplayer = new player(coordinate(0,0));
 	
@@ -21,18 +22,37 @@ playerManager::~playerManager() {
 }
 
 bool playerManager::Awake() {
+	//playerShotManager取得;
+	ptrPlayerShotManager = (playerShotManager*)ptrGameMain->GetManagerPtr("playerShotManager");
+	if (ptrPlayerShotManager == nullptr) {
+		errorData data = { errorCode::objectNotFound, errorSource::playerManager ,"moveInputがない" };
+		ptrGameMain->ChangeBlueScreen(&data);
+		return false;
+	}
+	//インプットデータ取得;
+	//move;
 	moveInput = ptrGameMain->GetInputData()->move;
 	if (moveInput == nullptr) {
 		errorData data = { errorCode::objectNotFound, errorSource::playerManager ,"moveInputがない" };
 		ptrGameMain->ChangeBlueScreen(&data);
 		return false;
 	}
+	//shot;
+	shotInput = ptrGameMain->GetInputData()->shot;
+	if (shotInput == nullptr) {
+		errorData data = { errorCode::objectNotFound,errorSource::playerShotManager ,"shotInputがない" };
+		ptrGameMain->ChangeBlueScreen(&data);
+		return false;
+	}
+	//プレイヤーAwake処理;
 	oplayer->Awake();
+	//画像読み込み;
 	if (!oplayer->LoadPlayerHandle()) {
 		errorData data = { errorCode::handleRoadFail, errorSource::playerManager ,(std::string*)nullptr };
 		ptrGameMain->ChangeBlueScreen(&data);
 		return false;
 	}
+	//ステータス読み込み;
 	if (!oplayer->LoadStatus()) {
 		errorData data = { errorCode::fileNotFound, errorSource::playerManager ,"playerDateファイルがない" };
 		ptrGameMain->ChangeBlueScreen(&data);
@@ -41,9 +61,43 @@ bool playerManager::Awake() {
 
 	return true;
 }
+bool playerManager::Start() {
+	nowShotData = ptrPlayerShotManager->GetShotPatternData(0);
+	if (nowShotData == nullptr) {
+		errorData data = { errorCode::objectNotFound,errorSource::playerShotManager ,"初期弾データがない" };
+		ptrGameMain->ChangeBlueScreen(&data);
+		return false;
+	}
+}
 bool playerManager::Update() {
 	oplayer->AddMovePower(moveInput->xPower, moveInput->yPower);
-	oplayer->Update();
+	if (!oplayer->Update()) {//hpが0になったら;
+		ptrGameMain->SetGameOver();
+		return false;
+	}
+
+	shotCoolTimeCnt--;
+	//shotのボタンが押され、クールタイムがあけているなら;
+	if (shotInput->isTrigger && shotCoolTimeCnt < 0) {
+		
+		shotCoolTimeCnt = nowShotData->shotCoolTime;
+
+		//ショット作成;
+
+		//ベクトルをノーマライズ
+		vector2 v2;
+		int x = shotInput->x - SCREEN_WIDTH / 2;
+		int y = shotInput->y - SCREEN_HEIGHT / 2;
+		int hypotenuse = sqrt(x * x + y * y);
+		v2.x = (float)x / hypotenuse * -1;
+		v2.y = (float)y / hypotenuse * -1;
+
+		coordinate cd = oplayer->GetPos();
+
+		shotData* data = new shotData(cd, v2, oplayer->GetAtk(), nowShotData);
+		
+		ptrPlayerShotManager->Add(data);
+	}
 	return true;
 
 }

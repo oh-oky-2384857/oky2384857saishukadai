@@ -59,6 +59,9 @@ bool player::Update() {
 		coordFractionY -= (int)coordFractionY;
 	}
 	invincibilityTimeCnt--;
+	if (playerHpNow < 0) {
+		return false;
+	}
 	return true;
 }
 void player::Print() {

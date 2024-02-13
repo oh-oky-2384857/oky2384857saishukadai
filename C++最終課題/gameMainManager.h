@@ -12,6 +12,12 @@ class gameMainManager :public sceneManager{
 private:
 
 	std::list<manager*> managers;
+
+	//ゲームオーバー関連;
+	int gameOverHandle;		//画像ハンドル;
+	int gameOverPrintCnt;	//表示する時間;
+	bool gameOverFlag;		//今ゲームオーバーか;
+
 public:
 	gameMainManager(gameManager* ptrGM);
 	~gameMainManager();
@@ -26,4 +32,6 @@ public:
 
 	const inputData* GetInputData();
 
+	inline bool GetGameOverFlag() { return gameOverFlag; };
+	void SetGameOver();
 };

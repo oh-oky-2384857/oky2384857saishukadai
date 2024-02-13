@@ -12,7 +12,6 @@ class playerManager;
 class enemyManager;
 
 struct shotData;
-struct shotInputData;
 
 
 class playerShotManager:public manager{
@@ -20,19 +19,12 @@ class playerShotManager:public manager{
 	std::list<playerShot*> shots;//弾の実体;
 	
 	std::vector<shotPatternData*> shotPD;//弾の種類別データ;
-	int shotsCnt;//玉の種類;
-
-	int shotCoolTimeCnt;//弾発射の冷却時間のカウンタ;
-
-	shotPatternData* nowShotData;//現在発射する弾データ;
+	int shotsCnt;//玉の種類数;
 
 	//関数呼び出し用;
 	gameMainManager* ptrGameMain;
 	playerManager* ptrPlayerManager;
 	enemyManager* ptrEnemyManager;
-
-	//入力受け取り;
-	shotInputData* shotInput;
 
 public:
 	playerShotManager(gameMainManager* ptrGM);
@@ -46,5 +38,5 @@ public:
 	const player* GetPlayer()const;
 	bool CheckEnemyHit(shotData* s, int radius);
 
-	
+	shotPatternData* GetShotPatternData(int ptr);
 };

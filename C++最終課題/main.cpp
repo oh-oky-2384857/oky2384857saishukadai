@@ -4,10 +4,19 @@
 #include "colorSample.h"
 #include "stringHandle.h"
 
+#include <crtdbg.h>
+
+// デバッグ版の場合、メモリリーク場所を特定するマクロ
+#ifdef _DEBUG
+#define	new	new(_NORMAL_BLOCK, __FILE__, __LINE__)
+#endif
+
 const int REFRESH_RATE = 17;//リフレッシュレート、17ミリ秒;
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR IpCmdLine, int nCmdShow)
 {
+	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
+
 	if (DxLib_Init() == -1) {
 		return -1;
 	}

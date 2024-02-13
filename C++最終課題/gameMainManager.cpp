@@ -4,11 +4,16 @@
 #include "mapManager.h"
 #include "enemyManager.h"
 #include "playerShotManager.h"
-#include "blueScreen.h"
 #include "inputManager.h"
 #include "inputDate.h"
 
-gameMainManager::gameMainManager(gameManager* ptrGM){
+#include "blueScreen.h"
+#include "errorCode.h"
+
+const std::string GAMEOVER_HANDLE_PATH = {"./resource/gameMainResource/gameOver.png"};
+const int GAMEOVER_PRINT_TIME = 100;//ゲームオーバーの表示時間;
+
+gameMainManager::gameMainManager(gameManager* ptrGM) : gameOverFlag(false){
 	sceneManager::ptrGameManager = ptrGM;
 	manager::SetManagerName("gameMainManager");
 
@@ -26,6 +31,7 @@ gameMainManager::~gameMainManager() {
 		delete m;
 	}
 	managers.clear();
+	DeleteGraph(gameOverHandle);
 }
 bool gameMainManager::Awake() {
 	for (manager* m : managers) {
@@ -33,17 +39,35 @@ bool gameMainManager::Awake() {
 			break;
 		}
 	}
+	for (manager* m : managers) {
+		if (!m->Start()) {
+			break;
+		}
+	}
+
+	gameOverHandle = LoadGraph(GAMEOVER_HANDLE_PATH.c_str());
+	if (gameOverHandle == -1) {
+		errorData data = { errorCode::handleRoadFail,errorSource::gameMainManager,(std::string*)nullptr };
+		ChangeBlueScreen(&data);
+		return false;
+	}
+
 	return true;
 }
 bool gameMainManager::Update(){
-	for (manager* m : managers) {
-		m->Update();
+	if (!gameOverFlag) {//ゲームオーバーじゃないなら
+		for (manager* m : managers) {
+			m->Update();
+		}
 	}
 	return true;
 }
 void gameMainManager::Print() {
 	for (manager* m : managers) {
 		m->Print();
+	}
+	if (gameOverFlag) {//ゲームオーバーなら;
+		DrawGraph(0, 0, gameOverHandle, true);
 	}
 }
 
@@ -68,4 +92,8 @@ const inputData* gameMainManager::GetInputData() {
 		return nullptr;
 	}
 	return ptrim->GetInputDataPtr();
+}
+void gameMainManager::SetGameOver() {
+	gameOverPrintCnt = GAMEOVER_PRINT_TIME;
+	gameOverFlag = true;
 }
