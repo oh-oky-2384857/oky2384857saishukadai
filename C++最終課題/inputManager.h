@@ -1,21 +1,32 @@
 #pragma once
 #include "manager.h"
-#include "inputDate.h"
 
-struct inputDate;
-
+//前方宣言;
+struct inputData;
+class gameManager;
 
 class inputManager:public manager
 {
 private:
-	//inputDateの保持;
-	inputDate* inputs;
-public:
-	inputManager();
-	~inputManager();
-	void Awake() {};
-	void Update();
-	void Print() {};
+	//inputDataの保持;
+	inputData* inputs;
 
-	bool TellInputMouse(mouseInputDate date);//マウスの入力があったとき;
+	gameManager* ptrGameManager;
+public:
+	inputManager(gameManager* ptrGM);
+	~inputManager();
+	bool Awake() override;
+	bool Update()override;
+	void Print() override;
+
+	//マウスの更新処理;
+	void MouseUpdate();
+	//移動の更新処理;
+	void MoveUpdate();
+	//shotの更新処理;
+	void ShotUpdate();
+	//pauseの更新処理;
+	void PauseUpdate();
+
+	const inputData* GetInputDataPtr()const;
 };

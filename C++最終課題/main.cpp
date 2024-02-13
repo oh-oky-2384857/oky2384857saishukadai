@@ -1,7 +1,10 @@
 #include<DxLib.h>
+#include <algorithm>
 #include "gameManager.h"
 #include "colorSample.h"
 #include "stringHandle.h"
+
+const int REFRESH_RATE = 17;//リフレッシュレート、17ミリ秒;
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR IpCmdLine, int nCmdShow)
 {
@@ -15,23 +18,30 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR IpCmdLine
 	//gameManager生成;
 	gameManager* gm = new gameManager;
 
+	//初期設定;
+	gm->Awake();
+
 	// 下準備;
 	colorSample::MakeColors();
 	stringHandle::MakeHandles();
 
-	while ((ProcessMessage() == 0) && (CheckHitKey(KEY_INPUT_ESCAPE) == 0)) {
+	int refreshTime;
+
+	while ((ProcessMessage() == 0) && (gm->GetGameStatus() != gameStatus::end)) {
 		ClearDrawScreen();
+
+		refreshTime = GetNowCount();
 
 		gm->Update();
 		gm->Print();
 
 		ScreenFlip();
-		WaitTimer(10);
+		int timeDist = GetNowCount() - refreshTime;//処理の経過時間
+		WaitTimer((std::max)(REFRESH_RATE - timeDist, 0));
 	}
 
 	delete gm;
 
-	WaitKey();
 	DxLib_End();
 	return 0;
 }

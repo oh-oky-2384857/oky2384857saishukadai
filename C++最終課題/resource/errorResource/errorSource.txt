@@ -1,3 +1,9 @@
 gameManager
-gameMainManager
+cursorManager
+pauseManager
 titleManager
+gameMainManager
+mapManager
+playerManager
+enemyManager
+playerShotManager

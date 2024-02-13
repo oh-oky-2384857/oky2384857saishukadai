@@ -3,11 +3,13 @@
 #include "enemy.h"
 #include "enemyData.h"
 #include "playerManager.h"
+#include "player.h"
 #include "gameMainManager.h"
+#include "shotData.h"
 
 #include "errorCode.h"
 
-#include<string>
+#include <string>
 #include <DxLib.h>
 #include <sstream>
 #include <fstream>
@@ -15,9 +17,13 @@
 using namespace std;
 
 const string ENEMY_DATA_PATH = "./resource/gameMainResource/enemyResource/enemyData.txt";//敵データのパス;
+const string ENEMY_WAVE_DATA_PATH = "./resource/gameMainResource/enemyResource/enemyWaveData.txt";//敵ウェーブデータのパス;
+
+const int ENEMY_ADD_POSITION_RAND_X[2] = {320 + 20,640 + 20};//敵が湧ける範囲のX;
+const int ENEMY_ADD_POSITION_RAND_Y[2] = {240 + 20,480 + 20};//                Y;
 
 enemyManager::enemyManager(gameMainManager* ptrGM) 
-:ptrGameMain(ptrGM)
+:ptrGameMain(ptrGM),enemyWaveAddCnt(0)
 {
 	manager::SetManagerName("enemyManager");
 }
@@ -35,67 +41,118 @@ bool enemyManager::Awake() {
 	//プレイヤーマネージャー取得;
 	ptrPlayerManager = (playerManager*)ptrGameMain->GetManagerPtr("playerManager");
 	if (ptrPlayerManager == nullptr) {
-		errorData data = { errorCode::objectNotFound,errorSource::enemyManager };
+		errorData data = { errorCode::objectNotFound,errorSource::enemyManager ,"playerManagerがない"};
 		ptrGameMain->ChangeBlueScreen(&data);
 		return false;
 	}
 
-	//ファイルを開く;
-	ifstream ifs(ENEMY_DATA_PATH.c_str());
-	if (ifs.fail()) {//失敗でブルスク;
-		ifs.close();
-		errorData data = { errorCode::fileNotFound,errorSource::enemyManager };
-		ptrGameMain->ChangeBlueScreen(&data);
-		return false;
-	}
-
-	string input;
-	//敵種類取得;
-	std::getline(ifs, input);
-	stringstream inputSt(input);
-
-	inputSt >> enemyTypeAmount;
-
-	inputSt.clear(); inputSt.str("");//初期化;
-
-	float msBuf;//移動速度のバッファ;
-	float HpBuf;//hpのバッファ;
-	string pathBuf;
-	for (int i = 0; i < enemyTypeAmount; i++) {
-		//敵情報取得;
-		std::getline(ifs, input);
-		inputSt << input;
-
-		//データをコピー;
-		inputSt >> msBuf >> HpBuf >> pathBuf;
-		string* newPathBuf = new string(pathBuf);
-		
-		enemyData* ed = new enemyData;
-		if (!ed->Load(msBuf, HpBuf, newPathBuf)) {
-			//読んだデータが不正だったら;
+	//敵データ読み込み
+	{
+		//ファイルを開く;
+		ifstream ifs(ENEMY_DATA_PATH.c_str());
+		if (ifs.fail()) {//失敗でブルスク;
 			ifs.close();
-			errorData data = { errorCode::improperData,errorSource::enemyManager };
+			errorData data = { errorCode::fileNotFound,errorSource::enemyManager ,"enemyDateのファイルがない" };
 			ptrGameMain->ChangeBlueScreen(&data);
 			return false;
 		}
 
-		datas.push_back(ed);
+		string input;
+		//敵種類取得;
+		std::getline(ifs, input);
+		stringstream inputSt(input);
+
+		inputSt >> enemyTypeAmount;
 
 		inputSt.clear(); inputSt.str("");//初期化;
-	}
 
-	ifs.close();
+		float msBuf;//移動速度のバッファ;
+		float hpBuf;//hpのバッファ;
+		float atkBuf;//攻撃力のバッファ;
+		string pathBuf;
+		for (int i = 0; i < enemyTypeAmount; i++) {
+			//敵情報取得;
+			std::getline(ifs, input);
+			inputSt << input;
+
+			//データをコピー;
+			inputSt >> msBuf >> hpBuf >> atkBuf >> pathBuf;
+			string* newPathBuf = new string(pathBuf);
+
+			enemyData* ed = new enemyData;
+			if (!ed->Load(msBuf, hpBuf, atkBuf, newPathBuf)) {
+				//読んだデータが不正だったらブルスク;
+				ifs.close();
+				stringstream ss;
+				ss << "ms" << msBuf << ",hp:" << hpBuf <<
+					",atk:" << atkBuf << ",path:" << newPathBuf;
+				string* note = new string(ss.str());
+
+				errorData data = { errorCode::improperData,errorSource::enemyManager ,note };
+				ptrGameMain->ChangeBlueScreen(&data);
+				return false;
+			}
+
+			datas.push_back(ed);
+
+			inputSt.clear(); inputSt.str("");//初期化;
+		}
+
+		ifs.close();
+
+	}
+	//敵データ読み込み
+
+	//敵ウェーブデータ読み込み;
+	{
+		//ファイルを開く;
+		ifstream ifs(ENEMY_WAVE_DATA_PATH.c_str());
+		if (ifs.fail()) {//失敗でブルスク;
+			ifs.close();
+			errorData data = { errorCode::fileNotFound,errorSource::enemyManager ,"enemyWaveDataのファイルがない" };
+			ptrGameMain->ChangeBlueScreen(&data);
+			return false;
+		}
+
+		string input;
+		//ウェーブ数,ウェーブ間隔取得;
+		std::getline(ifs, input);
+		stringstream inputSt(input);
+
+		inputSt >> waveAmount >> waveAddTime;
+	
+		int enemyTypeBuf;
+		int enemyTypeNum;
+		for (int i = 0; i < waveAmount; i++) {
+			inputSt.clear(); inputSt.str("");//初期化;
+			vector<enemyWave*> enemyWaves;
+			
+			//敵種類,数取得;
+			std::getline(ifs, input);
+			inputSt << input;
+			//敵種類;
+			inputSt >> enemyTypeNum;
+			for (int j = 0; j < enemyTypeNum; j++) {
+				enemyWave* oew = new enemyWave;
+				inputSt >> enemyTypeBuf >> oew->amount;
+				oew->t = (enemyType)enemyTypeBuf;
+				enemyWaves.push_back(oew);
+			}
+
+			waves.push_back(enemyWaves);
+		}
+	}
+	//敵ウェーブデータ読み込み;
 
 	//画像読み込み;
 	for (enemyData* e : datas) {
 		if (!e->LoadImg()) {
-			errorData data = { errorCode::handleRoadFail,errorSource::enemyManager };
+			errorData data = { errorCode::handleRoadFail,errorSource::enemyManager ,(string*)nullptr };
 			ptrGameMain->ChangeBlueScreen(&data);
 			return false;
 		}
 	}
 
-	Add(enemyType::e001, coordinate(0, 0));
 	return true;
 }
 bool enemyManager::Update() {
@@ -106,12 +163,45 @@ bool enemyManager::Update() {
 		if (!e->Update()) {
 			//isEnemyがtrueだったら(enemyが生きてるのにfalseが返ってくるなら)エラー;
 			if (e->GetIsEnemy()) {
-				errorData data = { errorCode::processingFailure,errorSource::enemyManager };
+				errorData data = { errorCode::processingFailure,errorSource::enemyManager ,(string*)nullptr };
 				ptrGameMain->ChangeBlueScreen(&data);
 				return false;
 			}
 		}
 	}
+	enemyWaveAddCnt--;
+	if (enemyWaveAddCnt < 0) {
+		enemyWaveAddCnt = waveAddTime;
+		if (waves.size() != 0) {//ウェーブが残っているなら;
+			//先頭取り出し;
+			std::vector<enemyWave*> wave = waves[0];
+			waves.erase(waves.begin());
+
+			const player* p = ptrPlayerManager->GetPlayerPtr();
+			coordinate pcoord = p->GetPos();
+
+			int waveEnemys = wave.size();
+			for (int i = 0; i < waveEnemys; i++) {
+				for (int j = 0; j < wave[i]->amount; j++) {
+					
+					int x = GetRand(ENEMY_ADD_POSITION_RAND_X[1] - ENEMY_ADD_POSITION_RAND_X[0]) + ENEMY_ADD_POSITION_RAND_X[0];
+					int y = GetRand(ENEMY_ADD_POSITION_RAND_Y[1] - ENEMY_ADD_POSITION_RAND_Y[0]) + ENEMY_ADD_POSITION_RAND_Y[0];
+
+					int sx = GetRand(1) * 2 - 1;
+					int sy = GetRand(1)  * 2- 1;
+
+
+					coordinate coord = {x * sx ,y * sy};
+
+
+					Add(wave[i]->t, coord + pcoord);
+				}
+			}
+
+			wave.clear();
+		}
+	}
+
 	return true;
 }
 void enemyManager::Print() {
@@ -136,6 +226,21 @@ bool enemyManager::Add(enemyType et, coordinate pos) {
 	return true;
 }
 
-const coordinate enemyManager::GetPlayerPosition() const { 
-	return ptrPlayerManager->GetPosition(); 
-};
+const player* enemyManager::GetPlayerPtr()const {
+	return ptrPlayerManager->GetPlayerPtr();
+}
+bool enemyManager::ShotCheckHitEnemy(shotData* s, int radius) {
+	if (enemys.size() == 0) {
+		return false;
+	}
+	for (enemy* e : enemys) {
+		if (e->CheckHit(s->position, radius)) {
+			if (e->AddDamage(s->damage)) {
+				enemys.remove(e);
+				delete e;
+			}
+			return true;
+		}
+	}
+	return false;
+}

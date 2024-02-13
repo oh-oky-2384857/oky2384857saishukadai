@@ -1,1 +1,1 @@
-1.0 50 5 ./resource/gameMainResource/enemyResource/enemy001.png
+1.0 5 5 ./resource/gameMainResource/enemyResource/enemy001.png

@@ -1,0 +1,50 @@
+#pragma once
+#include <list>
+#include <vector>
+#include "manager.h"
+
+//前方宣言;
+class player;
+class playerShot;
+struct shotPatternData;
+class gameMainManager;
+class playerManager;
+class enemyManager;
+
+struct shotData;
+struct shotInputData;
+
+
+class playerShotManager:public manager{
+
+	std::list<playerShot*> shots;//弾の実体;
+	
+	std::vector<shotPatternData*> shotPD;//弾の種類別データ;
+	int shotsCnt;//玉の種類;
+
+	int shotCoolTimeCnt;//弾発射の冷却時間のカウンタ;
+
+	shotPatternData* nowShotData;//現在発射する弾データ;
+
+	//関数呼び出し用;
+	gameMainManager* ptrGameMain;
+	playerManager* ptrPlayerManager;
+	enemyManager* ptrEnemyManager;
+
+	//入力受け取り;
+	shotInputData* shotInput;
+
+public:
+	playerShotManager(gameMainManager* ptrGM);
+	~playerShotManager();
+
+	bool Awake() override;
+	bool Update()override;
+	void Print() override;
+
+	bool Add(shotData* data);
+	const player* GetPlayer()const;
+	bool CheckEnemyHit(shotData* s, int radius);
+
+	
+};

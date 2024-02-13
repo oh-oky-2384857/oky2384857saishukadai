@@ -8,6 +8,7 @@ private:
 	int playerHandleWidth;		// プレイヤーの画像の幅;
 	int playerHandleHeight;		// プレイヤーの画像の高さ;
 
+	float playerAtk;			//プレイヤーの攻撃力;
 
 	int playerMoveSpeed;		//プレイヤーの移動速度;
 
@@ -32,7 +33,13 @@ public:
 
 	bool LoadPlayerHandle();
 	bool LoadStatus();
-	void AddMovePower(int moveX, int moveY);
 
+	inline int GetRadius() const {
+		//縦幅と横幅の大きいほうを返す;
+		return (playerHandleWidth > playerHandleHeight) ? playerHandleWidth : playerHandleHeight;
+	}
+	inline float GetAtk()const { return playerAtk; };
+
+	void AddMovePower(int moveX, int moveY);
 	bool AddDamage(int damage);
 };

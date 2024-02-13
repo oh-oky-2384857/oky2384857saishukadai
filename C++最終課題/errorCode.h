@@ -1,4 +1,5 @@
 #pragma once
+#include <string>
 
 enum class errorCode //エラーの種類;
 {
@@ -14,19 +15,35 @@ enum class errorSource //エラー発生場所;
 {
 	none,				//エラーなし;
 	gameManager,
+	cursorManager,
+	pauseManager,
 	titleManager,
 	gameMainManager,
 	mapManager,
 	playerManager,
-	enemyManager
+	enemyManager,
+	playerShotManager
 };
 
 struct errorData {
 public:
-	errorData(errorCode code,errorSource source) {
-		this->code = code;
-		this->source = source;
-	}
 	errorCode code;
 	errorSource source;
+	std::string* note;
+	/**
+	*@param {errorCode}		code	どんなエラーか;
+	*@param {errorSource}	source	どこで発生したか;
+	*@param {string*}		note	メモ;
+	*/
+	errorData(errorCode code,errorSource source,std::string* note) {
+		this->code = code;
+		this->source = source;
+		this->note = note;
+	}
+
+	errorData(errorCode code, errorSource source,const char* note) {
+		this->code = code;
+		this->source = source;
+		this->note = new std::string(note);
+	}
 };

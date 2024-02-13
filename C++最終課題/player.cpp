@@ -35,7 +35,7 @@ const int HP_BAR_HEIGHT = 10;//HPƒo[‚Ì‚‚³;
 
 
 player::player() : coordFractionX(0.0f), coordFractionY(0.0f) , invincibilityTimeCnt(0){
-	position = { 0,0 };
+	position = coordinate{ 0,0 };
 }
 player::player(coordinate coord) : coordFractionX(0.0f), coordFractionY(0.0f) {
 	position = coord;
@@ -58,8 +58,8 @@ bool player::Update() {
 		position.y += (int)coordFractionY;
 		coordFractionY -= (int)coordFractionY;
 	}
-	return true;
 	invincibilityTimeCnt--;
+	return true;
 }
 void player::Print() {
 	DrawGraph(PLAYER_PRINT_POINT.x - playerHandleWidth / 2,
@@ -98,7 +98,7 @@ bool player::LoadStatus() {
 	std::getline(ifs, s);
 	std::stringstream ss(s);
 	
-	ss >> playerMoveSpeed >> playerHpMax >> invincibilityTime;
+	ss >> playerMoveSpeed >> playerHpMax >> playerAtk >> invincibilityTime;
 	
 	playerHpNow = playerHpMax;
 
@@ -113,6 +113,9 @@ void player::AddMovePower(int moveX, int moveY) {
 }
 
 void player::PrintHpBar() {
+	if (playerHpNow < 0) {
+		return;
+	}
 	//Å‘å’l;
 	DrawBox(HP_BAR_PRINT_POINT.x, HP_BAR_PRINT_POINT.y,
 		HP_BAR_PRINT_POINT.x + HP_BAR_WIDTH, HP_BAR_PRINT_POINT.y + HP_BAR_HEIGHT, colorSample::fireBrick, true);

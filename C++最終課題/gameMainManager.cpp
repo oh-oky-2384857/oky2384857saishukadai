@@ -3,6 +3,7 @@
 #include "playerManager.h"
 #include "mapManager.h"
 #include "enemyManager.h"
+#include "playerShotManager.h"
 #include "blueScreen.h"
 #include "inputManager.h"
 #include "inputDate.h"
@@ -16,6 +17,7 @@ gameMainManager::gameMainManager(gameManager* ptrGM){
 		new mapManager(this),
 		new enemyManager(this),
 		new playerManager(this),
+		new playerShotManager(this),
 	};
 
 }
@@ -46,8 +48,9 @@ void gameMainManager::Print() {
 }
 
 manager* gameMainManager::GetManagerPtr(const char* managerName) {
+	std::string managerN = managerName;
 	for (manager* m : managers) {
-		if (strcmp(m->GetManagerName()->c_str(), managerName) == 0) {
+		if (managerN.compare(m->GetManagerNameInstans()) == 0) {
 			return m;
 		}
 	}
@@ -59,10 +62,10 @@ void gameMainManager::ChangeBlueScreen(errorData* data) {
 	sceneManager::ChangeNewScene(newScene);
 }
 
-inputDate* gameMainManager::GetInputDate() {
+const inputData* gameMainManager::GetInputData() {
 	inputManager* ptrim = (inputManager*)ptrGameManager->GetManagerPtr("inputManager");
 	if (ptrim == nullptr) {
 		return nullptr;
 	}
-	return ptrim->TellInputDataPtr();
+	return ptrim->GetInputDataPtr();
 }

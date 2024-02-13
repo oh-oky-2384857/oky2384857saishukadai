@@ -4,9 +4,9 @@
 
 // ‘O•ûéŒ¾;
 class gameManager;
-struct mouseInputDate;
+struct mouseinputData;
 struct errorData;
-struct inputDate;
+struct inputData;
 
 class gameMainManager :public sceneManager{
 private:
@@ -16,14 +16,14 @@ public:
 	gameMainManager(gameManager* ptrGM);
 	~gameMainManager();
 
-	bool Awake();
-	bool Update();
-	void Print();
+	bool Awake() override;
+	bool Update()override;
+	void Print() override;
 
 	manager* GetManagerPtr(const char* managerName);
 
 	void ChangeBlueScreen(errorData* data);
 
-	inputDate* GetInputDate();
+	const inputData* GetInputData();
 
 };

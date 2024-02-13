@@ -17,7 +17,6 @@ private:
 	std::string* note;	//”õl;
 public:
 	blueScreenManager(gameManager* ptrGameManager, errorData* data);
-	blueScreenManager(gameManager* ptrGameManager, errorData* data, std::string* note);
 	~blueScreenManager();
 	bool Awake();
 	bool Update();

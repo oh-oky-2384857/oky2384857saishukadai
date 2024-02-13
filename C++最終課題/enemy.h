@@ -9,14 +9,17 @@ struct enemyData;
 //中間クラス;
 class enemy : public entity {
 protected:
-	bool isEnemy;//生きているか;
+	bool isEnemy;	//生きているか;
+	float nowHp;	//現在Hp;
 
+	vector2 floatPos;
 	//関数呼び出し用;
 	enemyManager* ptrEnemyManager;
 
 	const enemyData* data;
 	
-	enemy(const enemyData* edata) :data(edata) ,isEnemy(true){};
+	//コンストラクタ;
+	enemy(const enemyData* edata);
 public:
 	virtual bool Awake() { return true; };
 	virtual bool Update() { return true; };
@@ -24,9 +27,17 @@ public:
 
 	virtual bool Move() { return true; };
 
+	/**
+	*@returns bool true:接触,false:非接触;
+	*/
 	bool CheckHit(coordinate coord, int radius);
 
 	inline bool GetIsEnemy() { return isEnemy; };
+
+	/**
+	*@returns bool true:死,false:生;
+	*/
+	virtual bool AddDamage(float damage);
 };
 
 

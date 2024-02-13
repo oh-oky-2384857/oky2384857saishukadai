@@ -6,6 +6,7 @@
 #include "blueScreen.h"
 #include "errorCode.h"
 #include "gameCommon.h"
+#include "player.h"
 #include "playerManager.h"
 
 using namespace std;
@@ -31,13 +32,13 @@ mapManager::~mapManager() {
 bool mapManager::Awake() {
 	ptrPlayerManager = (playerManager*)ptrGameMain->GetManagerPtr("playerManager");
 	if (ptrPlayerManager == nullptr) {
-		errorData data = { errorCode::objectNotFound,errorSource::playerManager };
+		errorData data = { errorCode::objectNotFound,errorSource::playerManager ,"playerManagerがない" };
 		ptrGameMain->ChangeBlueScreen(&data);
 		return false;
 	}
 	mapChipHandle = LoadGraph(MAPCHIP_HANDLE_PATH.c_str());
 	if (mapChipHandle == -1) {
-		errorData data = {errorCode::handleRoadFail,errorSource::playerManager};
+		errorData data = {errorCode::handleRoadFail,errorSource::playerManager,(string*)nullptr };
 		ptrGameMain->ChangeBlueScreen(&data);
 		return false;
 	};
@@ -48,7 +49,8 @@ bool mapManager::Update() {
 	return true;
 }
 void mapManager::Print() {
-	coordinate coord = ptrPlayerManager->GetPosition();
+	const player* p = ptrPlayerManager->GetPlayerPtr();
+	coordinate coord = p->GetPos();
 
 	int xGap = coord.x % MAPCHIP_WIDTH;	//プレイヤーのx座標の差;
 	int yGap = coord.y % MAPCHIP_HEIGHT;//プレイヤーのy座標の差;

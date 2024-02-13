@@ -5,7 +5,7 @@
 class gameMainManager;
 class player;
 struct coordinate;
-struct moveInputDate;
+struct moveInputData;
 
 class playerManager : public manager {
 private:	
@@ -13,15 +13,15 @@ private:
 
 	gameMainManager* ptrGameMain;
 
-	moveInputDate* moveInput;
+	moveInputData* moveInput;
 public:
 	playerManager(gameMainManager* ptrGM);
 	~playerManager();
-	bool Awake();
-	bool Update();
-	void Print();
+	bool Awake() override;
+	bool Update()override;
+	void Print() override;
 
-	const coordinate GetPosition();
+	const player* GetPlayerPtr() const { return oplayer; }
 
 	void AddDamage(int damage);
 };
