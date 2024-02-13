@@ -5,14 +5,11 @@
 // ‘O•ûéŒ¾;
 class gameManager;
 struct mouseInputDate;
+struct errorData;
+struct inputDate;
 
-
-class gameMainManager :public manager{
+class gameMainManager :public sceneManager{
 private:
-	//ŠÖ”ŒÄ‚Ño‚µ—p;
-	gameManager* ptrGameManager;
-
-	mouseInputDate* inputDates;
 
 	std::list<manager*> managers;
 public:
@@ -22,4 +19,11 @@ public:
 	bool Awake();
 	bool Update();
 	void Print();
+
+	manager* GetManagerPtr(const char* managerName);
+
+	void ChangeBlueScreen(errorData* data);
+
+	inputDate* GetInputDate();
+
 };

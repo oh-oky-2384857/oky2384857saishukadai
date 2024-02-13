@@ -3,3 +3,4 @@ titleManager
 gameMainManager
 mapManager
 playerManager
+enemyManager

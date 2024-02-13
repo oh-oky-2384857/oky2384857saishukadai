@@ -14,6 +14,7 @@ class blueScreenManager:public sceneManager {
 private:
 	std::string* errorCodeMassage;
 	std::string* errorSourceMassage;
+	std::string* note;	//”õl;
 public:
 	blueScreenManager(gameManager* ptrGameManager, errorData* data);
 	~blueScreenManager();

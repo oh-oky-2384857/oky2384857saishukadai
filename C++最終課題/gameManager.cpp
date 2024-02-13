@@ -27,7 +27,7 @@ gameManager::~gameManager() {
 }
 
 bool gameManager::Awake() {
-
+	nowScene->Awake();
 	for (manager* m : managers) {
 		if (!m->Awake())// Awake‚ÉŽ¸”s‚µ‚½‚ç;
 		{
@@ -37,6 +37,8 @@ bool gameManager::Awake() {
 	return true;
 }
 bool gameManager::Update() {
+
+
 	nowScene->Update();
 	for (manager* m : managers) {
 		m->Update();

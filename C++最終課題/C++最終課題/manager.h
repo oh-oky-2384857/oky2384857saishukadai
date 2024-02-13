@@ -19,13 +19,13 @@ public:
 		}
 	}
 
-	virtual bool Awake() = 0;
-	virtual bool Update() = 0;
+	virtual void Awake() = 0;
+	virtual void Update() = 0;
 	virtual void Print() = 0;
 
 	//managerNameİ’è;
 	//ˆø”stringŒ^;
-	bool SetManagerName(std::string* s) { 
+	bool SetManagetrName(std::string* s) { 
 		if (managerName == nullptr) {
 			//–¼‘O‚ªİ’è‚³‚ê‚Ä‚¢‚È‚¯‚ê‚Î;
 			managerName = s;	
@@ -38,7 +38,7 @@ public:
 	
 	//managerNameİ’è;
 	//ˆø”charŒ^;
-	bool SetManagerName(const char* c) {
+	bool SetManagetrName(char* c) {
 		if (managerName == nullptr) {
 			//–¼‘O‚ªİ’è‚³‚ê‚Ä‚¢‚È‚¯‚ê‚Î;
 			managerName = new std::string(c);

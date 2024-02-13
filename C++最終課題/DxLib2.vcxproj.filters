@@ -46,28 +46,34 @@
     <Filter Include="ソース ファイル\titleManager">
       <UniqueIdentifier>{0707743d-ab5f-44ce-a9b7-ef5b5225f77e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ヘッダー ファイル\titleManager">
-      <UniqueIdentifier>{215b2d34-d1e2-4290-9b5b-d151a355906a}</UniqueIdentifier>
-    </Filter>
     <Filter Include="ヘッダー ファイル\errorManagement">
       <UniqueIdentifier>{5d41975e-d721-4612-a07d-64e3fd05e33c}</UniqueIdentifier>
     </Filter>
     <Filter Include="ソース ファイル\errorManagement">
       <UniqueIdentifier>{f2550112-7fae-4f62-87ed-0894c4afcd0f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ソース ファイル\gameMain\charactor">
+    <Filter Include="ヘッダー ファイル\gameMain\entity">
+      <UniqueIdentifier>{eaa7e05a-41c4-42aa-9e7c-e70e40348fe2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\titleManager">
+      <UniqueIdentifier>{215b2d34-d1e2-4290-9b5b-d151a355906a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\gameMain\entity">
       <UniqueIdentifier>{fd03a70e-ceed-4782-bd53-6f8b7e3b85ea}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ヘッダー ファイル\gameMain\charactor">
-      <UniqueIdentifier>{eaa7e05a-41c4-42aa-9e7c-e70e40348fe2}</UniqueIdentifier>
+    <Filter Include="ソース ファイル\gameMain\entity\enemy">
+      <UniqueIdentifier>{778745d4-4e21-49a2-981d-014a7c964d4c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\gameMain\entity\enemy">
+      <UniqueIdentifier>{925441f9-0116-47a3-ab49-27ab4a58bc69}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\gameMain\entity\shot">
+      <UniqueIdentifier>{cf59f3b3-7525-4610-b200-8fa9a69052f9}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="object.h">
       <Filter>ヘッダー ファイル\基底クラス</Filter>
-    </ClInclude>
-    <ClInclude Include="charactor.h">
-      <Filter>ヘッダー ファイル\派生中間クラス</Filter>
     </ClInclude>
     <ClInclude Include="manager.h">
       <Filter>ヘッダー ファイル\派生中間クラス</Filter>
@@ -114,11 +120,29 @@
     <ClInclude Include="enemyManager.h">
       <Filter>ヘッダー ファイル\gameMain</Filter>
     </ClInclude>
+    <ClInclude Include="entity.h">
+      <Filter>ヘッダー ファイル\派生中間クラス</Filter>
+    </ClInclude>
     <ClInclude Include="player.h">
-      <Filter>ヘッダー ファイル\gameMain\charactor</Filter>
+      <Filter>ヘッダー ファイル\gameMain\entity</Filter>
+    </ClInclude>
+    <ClInclude Include="debugData.h">
+      <Filter>ヘッダー ファイル\errorManagement</Filter>
     </ClInclude>
     <ClInclude Include="enemy.h">
-      <Filter>ヘッダー ファイル\gameMain\charactor</Filter>
+      <Filter>ヘッダー ファイル\gameMain\entity\enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="enemyData.h">
+      <Filter>ヘッダー ファイル\gameMain\entity\enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="playerShot.h">
+      <Filter>ヘッダー ファイル\gameMain\entity\shot</Filter>
+    </ClInclude>
+    <ClInclude Include="shotData.h">
+      <Filter>ヘッダー ファイル\gameMain\entity\shot</Filter>
+    </ClInclude>
+    <ClInclude Include="vector2.h">
+      <Filter>ヘッダー ファイル\基底クラス</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -171,7 +195,13 @@
       <Filter>ソース ファイル\gameMain</Filter>
     </ClCompile>
     <ClCompile Include="player.cpp">
-      <Filter>ソース ファイル\gameMain\charactor</Filter>
+      <Filter>ソース ファイル\gameMain\entity</Filter>
+    </ClCompile>
+    <ClCompile Include="enemy.cpp">
+      <Filter>ソース ファイル\gameMain\entity\enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="playerShot.cpp">
+      <Filter>ソース ファイル\gameMain\entity</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

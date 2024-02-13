@@ -1,36 +1,61 @@
-#include "playerManager.h"
-#include "gameCommon.h"
-#include <string>
 #include <DxLib.h>
+#include <string>
+#include "playerManager.h"
+#include "player.h"
+#include "gameMainManager.h"
+#include "gameCommon.h"
+#include "blueScreen.h"
+#include "errorCode.h"
+#include "inputDate.h"
 
-//プレイヤーの画像のパス;
-const std::string PLAYER_HANDLE_PATH[] =
-{
-	"./resource/gameMainResource/playerResource/player01.png",
-};
 
-//プレイヤーの画像の表示地点の中心座標;
-const coordinate PLAYER_PRINT_POINT = {320,240};
-
-playerManager::playerManager() {
-	playerHandle = LoadGraph(PLAYER_HANDLE_PATH[0].c_str());
-	if (playerHandle == -1) {
-		exit(1);
-	}
-	GetGraphSize(playerHandle, &playerHandleWidth, &playerHandleHeight);
+playerManager::playerManager(gameMainManager* ptrGM) 
+	:ptrGameMain(ptrGM){
+	//生成;
+	oplayer = new player(coordinate(0,0));
+	
+	manager::SetManagerName("playerManager");
 }
 playerManager::~playerManager() {
-	DeleteGraph(playerHandle);
 }
+
 bool playerManager::Awake() {
+	moveInput = ptrGameMain->GetInputDate()->move;
+	if (moveInput == nullptr) {
+		errorData data = { errorCode::objectNotFound, errorSource::playerManager };
+		ptrGameMain->ChangeBlueScreen(&data);
+		return false;
+	}
+	oplayer->Awake();
+	if (!oplayer->LoadPlayerHandle()) {
+		errorData data = { errorCode::handleRoadFail, errorSource::playerManager };
+		ptrGameMain->ChangeBlueScreen(&data);
+		return false;
+	}
+	if (!oplayer->LoadStatus()) {
+		errorData data = { errorCode::fileNotFound, errorSource::playerManager };
+		ptrGameMain->ChangeBlueScreen(&data);
+		return false;
+	}
+
 	return true;
 }
 bool playerManager::Update() {
+	oplayer->AddMovePower(moveInput->xPower, moveInput->yPower);
+	oplayer->Update();
 	return true;
 
 }
-
 void playerManager::Print() {
-	DrawGraph(PLAYER_PRINT_POINT.x - playerHandleWidth / 2,
-		PLAYER_PRINT_POINT.y - playerHandleHeight / 2, playerHandle, true);
+	oplayer->Print();
+}
+
+const coordinate playerManager::GetPosition() {
+	return oplayer->GetPos();
+}
+
+void playerManager::AddDamage(int damage) {
+	if (!oplayer->AddDamage(damage)) {//Hpが0以下になったなら;
+
+	}
 }

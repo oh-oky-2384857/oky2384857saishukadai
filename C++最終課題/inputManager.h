@@ -17,7 +17,7 @@ public:
 	~inputManager();
 	bool Awake() ;
 	bool Update();
-	void Print() {};
+	void Print() ;
 
 	//マウスの更新処理;
 	void MouseUpdate();

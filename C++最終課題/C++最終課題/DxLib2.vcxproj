@@ -19,32 +19,24 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="blueScreen.h" />
     <ClInclude Include="charactor.h" />
     <ClInclude Include="cursorManager.h" />
-    <ClInclude Include="errorCode.h" />
     <ClInclude Include="gameCommon.h" />
     <ClInclude Include="gameManager.h" />
     <ClInclude Include="inputDate.h" />
     <ClInclude Include="inputManager.h" />
     <ClInclude Include="manager.h" />
     <ClInclude Include="object.h" />
-    <ClInclude Include="playerManager.h" />
     <ClInclude Include="sceneManager.h" />
     <ClInclude Include="stringHandle.h" />
     <ClInclude Include="titleManager.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="blueScreen.cpp" />
     <ClCompile Include="colorSample.cpp" />
     <ClCompile Include="colorSample.h" />
     <ClCompile Include="cursorManager.cpp" />
-    <ClCompile Include="gameMainManager.cpp" />
-    <ClCompile Include="gameMainManager.h" />
     <ClCompile Include="gameManager.cpp" />
-    <ClCompile Include="inputManager.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="playerManager.cpp" />
     <ClCompile Include="sceneManager.cpp" />
     <ClCompile Include="stringHandle.cpp" />
     <ClCompile Include="titleManager.cpp" />
@@ -60,26 +52,26 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v143</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v143</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v143</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v143</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>

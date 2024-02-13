@@ -15,9 +15,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR IpCmdLine
 	//gameManager¶¬;
 	gameManager* gm = new gameManager;
 
-	//‰Šúİ’è;
-	gm->Awake();
-
 	// ‰º€”õ;
 	colorSample::MakeColors();
 	stringHandle::MakeHandles();

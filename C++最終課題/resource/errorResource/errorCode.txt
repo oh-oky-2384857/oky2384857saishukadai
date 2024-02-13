@@ -2,4 +2,5 @@ fileNotFound
 handleRoadFail
 processingFailure
 objectNotFound
+improperData
 others

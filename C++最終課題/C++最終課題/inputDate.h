@@ -13,8 +13,6 @@ struct mouseInputDate {
 
 struct inputDate {
 
-	mouseInputDate* mouse;
+	mouseInputDate mouse;
 
-
-	inputDate() = default;
 };

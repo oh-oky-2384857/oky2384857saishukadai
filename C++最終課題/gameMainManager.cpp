@@ -2,6 +2,7 @@
 #include "gameManager.h"
 #include "playerManager.h"
 #include "mapManager.h"
+#include "enemyManager.h"
 #include "blueScreen.h"
 #include "inputManager.h"
 #include "inputDate.h"
@@ -12,9 +13,11 @@ gameMainManager::gameMainManager(gameManager* ptrGM){
 
 	managers =
 	{
+		new mapManager(this),
+		new enemyManager(this),
 		new playerManager(this),
-		new mapManager(this)
 	};
+
 }
 gameMainManager::~gameMainManager() {
 	for (manager* m : managers) {
@@ -43,8 +46,9 @@ void gameMainManager::Print() {
 }
 
 manager* gameMainManager::GetManagerPtr(const char* managerName) {
+	std::string managerN = managerName;
 	for (manager* m : managers) {
-		if (strcmp(m->GetManagerName()->c_str(), managerName) == 0) {
+		if (managerN.compare(m->GetManagerNameInstans()) == 0) {
 			return m;
 		}
 	}

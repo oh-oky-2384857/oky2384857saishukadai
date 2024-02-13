@@ -51,5 +51,9 @@ public:
 	}
 
 	//managerNameæ“¾;
-	std::string* GetManagerName() { return managerName; };
+	const std::string* GetManagerName() const { return managerName; };
+	const std::string GetManagerNameInstans() const{
+		std::string result(managerName->c_str());
+		return result;
+	};
 };

@@ -25,4 +25,5 @@ public:
 	void ChangeBlueScreen(errorData* data);
 
 	inputDate* GetInputDate();
+
 };

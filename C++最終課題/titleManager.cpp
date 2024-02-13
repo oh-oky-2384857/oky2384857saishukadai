@@ -11,7 +11,7 @@
 
 using namespace std;
 
-static const string TITLE_HANDLE_PATH = "./resource/titleResource/title.png";
+const string TITLE_HANDLE_PATH = "./resource/titleResource/title.png";
 
 
 titleManager::titleManager(gameManager* pgm){
@@ -27,12 +27,15 @@ titleManager::~titleManager(){
 bool titleManager::Awake(){
 	titleHandle = LoadGraph(TITLE_HANDLE_PATH.c_str());
 	if (titleHandle == -1) {
-		errorData data = { errorCode::handleRoadFail, errorSource::titleManager };
+		errorData data = { errorCode::handleRoadFail, errorSource::titleManager ,nullptr };
 		sceneManager* newScene = new blueScreenManager(ptrGameManager,&data);
 
 		sceneManager::ChangeNewScene(newScene);
 		return false;
 	}
+	int x, y;
+	GetGraphSize(titleHandle, &x, &y);
+	int* a = new int;
 	return true;
 }
 
@@ -48,5 +51,5 @@ bool titleManager::Update() {
 }
 void titleManager::Print()
 {
-	DrawGraph(0, 0, titleHandle, true);
+	DrawGraph(0, 0, titleHandle, false);
 }

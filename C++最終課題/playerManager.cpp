@@ -17,23 +17,24 @@ playerManager::playerManager(gameMainManager* ptrGM)
 	manager::SetManagerName("playerManager");
 }
 playerManager::~playerManager() {
+	delete oplayer;
 }
 
 bool playerManager::Awake() {
 	moveInput = ptrGameMain->GetInputDate()->move;
 	if (moveInput == nullptr) {
-		errorData data = { errorCode::objectNotFound, errorSource::playerManager };
+		errorData data = { errorCode::objectNotFound, errorSource::playerManager ,nullptr };
 		ptrGameMain->ChangeBlueScreen(&data);
 		return false;
 	}
 	oplayer->Awake();
 	if (!oplayer->LoadPlayerHandle()) {
-		errorData data = { errorCode::handleRoadFail, errorSource::playerManager };
+		errorData data = { errorCode::handleRoadFail, errorSource::playerManager ,nullptr };
 		ptrGameMain->ChangeBlueScreen(&data);
 		return false;
 	}
 	if (!oplayer->LoadStatus()) {
-		errorData data = { errorCode::fileNotFound, errorSource::playerManager };
+		errorData data = { errorCode::fileNotFound, errorSource::playerManager ,nullptr };
 		ptrGameMain->ChangeBlueScreen(&data);
 		return false;
 	}
@@ -50,7 +51,8 @@ void playerManager::Print() {
 	oplayer->Print();
 }
 
-const coordinate* playerManager::GetPosition() {
-	return oplayer->GetPos();
-}
+void playerManager::AddDamage(int damage) {
+	if (!oplayer->AddDamage(damage)) {//Hp‚ª0ˆÈ‰º‚É‚È‚Á‚½‚È‚ç;
 
+	}
+}

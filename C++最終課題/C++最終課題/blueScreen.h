@@ -4,7 +4,6 @@
 
 // 前方宣言
 class gameManager;
-class colorSample;
 struct errorData;
 
 //エラーが起きたらブルスク画面にする;
@@ -15,9 +14,10 @@ class blueScreenManager:public sceneManager {
 private:
 	std::string* errorCodeMassage;
 	std::string* errorSourceMassage;
-	colorSample* colorS;
+	std::string* note;	//備考;
 public:
 	blueScreenManager(gameManager* ptrGameManager, errorData* data);
+	blueScreenManager(gameManager* ptrGameManager, errorData* data, std::string* note);
 	~blueScreenManager();
 	bool Awake();
 	bool Update();

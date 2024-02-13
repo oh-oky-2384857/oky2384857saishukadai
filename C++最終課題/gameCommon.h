@@ -1,4 +1,5 @@
 #pragma once
+#include "vector2.h"
 static const int SCREEN_WIDTH = 640;
 static const int SCREEN_HEIGHT = 480;
 
@@ -25,5 +26,9 @@ struct coordinate {
 	bool operator==(coordinate coord) {
 		return x == coord.x && y == coord.y;
 	}
-
+	void operator+=(vector2 v2) {
+		x += (int)v2.x;
+		y += (int)v2.y;
+	}
 };
+

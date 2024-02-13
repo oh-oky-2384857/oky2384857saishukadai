@@ -6,17 +6,27 @@ enum class errorCode //エラーの種類;
 	fileNotFound,		//ファイルが見つからない;
 	handleRoadFail,		//ハンドル読み込み失敗;
 	processingFailure,	//処理失敗;
+	objectNotFound,		//オブジェクトが見つからない;
+	improperData,		//不正なデータ;
 	others,				//その他;
 };
 enum class errorSource //エラー発生場所;
 {
 	none,				//エラーなし;
 	gameManager,
+	titleManager,
 	gameMainManager,
-	titleManager
+	mapManager,
+	playerManager,
+	enemyManager
 };
 
 struct errorData {
+public:
+	errorData(errorCode code,errorSource source) {
+		this->code = code;
+		this->source = source;
+	}
 	errorCode code;
 	errorSource source;
 };

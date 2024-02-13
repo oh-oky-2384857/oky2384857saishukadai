@@ -3,6 +3,7 @@
 #include "gameManager.h"
 #include <string>
 #include <DxLib.h>
+
 //ゲームパッドのアナログスティックの入力値の幅;
 const int ANALOG_STICK_INPUT_MAX = 10;
 const int ANALOG_STICK_INPUT_MIN = -10;
@@ -105,7 +106,9 @@ void inputManager::MoveUpdate() {
 	}
 	if (CheckHitKey(KEY_INPUT_D) == 1 || CheckHitKey(KEY_INPUT_RIGHT) == 1) {
 		xinp -= ANALOG_STICK_INPUT_MAX;
+
 	}
+
 
 	//規定値に収める;
 	if (xinp < ANALOG_STICK_INPUT_MIN) {
@@ -123,8 +126,13 @@ void inputManager::MoveUpdate() {
 
 	ptrinp->xPower = xinp;
 	ptrinp->yPower = yinp;
+
 }
 
 inputDate* inputManager::TellInputDataPtr() {
 	return inputs;
+}
+
+void inputManager::Print() {
+	//DrawFormatString(0, 0, GetColor(255, 255, 255), "%d", inputs->move->xPower);
 }

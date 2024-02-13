@@ -2,18 +2,26 @@
 #include "manager.h"
 
 // 前方宣言
+class gameMainManager;
+class player;
 struct coordinate;
-
+struct moveInputDate;
 
 class playerManager : public manager {
-private:
-	int playerHandle;		// プレイヤーの画像ハンドル;
-	int playerHandleWidth;	// プレイヤーの画像の幅;
-	int playerHandleHeight; // プレイヤーの画像の高さ;
+private:	
+	player* oplayer;//プレイヤーの実体;
+
+	gameMainManager* ptrGameMain;
+
+	moveInputDate* moveInput;
 public:
-	playerManager();
+	playerManager(gameMainManager* ptrGM);
 	~playerManager();
 	bool Awake();
 	bool Update();
 	void Print();
+
+	const coordinate GetPosition();
+
+	void AddDamage(int damage);
 };

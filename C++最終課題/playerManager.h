@@ -21,5 +21,7 @@ public:
 	bool Update();
 	void Print();
 
-	const coordinate* GetPosition();
+	const player* GetPlayerPtr() const { return oplayer; }
+
+	void AddDamage(int damage);
 };
