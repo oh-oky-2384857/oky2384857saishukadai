@@ -1,8 +1,8 @@
 #pragma once
 #include "gameCommon.h"
 
-//’e‚Ìí—Ş;
 /**
+//’e‚Ìí—Ş;
 *@param none	0 ‚È‚µ
 *@param normal	1 ’Êí’e
 */

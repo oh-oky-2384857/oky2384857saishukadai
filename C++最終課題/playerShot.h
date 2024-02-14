@@ -6,27 +6,28 @@
 class playerShotManager;
 
 
-class playerShot : public entity {
+class playerShotBase : public entity {
 private:
 	shotData* data;
 	playerShotManager* ptrPlayerShot;
 public:
-	playerShot(shotData* d, playerShotManager* ptrPS);
-	~playerShot();
+	playerShotBase(shotData* d, playerShotManager* ptrPS);
+	~playerShotBase();
 
 	virtual bool Awake() { return true; };
 	virtual bool Update();
 	virtual void Print() ;
-
+	
+	//ˆÚ“®;
 	void Move();
 };
 
-class psNormal : public playerShot {
+class psNormal : public playerShotBase {
 public:
 	psNormal(shotData* d, playerShotManager* ptrPS);
 	~psNormal();
 
 	bool Awake() { return true; };
 	bool Update();
-	void Print() { playerShot::Print(); };
+	void Print() { playerShotBase::Print(); };
 };

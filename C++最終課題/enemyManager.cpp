@@ -36,8 +36,8 @@ enemyManager::~enemyManager() {
 		delete e;
 	}
 	datas.clear();
-	for (std::vector<enemyWave*> w : waves) {
-		for (enemyWave* e : w) {
+	for (std::vector<enemyWavePiece*> w : waves) {
+		for (enemyWavePiece* e : w) {
 			delete e;
 		}
 		w.clear();
@@ -132,7 +132,7 @@ bool enemyManager::Awake() {
 		int enemyTypeNum;
 		for (int i = 0; i < waveAmount; i++) {
 			inputSt.clear(); inputSt.str("");//初期化;
-			vector<enemyWave*> enemyWaves;
+			vector<enemyWavePiece*> enemyWaves;
 			
 			//敵種類,数取得;
 			std::getline(ifs, input);
@@ -140,7 +140,7 @@ bool enemyManager::Awake() {
 			//敵種類;
 			inputSt >> enemyTypeNum;
 			for (int j = 0; j < enemyTypeNum; j++) {
-				enemyWave* oew = new enemyWave;
+				enemyWavePiece* oew = new enemyWavePiece;
 				inputSt >> enemyTypeBuf >> oew->amount;
 				oew->t = (enemyType)enemyTypeBuf;
 				enemyWaves.push_back(oew);
@@ -176,19 +176,23 @@ bool enemyManager::Update() {
 			}
 		}
 	}
+	//敵追加カウント減少;
 	enemyWaveAddCnt--;
 	if (enemyWaveAddCnt < 0) {
+		//敵追加カウントリセット;
 		enemyWaveAddCnt = waveAddTime;
 		if (waves.size() != 0) {//ウェーブが残っているなら;
-			//先頭取り出し;
-			std::vector<enemyWave*> wave = waves[0];
-			waves.erase(waves.begin());
+			
+			std::vector<enemyWavePiece*> wave = waves[0];//先頭取り出し;
+			waves.erase(waves.begin());//先頭を削除;
 
+			//プレイヤーの座標取得;
 			const player* p = ptrPlayerManager->GetPlayerPtr();
 			coordinate pcoord = p->GetPos();
 
-			int waveEnemys = wave.size();
-			for (int i = 0; i < waveEnemys; i++) {
+			//ウェーブ内の敵種類;
+			int waveEnemysType = wave.size();
+			for (int i = 0; i < waveEnemysType; i++) {
 				for (int j = 0; j < wave[i]->amount; j++) {
 
 					int x = GetRand(ENEMY_ADD_POSITION_RAND_X[1] - ENEMY_ADD_POSITION_RAND_X[0]) + ENEMY_ADD_POSITION_RAND_X[0];

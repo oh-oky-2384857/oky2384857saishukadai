@@ -13,13 +13,14 @@ class gameMainManager;
 
 struct shotData;
 
+//敵種類;
 enum class enemyType {
 	none,
 	e001,
 };
 
-
-struct enemyWave {
+//敵追加ウェーブの敵種類と追加数;
+struct enemyWavePiece {
 	enemyType t;	
 	int amount;
 };
@@ -30,7 +31,7 @@ private:
 
 	std::vector<enemyData*>datas;//敵データ;
 
-	std::vector<std::vector<enemyWave*>> waves;//ウェーブデータ;
+	std::vector<std::vector<enemyWavePiece*>> waves;//ウェーブデータ;
 
 	int waveAmount;//ウェーブ数;
 	int waveAddTime;//敵ウェーブ追加間隔;
@@ -49,9 +50,13 @@ public:
 	bool Update()override;
 	void Print() override;
 
+	//敵追加;
 	bool Add(enemyType et, coordinate pos);
 
+	//プレイヤーのポインタ取得;
+	//enemyがプレイヤーの座標を入手するときなどで使う;
 	const player* GetPlayerPtr()const;
+	//プレイヤーマネージャー取得;
 	inline playerManager* GetPlayerManagerPtr() {return ptrPlayerManager;}
 
 	/**

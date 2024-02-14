@@ -4,12 +4,12 @@
 #include "gameCommon.h"
 #include <DxLib.h>
 
-playerShot::playerShot(shotData* d, playerShotManager* ptrPS)
+playerShotBase::playerShotBase(shotData* d, playerShotManager* ptrPS)
 	: data(d),ptrPlayerShot(ptrPS){}
-playerShot::~playerShot() {
+playerShotBase::~playerShotBase() {
 	delete data;
 }
-void playerShot::Print() {
+void playerShotBase::Print() {
 	coordinate pcoord = ptrPlayerShot->GetPlayer()->GetPos();
 	int distX = pcoord.x - data->position.x;
 	int distY = pcoord.y - data->position.y;
@@ -20,13 +20,13 @@ void playerShot::Print() {
 
 	DrawGraph(distX + SCREEN_WIDTH / 2, distY + SCREEN_HEIGHT / 2,data->pData->handle, true);
 }
-bool playerShot::Update() {
+bool playerShotBase::Update() {
 	if (ptrPlayerShot->CheckEnemyHit(data, 2)) {
 		return true;
 	}
 	return false;
 }
-void  playerShot::Move() {
+void  playerShotBase::Move() {
 	data->positionFloat += data->vec2 * data->pData->moveSpeed;
 	data->position = data->positionFloat;
 }
@@ -34,13 +34,13 @@ void  playerShot::Move() {
 //normal;
 
 psNormal::psNormal(shotData* d, playerShotManager* ptrPS)
-	:playerShot::playerShot(d,ptrPS) {}
+	:playerShotBase::playerShotBase(d,ptrPS) {}
 psNormal::~psNormal() {
-	playerShot::~playerShot();
+	playerShotBase::~playerShotBase();
 }
 bool psNormal::Update() {
-	playerShot::Move();
-	if (playerShot::Update()) {
+	playerShotBase::Move();
+	if (playerShotBase::Update()) {
 		return true;
 	}else {
 		return false;

@@ -5,7 +5,7 @@
 
 //‘O•ûéŒ¾;
 class player;
-class playerShot;
+class playerShotBase;
 struct shotPatternData;
 class gameMainManager;
 class playerManager;
@@ -16,7 +16,7 @@ struct shotData;
 
 class playerShotManager:public manager{
 
-	std::list<playerShot*> shots;//’e‚ÌÀ‘Ì;
+	std::list<playerShotBase*> shots;//’e‚ÌÀ‘Ì;
 	
 	std::vector<shotPatternData*> shotPD;//’e‚Ìí—Ş•Êƒf[ƒ^;
 	int shotsCnt;//‹Ê‚Ìí—Ş”;

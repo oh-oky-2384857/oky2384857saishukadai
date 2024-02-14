@@ -25,17 +25,18 @@ playerShotManager::playerShotManager(gameMainManager* ptrGM)
 	manager::SetManagerName("playerShotManager");
 }
 playerShotManager::~playerShotManager() {
-	for (playerShot* ps : shots) {
+	//shotíœ;
+	for (playerShotBase* ps : shots) {
 		delete ps;
 	}
 	shots.clear();
+	//shotDataíœ;
 	for (shotPatternData* spd : shotPD) {
+		//‰æ‘œƒnƒ“ƒhƒ‹íœ;
+		DeleteGraph(spd->handle);
 		delete spd;
 	}
 	shotPD.clear();
-	for (int i = 0; i < shotsCnt;i++) {
-		DeleteGraph(i);
-	}
 }
 
 bool playerShotManager::Awake() {
@@ -107,7 +108,7 @@ bool playerShotManager::Awake() {
 	return true;
 }
 bool playerShotManager::Update() {
-	for (playerShot* ps : shots) {
+	for (playerShotBase* ps : shots) {
 		if (ps->Update()) {
 			shots.remove(ps);
 			delete ps;
@@ -118,19 +119,19 @@ bool playerShotManager::Update() {
 	return true;
 }
 void playerShotManager::Print() {
-	for (playerShot* ps : shots) {
+	for (playerShotBase* ps : shots) {
 		ps->Print();
 	}
 }
 
 bool playerShotManager::Add(shotData* data) {
 
-	playerShot* ps;
+	playerShotBase* ps;
 
 	if (shots.size() > PLAYER_SHOT_MAX_AMOUNT) {//Å‘å‘¶İ”‚ğ’´‚¦‚½‚ç;
 		for (int i = 0; i < PLAYER_SHOT_AMOUNT_OVER_DELETE; i++) {
 			//ˆê”ÔŒÃ‚¢’e‚ğÁ‚·;
-			playerShot* ps = shots.front();
+			playerShotBase* ps = shots.front();
 			delete ps;
 			shots.pop_front();
 		}
