@@ -71,15 +71,11 @@ bool gameMainManager::Awake() {
 }
 bool gameMainManager::Update(){
 	if (gamingFlag) {//ゲームが続いているなら;
-
-		//デバッグ用;
-		SetGameClear();
-		//デバッグ用;
-
-
+		
 		for (manager* m : managers) {
 			m->Update();
 		}
+
 	}else {
 		if (changeSceneCnt-- < 0) {
 			//シーン偏移;

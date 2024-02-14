@@ -35,6 +35,10 @@ gameManager::~gameManager() {
 }
 
 bool gameManager::Awake() {
+	//nowSceneのAwakeを動かす;
+	if (!nowScene->Awake()) {// Awakeに失敗したら;
+		return false;
+	}
 	//各種managerのAwakeを動かす;
 	for (manager* m : managers) {
 		if (!m->Awake())
@@ -42,31 +46,27 @@ bool gameManager::Awake() {
 			return false;
 		}
 	}
-	//nowSceneのAwakeを動かす;
-	if (!nowScene->Awake()) {// Awakeに失敗したら;
-		return false;
-	}
 	return true;
 }
 bool gameManager::Update() {
-	//各種managerのUpdateを動かす;
-	for (manager* m : managers) {
-		m->Update();
-	}
 	//ポーズまたはオプションでないなら;
 	if (gs != gameStatus::pauseMenu && gs != gameStatus::option) {
 		//nowSceneのUpdateを動かす;
 		nowScene->Update();
 	}
+	//各種managerのUpdateを動かす;
+	for (manager* m : managers) {
+		m->Update();
+	}
 	return true;
 }
 void gameManager::Print() {
+	//nowSceneのPrintを動かす;
+	nowScene->Print();
 	//各種managerのPrintを動かす;
 	for (manager* m : managers) {
 		m->Print();
 	}
-	//nowSceneのPrintを動かす;
-	nowScene->Print();
 }
 
 bool gameManager::SetNewScene(sceneManager* newScene) {

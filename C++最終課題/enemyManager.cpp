@@ -190,26 +190,30 @@ bool enemyManager::Update() {
 			int waveEnemys = wave.size();
 			for (int i = 0; i < waveEnemys; i++) {
 				for (int j = 0; j < wave[i]->amount; j++) {
-					
+
 					int x = GetRand(ENEMY_ADD_POSITION_RAND_X[1] - ENEMY_ADD_POSITION_RAND_X[0]) + ENEMY_ADD_POSITION_RAND_X[0];
 					int y = GetRand(ENEMY_ADD_POSITION_RAND_Y[1] - ENEMY_ADD_POSITION_RAND_Y[0]) + ENEMY_ADD_POSITION_RAND_Y[0];
 
 					int sx = GetRand(1) * 2 - 1;
-					int sy = GetRand(1)  * 2- 1;
+					int sy = GetRand(1) * 2 - 1;
 
 
-					coordinate coord = {x * sx + pcoord.x ,y * sy + pcoord.y};
+					coordinate coord = { x * sx + pcoord.x ,y * sy + pcoord.y };
 
 
-					Add(wave[i]->t,coord);
-					delete wave[i];
+					Add(wave[i]->t, coord);
 				}
+				delete wave[i];
 			}
 
 			wave.clear();
 		}
 	}
 
+	//“GƒEƒF[ƒu‚ð‚·‚×‚Ä“|‚µ‚½‚ç;
+	if (waves.size() == 0 && enemys.size() == 0) {
+		ptrGameMain->SetGameClear();
+	}
 	return true;
 }
 void enemyManager::Print() {
