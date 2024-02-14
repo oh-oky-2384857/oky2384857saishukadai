@@ -202,6 +202,7 @@ bool enemyManager::Update() {
 
 
 					Add(wave[i]->t,coord);
+					delete wave[i];
 				}
 			}
 
