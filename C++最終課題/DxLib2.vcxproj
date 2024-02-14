@@ -44,6 +44,9 @@
     <ClInclude Include="stringHandle.h" />
     <ClInclude Include="titleManager.h" />
     <ClInclude Include="vector2.h" />
+    <ClInclude Include="weapon.h" />
+    <ClInclude Include="weaponData.h" />
+    <ClInclude Include="weaponManager.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="blueScreen.cpp" />
@@ -67,6 +70,8 @@
     <ClCompile Include="soundManager.cpp" />
     <ClCompile Include="stringHandle.cpp" />
     <ClCompile Include="titleManager.cpp" />
+    <ClCompile Include="weapon.cpp" />
+    <ClCompile Include="weaponManager.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>

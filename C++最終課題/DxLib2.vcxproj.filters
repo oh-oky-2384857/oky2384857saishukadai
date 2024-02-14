@@ -70,6 +70,12 @@
     <Filter Include="ヘッダー ファイル\gameMain\entity\shot">
       <UniqueIdentifier>{cf59f3b3-7525-4610-b200-8fa9a69052f9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ヘッダー ファイル\gameMain\manager">
+      <UniqueIdentifier>{f7d4592e-8378-4223-8ba1-9bc3808703ae}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\gameMain\manager">
+      <UniqueIdentifier>{cd6e1ee6-1448-4bc1-a3dd-f0b925644d6f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="object.h">
@@ -102,9 +108,6 @@
     <ClInclude Include="titleManager.h">
       <Filter>ヘッダー ファイル\titleManager</Filter>
     </ClInclude>
-    <ClInclude Include="playerManager.h">
-      <Filter>ヘッダー ファイル\gameMain</Filter>
-    </ClInclude>
     <ClInclude Include="blueScreen.h">
       <Filter>ヘッダー ファイル\errorManagement</Filter>
     </ClInclude>
@@ -113,12 +116,6 @@
     </ClInclude>
     <ClInclude Include="soundManager.h">
       <Filter>ヘッダー ファイル\gameManager</Filter>
-    </ClInclude>
-    <ClInclude Include="mapManager.h">
-      <Filter>ヘッダー ファイル\gameMain</Filter>
-    </ClInclude>
-    <ClInclude Include="enemyManager.h">
-      <Filter>ヘッダー ファイル\gameMain</Filter>
     </ClInclude>
     <ClInclude Include="entity.h">
       <Filter>ヘッダー ファイル\派生中間クラス</Filter>
@@ -141,11 +138,29 @@
     <ClInclude Include="vector2.h">
       <Filter>ヘッダー ファイル\基底クラス</Filter>
     </ClInclude>
-    <ClInclude Include="playerShotManager.h">
-      <Filter>ヘッダー ファイル\gameMain</Filter>
-    </ClInclude>
     <ClInclude Include="pauseManager.h">
       <Filter>ヘッダー ファイル\gameManager</Filter>
+    </ClInclude>
+    <ClInclude Include="weapon.h">
+      <Filter>ヘッダー ファイル\gameMain\entity</Filter>
+    </ClInclude>
+    <ClInclude Include="weaponManager.h">
+      <Filter>ヘッダー ファイル\gameMain\manager</Filter>
+    </ClInclude>
+    <ClInclude Include="playerShotManager.h">
+      <Filter>ヘッダー ファイル\gameMain\manager</Filter>
+    </ClInclude>
+    <ClInclude Include="playerManager.h">
+      <Filter>ヘッダー ファイル\gameMain\manager</Filter>
+    </ClInclude>
+    <ClInclude Include="mapManager.h">
+      <Filter>ヘッダー ファイル\gameMain\manager</Filter>
+    </ClInclude>
+    <ClInclude Include="enemyManager.h">
+      <Filter>ヘッダー ファイル\gameMain\manager</Filter>
+    </ClInclude>
+    <ClInclude Include="weaponData.h">
+      <Filter>ヘッダー ファイル\gameMain\entity</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -170,17 +185,8 @@
     <ClCompile Include="inputManager.cpp">
       <Filter>ソース ファイル\gameManager</Filter>
     </ClCompile>
-    <ClCompile Include="gameMainManager.h">
-      <Filter>ヘッダー ファイル\gameMain</Filter>
-    </ClCompile>
-    <ClCompile Include="gameMainManager.cpp">
-      <Filter>ソース ファイル\gameMain</Filter>
-    </ClCompile>
     <ClCompile Include="titleManager.cpp">
       <Filter>ソース ファイル\titleManager</Filter>
-    </ClCompile>
-    <ClCompile Include="playerManager.cpp">
-      <Filter>ソース ファイル\gameMain</Filter>
     </ClCompile>
     <ClCompile Include="blueScreen.cpp">
       <Filter>ソース ファイル\errorManagement</Filter>
@@ -188,14 +194,8 @@
     <ClCompile Include="soundManager.cpp">
       <Filter>ソース ファイル\gameManager</Filter>
     </ClCompile>
-    <ClCompile Include="mapManagre.cpp">
-      <Filter>ソース ファイル\gameMain</Filter>
-    </ClCompile>
     <ClCompile Include="colorSample.cpp">
       <Filter>ソース ファイル\staticField</Filter>
-    </ClCompile>
-    <ClCompile Include="enemyManager.cpp">
-      <Filter>ソース ファイル\gameMain</Filter>
     </ClCompile>
     <ClCompile Include="player.cpp">
       <Filter>ソース ファイル\gameMain\entity</Filter>
@@ -206,11 +206,32 @@
     <ClCompile Include="playerShot.cpp">
       <Filter>ソース ファイル\gameMain\entity</Filter>
     </ClCompile>
-    <ClCompile Include="playerShotManager.cpp">
-      <Filter>ソース ファイル\gameMain</Filter>
-    </ClCompile>
     <ClCompile Include="pauseManager.cpp">
       <Filter>ソース ファイル\gameManager</Filter>
+    </ClCompile>
+    <ClCompile Include="playerShotManager.cpp">
+      <Filter>ソース ファイル\gameMain\manager</Filter>
+    </ClCompile>
+    <ClCompile Include="playerManager.cpp">
+      <Filter>ソース ファイル\gameMain\manager</Filter>
+    </ClCompile>
+    <ClCompile Include="mapManagre.cpp">
+      <Filter>ソース ファイル\gameMain\manager</Filter>
+    </ClCompile>
+    <ClCompile Include="gameMainManager.cpp">
+      <Filter>ソース ファイル\gameMain\manager</Filter>
+    </ClCompile>
+    <ClCompile Include="gameMainManager.h">
+      <Filter>ヘッダー ファイル\gameMain\manager</Filter>
+    </ClCompile>
+    <ClCompile Include="weapon.cpp">
+      <Filter>ソース ファイル\gameMain\entity</Filter>
+    </ClCompile>
+    <ClCompile Include="enemyManager.cpp">
+      <Filter>ソース ファイル\gameMain\manager</Filter>
+    </ClCompile>
+    <ClCompile Include="weaponManager.cpp">
+      <Filter>ソース ファイル\gameMain\manager</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

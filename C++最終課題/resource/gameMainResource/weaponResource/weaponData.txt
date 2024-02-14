@@ -1,0 +1,2 @@
+./resource/gameMainResource/weaponResource/weapon001.png
+./resource/gameMainResource/weaponResource/weapon002.png

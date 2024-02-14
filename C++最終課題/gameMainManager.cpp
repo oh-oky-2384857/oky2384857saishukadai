@@ -6,12 +6,13 @@
 #include "playerShotManager.h"
 #include "inputManager.h"
 #include "inputDate.h"
+#include "titleManager.h"
 
 #include "blueScreen.h"
 #include "errorCode.h"
 
 const std::string GAMEOVER_HANDLE_PATH = {"./resource/gameMainResource/gameOver.png"};
-const int GAMEOVER_PRINT_TIME = 100;//ゲームオーバーの表示時間;
+const int GAMEOVER_PRINT_TIME = 500;//ゲームオーバーの表示時間;
 
 gameMainManager::gameMainManager(gameManager* ptrGM) : gameOverFlag(false){
 	sceneManager::ptrGameManager = ptrGM;
@@ -56,9 +57,28 @@ bool gameMainManager::Awake() {
 }
 bool gameMainManager::Update(){
 	if (!gameOverFlag) {//ゲームオーバーじゃないなら
+
+		//デバッグ用;
+		SetGameOver();
+		//デバッグ用;
+
+
 		for (manager* m : managers) {
 			m->Update();
 		}
+	}else {
+		if (gameOverPrintCnt-- < 0) {
+			//titleに戻す;
+			sceneManager* newScene = new titleManager(ptrGameManager);
+			sceneManager::ChangeNewScene(newScene);
+			SetDrawBright(255, 255, 255);
+			return true;
+		}else {
+			//少しずつ輝度を下げる;
+			int brightness = 255 * (((float)gameOverPrintCnt / GAMEOVER_PRINT_TIME * 0.875) + 0.125);
+			SetDrawBright(brightness, brightness, brightness);
+		}
+		
 	}
 	return true;
 }
@@ -67,7 +87,7 @@ void gameMainManager::Print() {
 		m->Print();
 	}
 	if (gameOverFlag) {//ゲームオーバーなら;
-		DrawGraph(0, 0, gameOverHandle, true);
+		DrawGraph(76,216,gameOverHandle, true);
 	}
 }
 
