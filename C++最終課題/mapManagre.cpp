@@ -27,7 +27,7 @@ ptrGameMain(pgmm),mapChipHandle(-1)
 	manager::SetManagerName("mapManager");
 }
 mapManager::~mapManager() {
-
+	DeleteGraph(mapChipHandle);
 }
 bool mapManager::Awake() {
 	ptrPlayerManager = (playerManager*)ptrGameMain->GetManagerPtr("playerManager");

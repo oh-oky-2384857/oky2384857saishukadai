@@ -4,6 +4,7 @@
 
 // 前方宣言;
 class gameManager;
+class sceneManager;
 struct mouseinputData;
 struct errorData;
 struct inputData;
@@ -12,11 +13,23 @@ class gameMainManager :public sceneManager{
 private:
 
 	std::list<manager*> managers;
+	//シーン偏移;
+	int changeSceneCnt;	//シーンが変わるまでのカウンタ;
+	sceneManager* nextScene;//次のシーン;
+
+	/**
+	今ゲームが続いているか;
+	true  : 続いている;
+	false : 続いていない;
+	*/
+	bool gamingFlag;
+
+	int gameStateHandle;//表示する画像ハンドル;
 
 	//ゲームオーバー関連;
-	int gameOverHandle;		//画像ハンドル;
-	int gameOverPrintCnt;	//表示する時間;
-	bool gameOverFlag;		//今ゲームオーバーか;
+	int gameOverHandle;	//画像ハンドル;
+	//ゲームクリア関連;
+	int gameClearHandle;//画像ハンドル;
 
 public:
 	gameMainManager(gameManager* ptrGM);
@@ -32,6 +45,8 @@ public:
 
 	const inputData* GetInputData();
 
-	inline bool GetGameOverFlag() { return gameOverFlag; };
+	inline bool GetGamingFlag() { return gamingFlag; };
 	void SetGameOver();
+	void SetGameClear();
+
 };

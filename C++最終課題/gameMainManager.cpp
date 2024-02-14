@@ -12,9 +12,10 @@
 #include "errorCode.h"
 
 const std::string GAMEOVER_HANDLE_PATH = {"./resource/gameMainResource/gameOver.png"};
-const int GAMEOVER_PRINT_TIME = 500;//ゲームオーバーの表示時間;
+const std::string GAMECLEAR_HANDLE_PATH = { "./resource/gameMainResource/gameClear.png" };
+const int CHANGE_SCENE_TIME = 500;//シーンが変わるまでの時間;
 
-gameMainManager::gameMainManager(gameManager* ptrGM) : gameOverFlag(false){
+gameMainManager::gameMainManager(gameManager* ptrGM) : gamingFlag(true){
 	sceneManager::ptrGameManager = ptrGM;
 	manager::SetManagerName("gameMainManager");
 
@@ -32,7 +33,10 @@ gameMainManager::~gameMainManager() {
 		delete m;
 	}
 	managers.clear();
+	DeleteGraph(gameClearHandle);
 	DeleteGraph(gameOverHandle);
+
+	nextScene = nullptr;
 }
 bool gameMainManager::Awake() {
 	for (manager* m : managers) {
@@ -52,11 +56,17 @@ bool gameMainManager::Awake() {
 		ChangeBlueScreen(&data);
 		return false;
 	}
+	gameClearHandle = LoadGraph(GAMECLEAR_HANDLE_PATH.c_str());
+	if (gameOverHandle == -1) {
+		errorData data = { errorCode::handleRoadFail,errorSource::gameMainManager,(std::string*)nullptr };
+		ChangeBlueScreen(&data);
+		return false;
+	}
 
 	return true;
 }
 bool gameMainManager::Update(){
-	if (!gameOverFlag) {//ゲームオーバーじゃないなら
+	if (gamingFlag) {//ゲームが続いているなら;
 
 		//デバッグ用;
 		SetGameOver();
@@ -67,15 +77,14 @@ bool gameMainManager::Update(){
 			m->Update();
 		}
 	}else {
-		if (gameOverPrintCnt-- < 0) {
+		if (changeSceneCnt-- < 0) {
 			//titleに戻す;
-			sceneManager* newScene = new titleManager(ptrGameManager);
-			sceneManager::ChangeNewScene(newScene);
+			sceneManager::ChangeNewScene(nextScene);
 			SetDrawBright(255, 255, 255);
 			return true;
 		}else {
 			//少しずつ輝度を下げる;
-			int brightness = 255 * (((float)gameOverPrintCnt / GAMEOVER_PRINT_TIME * 0.875) + 0.125);
+			int brightness = 255 * (((float)changeSceneCnt / CHANGE_SCENE_TIME * 0.875) + 0.125);
 			SetDrawBright(brightness, brightness, brightness);
 		}
 		
@@ -86,7 +95,7 @@ void gameMainManager::Print() {
 	for (manager* m : managers) {
 		m->Print();
 	}
-	if (gameOverFlag) {//ゲームオーバーなら;
+	if (!gamingFlag) {//ゲームが続いていないなら;
 		DrawGraph(76,216,gameOverHandle, true);
 	}
 }
@@ -114,6 +123,14 @@ const inputData* gameMainManager::GetInputData() {
 	return ptrim->GetInputDataPtr();
 }
 void gameMainManager::SetGameOver() {
-	gameOverPrintCnt = GAMEOVER_PRINT_TIME;
-	gameOverFlag = true;
+	changeSceneCnt = CHANGE_SCENE_TIME;
+	gamingFlag = false;
+	nextScene = new titleManager(ptrGameManager);
+	gameStateHandle = gameOverHandle;
+}
+void gameMainManager::SetGameClear() {
+	changeSceneCnt = CHANGE_SCENE_TIME;
+	gamingFlag = false;
+	nextScene = new titleManager(ptrGameManager);
+	gameStateHandle = gameClearHandle;
 }
