@@ -198,10 +198,10 @@ bool enemyManager::Update() {
 					int sy = GetRand(1)  * 2- 1;
 
 
-					coordinate coord = {x * sx ,y * sy};
+					coordinate coord = {x * sx + pcoord.x ,y * sy + pcoord.y};
 
 
-					Add(wave[i]->t, coord + pcoord);
+					Add(wave[i]->t,coord);
 				}
 			}
 
