@@ -35,46 +35,57 @@ gameManager::~gameManager() {
 }
 
 bool gameManager::Awake() {
-	nowScene->Awake();
+	//各種managerのAwakeを動かす;
 	for (manager* m : managers) {
-		if (!m->Awake())// Awakeに失敗したら;
+		if (!m->Awake())
 		{
 			return false;
 		}
 	}
-
-	ptrPauseManager = (pauseManager*)GetManagerPtr("pauseManager");
+	//nowSceneのAwakeを動かす;
+	if (!nowScene->Awake()) {// Awakeに失敗したら;
+		return false;
+	}
 	return true;
 }
 bool gameManager::Update() {
+	//各種managerのUpdateを動かす;
 	for (manager* m : managers) {
 		m->Update();
 	}
-
+	//ポーズまたはオプションでないなら;
 	if (gs != gameStatus::pauseMenu && gs != gameStatus::option) {
+		//nowSceneのUpdateを動かす;
 		nowScene->Update();
 	}
 	return true;
 }
 void gameManager::Print() {
-	nowScene->Print();
+	//各種managerのPrintを動かす;
 	for (manager* m : managers) {
 		m->Print();
 	}
+	//nowSceneのPrintを動かす;
+	nowScene->Print();
 }
 
 bool gameManager::SetNewScene(sceneManager* newScene) {
+	//今のシーンを削除;
 	delete nowScene;
+	//新しいシーンを設定しAwakeを動かす;
 	nowScene = newScene;
 	nowScene->Awake();
 	return true;
 }
 
 manager* gameManager::GetManagerPtr(const char* managerName) {
+	//managerNameからマネージャのポインタを返す;
 	for (manager* m : managers) {
+		//文字列比較,一致すればそれを返す;
 		if (strcmp(m->GetManagerName()->c_str(), managerName) == 0) {
 			return m;
 		}
 	}
+	//何も一致しなければnullptrを返す;
 	return nullptr;
 }

@@ -30,22 +30,24 @@ titleManager::~titleManager(){
 bool titleManager::Awake(){
 	//画像読み込み;
 	titleHandle = LoadGraph(TITLE_HANDLE_PATH.c_str());
-	if (titleHandle == -1) {
+	if (titleHandle == -1) {//失敗でブルスク行き;
 		errorData data = { errorCode::handleRoadFail, errorSource::titleManager ,(string*)nullptr };
 		sceneManager* newScene = new blueScreenManager(ptrGameManager,&data);
 		sceneManager::ChangeNewScene(newScene);
 		return false;
 	}
 	//インプットデータ取得;
+	//inputManager取得;
 	inputManager* ptrim = (inputManager*)ptrGameManager->GetManagerPtr("inputManager");
-	if (ptrim == nullptr) {
+	if (ptrim == nullptr) {//なければブルスク行き;
 		errorData data = { errorCode::objectNotFound , errorSource::titleManager ,"inputManagerがない" };
 		sceneManager* newScene = new blueScreenManager(ptrGameManager, &data);
 		sceneManager::ChangeNewScene(newScene);
 		return false;
 	}
+	//inputDara取得;
 	input = ptrim->GetInputDataPtr()->mouse;
-	if (input == nullptr) {
+	if (input == nullptr) {//なければブルスク行き;
 		errorData data = { errorCode::objectNotFound , errorSource::titleManager ,"inputDataがない" };
 		sceneManager* newScene = new blueScreenManager(ptrGameManager, &data);
 		sceneManager::ChangeNewScene(newScene);
@@ -56,19 +58,20 @@ bool titleManager::Awake(){
 }
 
 bool titleManager::Update() {
-	//start;
+	//startボタン;
 	if (input->isLeftClick && 
 		input->x > TITLE_BUTTON_START_POSITION[0].x && input->x < TITLE_BUTTON_START_POSITION[1].x &&
 		input->y > TITLE_BUTTON_START_POSITION[0].y && input->y < TITLE_BUTTON_START_POSITION[1].y) {
 		//シーン切り替え;
 		ptrGameManager->SetGameStatus(gameStatus::main);
-		
+			
 		sceneManager* newScene = new gameMainManager(ptrGameManager);
 		sceneManager::ChangeNewScene(newScene);
 
 		return true;
 	}
-	//end;
+
+	//endボタン;
 	if (input->isLeftClick &&
 		input->x > TITLE_BUTTON_END_POSITION[0].x && input->x < TITLE_BUTTON_END_POSITION[1].x &&
 		input->y > TITLE_BUTTON_END_POSITION[0].y && input->y < TITLE_BUTTON_END_POSITION[1].y) {

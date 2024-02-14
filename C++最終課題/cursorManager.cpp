@@ -34,14 +34,15 @@ cursorManager::~cursorManager() {
 bool cursorManager::Awake() {
 	//inputdates取得;
 	inputManager* ptrim =(inputManager*)ptrGameManager->GetManagerPtr("inputManager");
-	if (ptrim == nullptr) {
+	if (ptrim == nullptr) {//なければブルスク行き;
 		errorData data = { errorCode::objectNotFound,errorSource::cursorManager,"inputManagerがない" };
 		sceneManager* bs = new blueScreenManager(ptrGameManager, &data);
 		ptrGameManager->SetNewScene(bs);
 		return false;
 	}
+	//mouseデータ取得;
 	inputDatas = ptrim->GetInputDataPtr()->mouse;
-	if (inputDatas == nullptr) {
+	if (inputDatas == nullptr) {//なければブルスク行き;
 		errorData data = { errorCode::objectNotFound,errorSource::cursorManager,"inputManagerがない" };
 		sceneManager* bs = new blueScreenManager(ptrGameManager, &data);
 		ptrGameManager->SetNewScene(bs);
@@ -51,7 +52,7 @@ bool cursorManager::Awake() {
 	for (int i = 0; i < CURSOR_HANDLE_NUM; i++) {
 		//画像読み込み;
 		cursorHandles[i] = LoadGraph(CURSOR_HANDLE_PATH[i].c_str());
-		if (cursorHandles[i] == -1) {
+		if (cursorHandles[i] == -1) {//失敗でブルスク行き;
 			errorData data = { errorCode::handleRoadFail,errorSource::cursorManager,(std::string*)nullptr };
 			sceneManager* bs = new blueScreenManager(ptrGameManager, &data);
 			ptrGameManager->SetNewScene(bs);

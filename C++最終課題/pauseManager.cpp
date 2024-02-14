@@ -23,28 +23,33 @@ pauseManager::pauseManager(gameManager* ptrGM)
 	SetManagerName("pauseManager");
 }
 pauseManager::~pauseManager() {
-
 }
 bool pauseManager::Awake() {
 	//inputdates取得;
 	inputManager* ptrim = (inputManager*)ptrGameManager->GetManagerPtr("inputManager");
-	if (ptrim == nullptr) {
+	if (ptrim == nullptr) {//なければブルスク行き;
 		errorData data = { errorCode::objectNotFound,errorSource::pauseManager,"inputManagerがない" };
 		sceneManager* bs = new blueScreenManager(ptrGameManager, &data);
 		ptrGameManager->SetNewScene(bs);
 		return false;
 	}
+	//mouse入力取得;
 	mouseInput = ptrim->GetInputDataPtr()->mouse;
-	pauseInput = ptrim->GetInputDataPtr()->pause;
-	if (mouseInput == nullptr) {
+	if (mouseInput == nullptr) {//なければブルスク行き;
 		errorData data = { errorCode::objectNotFound,errorSource::pauseManager,"moveInputがない" };
 		sceneManager* bs = new blueScreenManager(ptrGameManager, &data);
 		ptrGameManager->SetNewScene(bs);
 	}
-
+	//pause入力取得;
+	pauseInput = ptrim->GetInputDataPtr()->pause;
+	if (mouseInput == nullptr) {//なければブルスク行き;
+		errorData data = { errorCode::objectNotFound,errorSource::pauseManager,"moveInputがない" };
+		sceneManager* bs = new blueScreenManager(ptrGameManager, &data);
+		ptrGameManager->SetNewScene(bs);
+	}
 	//画像読み込み
 	pauseHandle = LoadGraph(PAUSE_HANDLE_PATH.c_str());
-	if (pauseHandle == -1) {
+	if (pauseHandle == -1) {//失敗でブルスク行き;
 		errorData data = { errorCode::handleRoadFail,errorSource::pauseManager,(std::string*) nullptr};
 		sceneManager* bs = new blueScreenManager(ptrGameManager, &data);
 		ptrGameManager->SetNewScene(bs);
@@ -53,14 +58,19 @@ bool pauseManager::Awake() {
 	return true;
 }
 bool pauseManager::Update() {
+	//カウンタを減らす;
 	pauseCnt--;
+	//inputがあり,カウントが0以下の場合
 	if (pauseInput->isPause && pauseCnt < 0) {
-		
+		//カウンタ再設定;
 		pauseCnt = PAUSE_MENU_COOLTIME;
-		if (ptrGameManager->GetGameStatus() == gameStatus::pauseMenu) {//ポーズ解除;
+
+		if (ptrGameManager->GetGameStatus() == gameStatus::pauseMenu) {
+			//今ポーズならポーズ解除;
 			EscapePause();
 			return true;
-		}else if(ptrGameManager->GetGameStatus() == gameStatus::main) {//ポーズ;
+		}else if(ptrGameManager->GetGameStatus() == gameStatus::main) {
+			//今ポーズでないならポーズ;
 			SetPause();
 		}
 	}
@@ -71,15 +81,17 @@ bool pauseManager::Update() {
 
 	if (mouseInput->isLeftClick) {//クリックされたら
 		mouseInputData* mi = mouseInput;
-		//続ける;
+		//続けるボタン;
 		if (mi->x > PAUSE_MENU_RESUME_POSITION[0].x && mi->x < PAUSE_MENU_RESUME_POSITION[1].x &&
 			mi->y > PAUSE_MENU_RESUME_POSITION[0].y && mi->y < PAUSE_MENU_RESUME_POSITION[1].y) {
 			EscapePause();
-		}else if//オプション;
+		}else if//オプションボタン;
 		   (mi->x > PAUSE_MENU_OPTION_POSITION[0].x && mi->x < PAUSE_MENU_OPTION_POSITION[1].x &&
 			mi->y > PAUSE_MENU_OPTION_POSITION[0].y && mi->y < PAUSE_MENU_OPTION_POSITION[1].y) {
+			
+			//未作成;
 
-		}else if//終了;
+		}else if//終了ボタン;
 		   (mi->x > PAUSE_MENU_QUIT_POSITION[0].x && mi->x < PAUSE_MENU_QUIT_POSITION[1].x &&
 			mi->y > PAUSE_MENU_QUIT_POSITION[0].y && mi->y < PAUSE_MENU_QUIT_POSITION[1].y) {
 			ptrGameManager->SetGameStatus(gameStatus::end);
@@ -102,7 +114,7 @@ void pauseManager::SetPause() {
 	if (ptrGameManager->GetGameStatus() == gameStatus::pauseMenu) {
 		return;
 	}
-
+	//状態をポーズに;
 	ptrGameManager->SetGameStatus(gameStatus::pauseMenu);
 	//輝度設定;
 	SetDrawBright(128, 128, 128);
@@ -112,7 +124,7 @@ void pauseManager::EscapePause() {
 	if(ptrGameManager->GetGameStatus() != gameStatus::pauseMenu) {
 		return;
 	}
-
+	//状態を戻す;
 	ptrGameManager->SetGameStatus(gameStatus::main);
 	//輝度設定;
 	SetDrawBright(255, 255, 255);

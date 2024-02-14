@@ -11,11 +11,13 @@ class pauseManager :public manager{
 private:
 	int pauseCnt;		//ポーズのクールタイムのカウンタ;
 	int pauseHandle;	//ポーズメニューの画像ハンドル;
+	
 	//関数呼び出し用;
 	gameManager* ptrGameManager;
+
 	//入力受け取り;
-	mouseInputData* mouseInput;
-	pauseInputData* pauseInput;
+	mouseInputData* mouseInput;//マウス入力
+	pauseInputData* pauseInput;//ポーズ入力(エスケープキー,スタートボタン);
 public:
 	pauseManager(gameManager* ptrGM);
 	~pauseManager();
@@ -23,6 +25,6 @@ public:
 	bool Update()override;
 	void Print() override;
 
-	void SetPause();
-	void EscapePause();
+	void SetPause();//ポーズにする;
+	void EscapePause();//ポーズから戻す;
 };

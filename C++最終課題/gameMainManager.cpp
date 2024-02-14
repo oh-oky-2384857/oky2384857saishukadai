@@ -11,9 +11,12 @@
 #include "blueScreen.h"
 #include "errorCode.h"
 
+//ゲームオーバーとゲームクリアの画像のパス;
 const std::string GAMEOVER_HANDLE_PATH = {"./resource/gameMainResource/gameOver.png"};
 const std::string GAMECLEAR_HANDLE_PATH = { "./resource/gameMainResource/gameClear.png" };
 const int CHANGE_SCENE_TIME = 500;//シーンが変わるまでの時間;
+
+const coordinate GAME_STATE_PRINT_POINT = {};
 
 gameMainManager::gameMainManager(gameManager* ptrGM) : gamingFlag(true){
 	sceneManager::ptrGameManager = ptrGM;
@@ -33,12 +36,12 @@ gameMainManager::~gameMainManager() {
 		delete m;
 	}
 	managers.clear();
+	//画像ハンドル削除;
 	DeleteGraph(gameClearHandle);
 	DeleteGraph(gameOverHandle);
-
-	nextScene = nullptr;
 }
 bool gameMainManager::Awake() {
+	//各種マネージャのAwakeを動かす;
 	for (manager* m : managers) {
 		if (!m->Awake()) {
 			break;
@@ -49,15 +52,16 @@ bool gameMainManager::Awake() {
 			break;
 		}
 	}
-
+	//画像読み込みに失敗したら;
 	gameOverHandle = LoadGraph(GAMEOVER_HANDLE_PATH.c_str());
-	if (gameOverHandle == -1) {
+	if (gameOverHandle == -1) {//ブルスク行き;
 		errorData data = { errorCode::handleRoadFail,errorSource::gameMainManager,(std::string*)nullptr };
 		ChangeBlueScreen(&data);
 		return false;
 	}
+	//画像読み込みに失敗したら2;
 	gameClearHandle = LoadGraph(GAMECLEAR_HANDLE_PATH.c_str());
-	if (gameOverHandle == -1) {
+	if (gameOverHandle == -1) {//ブルスク行き;
 		errorData data = { errorCode::handleRoadFail,errorSource::gameMainManager,(std::string*)nullptr };
 		ChangeBlueScreen(&data);
 		return false;
@@ -69,7 +73,7 @@ bool gameMainManager::Update(){
 	if (gamingFlag) {//ゲームが続いているなら;
 
 		//デバッグ用;
-		SetGameOver();
+		SetGameClear();
 		//デバッグ用;
 
 
@@ -78,8 +82,9 @@ bool gameMainManager::Update(){
 		}
 	}else {
 		if (changeSceneCnt-- < 0) {
-			//titleに戻す;
+			//シーン偏移;
 			sceneManager::ChangeNewScene(nextScene);
+			//輝度を戻す;
 			SetDrawBright(255, 255, 255);
 			return true;
 		}else {
@@ -96,13 +101,14 @@ void gameMainManager::Print() {
 		m->Print();
 	}
 	if (!gamingFlag) {//ゲームが続いていないなら;
-		DrawGraph(76,216,gameOverHandle, true);
+		DrawGraph(76,216, gameStateHandle, true);
 	}
 }
 
 manager* gameMainManager::GetManagerPtr(const char* managerName) {
 	std::string managerN = managerName;
 	for (manager* m : managers) {
+		//マネージャーネームが一致したら;
 		if (managerN.compare(m->GetManagerNameInstans()) == 0) {
 			return m;
 		}
@@ -111,11 +117,13 @@ manager* gameMainManager::GetManagerPtr(const char* managerName) {
 }
 
 void gameMainManager::ChangeBlueScreen(errorData* data) {
+	//ブルースクリーンに偏移;
 	sceneManager* newScene = new blueScreenManager(ptrGameManager, data);
 	sceneManager::ChangeNewScene(newScene);
 }
 
 const inputData* gameMainManager::GetInputData() {
+	//inputData取得;
 	inputManager* ptrim = (inputManager*)ptrGameManager->GetManagerPtr("inputManager");
 	if (ptrim == nullptr) {
 		return nullptr;
@@ -123,14 +131,22 @@ const inputData* gameMainManager::GetInputData() {
 	return ptrim->GetInputDataPtr();
 }
 void gameMainManager::SetGameOver() {
+	//シーン偏移時間設定;
 	changeSceneCnt = CHANGE_SCENE_TIME;
+	//フラグ変更;
 	gamingFlag = false;
+	//次のシーン生成
 	nextScene = new titleManager(ptrGameManager);
+	//画像ハンドル設定;
 	gameStateHandle = gameOverHandle;
 }
 void gameMainManager::SetGameClear() {
+	//シーン偏移時間設定;
 	changeSceneCnt = CHANGE_SCENE_TIME;
+	//フラグ変更;
 	gamingFlag = false;
+	//次のシーン生成
 	nextScene = new titleManager(ptrGameManager);
+	//画像ハンドル設定;
 	gameStateHandle = gameClearHandle;
 }
