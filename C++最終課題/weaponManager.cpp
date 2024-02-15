@@ -1,6 +1,7 @@
 #include <fstream>
 #include "weaponManager.h"
 #include "weapon.h"
+#include "weaponData.h"
 #include "gameMainManager.h"
 #include "playerManager.h"
 
@@ -24,17 +25,17 @@ weaponManager::~weaponManager() {
 	}
 	weapons.clear();
 }
-bool weaponManager::Awake() {
-
+errorData* weaponManager::Awake() {
+	//プレイヤーマネージャー取得;
 	ptrPlayerManager = (playerManager*)ptrGameMain->GetManagerPtr("playerManager");
 	if (ptrPlayerManager == nullptr) {
-		errorData data = { errorCode::objectNotFound,errorSource::weaponManager ,"playerManagerがない" };
-		ptrGameMain->ChangeBlueScreen(&data);
-		return false;
+		errorData* data = new errorData{ errorCode::objectNotFound,errorSource::weaponManager ,"playerManagerがない" };
+		return data;
 	}
+	ifstream ifs(WEAPON_HANDLE_DATA_PATH.c_str());
 }
 bool weaponManager::Update(){
-
+	return true;
 }
 void weaponManager::Print() {
 

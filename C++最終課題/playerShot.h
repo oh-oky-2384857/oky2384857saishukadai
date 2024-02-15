@@ -14,7 +14,7 @@ public:
 	playerShotBase(shotData* d, playerShotManager* ptrPS);
 	~playerShotBase();
 
-	virtual bool Awake() { return true; };
+	virtual errorData* Awake() { return nullptr; };
 	virtual bool Update();
 	virtual void Print() ;
 	
@@ -27,7 +27,7 @@ public:
 	psNormal(shotData* d, playerShotManager* ptrPS);
 	~psNormal();
 
-	bool Awake() { return true; };
+	errorData* Awake() { return nullptr; };
 	bool Update();
 	void Print() { playerShotBase::Print(); };
 };

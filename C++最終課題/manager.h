@@ -19,8 +19,8 @@ public:
 		}
 	}
 
-	virtual bool Awake() = 0;
-	virtual bool Start() { return true; };//Awake‚Ì’¼Œã‚É“®‚©‚·;
+	virtual errorData* Awake() = 0;
+	virtual errorData* Start() { return nullptr; };//Awake‚Ì’¼Œã‚É“®‚©‚·;
 	virtual bool Update() = 0;
 	virtual void Print() = 0;
 

@@ -18,7 +18,7 @@ private:
 public:
 	titleManager(gameManager* pgm);
 	~titleManager();
-	bool Awake() override;
+	errorData* Awake() override;
 	bool Update()override;
 	void Print() override;
 };

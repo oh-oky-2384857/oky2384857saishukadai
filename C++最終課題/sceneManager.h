@@ -12,7 +12,7 @@ protected:
 
 public:
 	sceneManager() : manager(), ptrGameManager(nullptr){}
-	virtual bool Awake() = 0;
+	virtual errorData* Awake() = 0;
 	virtual bool Update() = 0;
 	virtual void Print() = 0;
 

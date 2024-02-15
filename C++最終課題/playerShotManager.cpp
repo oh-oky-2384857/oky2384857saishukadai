@@ -39,28 +39,25 @@ playerShotManager::~playerShotManager() {
 	shotPD.clear();
 }
 
-bool playerShotManager::Awake() {
+errorData* playerShotManager::Awake() {
 	//プレイヤーマネージャー取得;
 	ptrPlayerManager = (playerManager*)ptrGameMain->GetManagerPtr("playerManager");
 	if (ptrPlayerManager == nullptr) {
-		errorData data = { errorCode::objectNotFound,errorSource::playerShotManager ,"playerManagerがない" };
-		ptrGameMain->ChangeBlueScreen(&data);
-		return false;
+		errorData* data =new errorData { errorCode::objectNotFound,errorSource::playerShotManager ,"playerManagerがない" };
+		return data;
 	}
 	//エネミーマネージャー取得;
 	ptrEnemyManager = (enemyManager*)ptrGameMain->GetManagerPtr("enemyManager");
 	if (ptrEnemyManager == nullptr) {
-		errorData data = { errorCode::objectNotFound,errorSource::playerShotManager ,"enemyManagerがない" };
-		ptrGameMain->ChangeBlueScreen(&data);
-		return false;
+		errorData* data = new errorData{ errorCode::objectNotFound,errorSource::playerShotManager ,"enemyManagerがない" };
+		return data;
 	}
 	//ファイルを開く;
 	ifstream ifs(PLAYER_SHOT_DATA_PATH.c_str());
 	if (ifs.fail()) {//失敗でブルスク;
 		ifs.close();
-		errorData data = { errorCode::fileNotFound,errorSource::playerShotManager ,"ShotDataがない" };
-		ptrGameMain->ChangeBlueScreen(&data);
-		return false;
+		errorData* data = new errorData{ errorCode::fileNotFound,errorSource::playerShotManager ,"ShotDataがない" };
+		return data;
 	}
 	//データ読み込み;
 	{
@@ -90,9 +87,8 @@ bool playerShotManager::Awake() {
 			if (spd->handle == -1) {//失敗でブルスク;
 				ifs.close();
 				string* note = new string(pathBuf);
-				errorData data = { errorCode::handleRoadFail,errorSource::playerShotManager ,note };
-				ptrGameMain->ChangeBlueScreen(&data);
-				return false;
+				errorData* data = new errorData{ errorCode::handleRoadFail,errorSource::playerShotManager ,note };
+				return data;
 			}
 						
 			inputs >> spd->moveSpeed >> spd->damageMultiplier >> spd->shotCoolTime;
@@ -105,7 +101,7 @@ bool playerShotManager::Awake() {
 
 	shots.clear();
 
-	return true;
+	return nullptr;
 }
 bool playerShotManager::Update() {
 	for (playerShotBase* ps : shots) {

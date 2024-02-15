@@ -15,7 +15,7 @@ private:
 public:
 	mapManager(gameMainManager* pgmm);
 	~mapManager();
-	bool Awake() override;
+	errorData* Awake() override;
 	bool Update()override;
 	void Print() override;
 };

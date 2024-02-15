@@ -21,7 +21,7 @@ protected:
 	//コンストラクタ;
 	enemy(const enemyData* edata);
 public:
-	virtual bool Awake() { return true; };
+	virtual errorData* Awake() { return nullptr; };
 	virtual bool Update() { return true; };
 	virtual void Print() {};
 
@@ -47,7 +47,7 @@ public:
 	enemy001(coordinate coord, enemyManager* ptrEM,const enemyData* edata);
 	~enemy001();
 
-	bool Awake();
+	errorData* Awake();
 	bool Update();
 	void Print();
 

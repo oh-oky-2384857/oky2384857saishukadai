@@ -24,38 +24,33 @@ pauseManager::pauseManager(gameManager* ptrGM)
 }
 pauseManager::~pauseManager() {
 }
-bool pauseManager::Awake() {
+errorData* pauseManager::Awake() {
 	//inputdates取得;
 	inputManager* ptrim = (inputManager*)ptrGameManager->GetManagerPtr("inputManager");
 	if (ptrim == nullptr) {//なければブルスク行き;
-		errorData data = { errorCode::objectNotFound,errorSource::pauseManager,"inputManagerがない" };
-		sceneManager* bs = new blueScreenManager(ptrGameManager, &data);
-		ptrGameManager->SetNewScene(bs);
-		return false;
+		errorData* data =new errorData { errorCode::objectNotFound,errorSource::pauseManager,"inputManagerがない" };
+		return data;
 	}
 	//mouse入力取得;
 	mouseInput = ptrim->GetInputDataPtr()->mouse;
 	if (mouseInput == nullptr) {//なければブルスク行き;
-		errorData data = { errorCode::objectNotFound,errorSource::pauseManager,"moveInputがない" };
-		sceneManager* bs = new blueScreenManager(ptrGameManager, &data);
-		ptrGameManager->SetNewScene(bs);
+		errorData* data = new errorData{ errorCode::objectNotFound,errorSource::pauseManager,"moveInputがない" };
+		return data;
 	}
 	//pause入力取得;
 	pauseInput = ptrim->GetInputDataPtr()->pause;
 	if (mouseInput == nullptr) {//なければブルスク行き;
-		errorData data = { errorCode::objectNotFound,errorSource::pauseManager,"moveInputがない" };
-		sceneManager* bs = new blueScreenManager(ptrGameManager, &data);
-		ptrGameManager->SetNewScene(bs);
+		errorData* data = new errorData{ errorCode::objectNotFound,errorSource::pauseManager,"moveInputがない" };
+		return data;
 	}
 	//画像読み込み
 	pauseHandle = LoadGraph(PAUSE_HANDLE_PATH.c_str());
 	if (pauseHandle == -1) {//失敗でブルスク行き;
-		errorData data = { errorCode::handleRoadFail,errorSource::pauseManager,(std::string*) nullptr};
-		sceneManager* bs = new blueScreenManager(ptrGameManager, &data);
-		ptrGameManager->SetNewScene(bs);
+		errorData* data = new errorData{ errorCode::handleRoadFail,errorSource::pauseManager,(std::string*) nullptr };
+		return data;
 	}
 
-	return true;
+	return nullptr;
 }
 bool pauseManager::Update() {
 	//カウンタを減らす;

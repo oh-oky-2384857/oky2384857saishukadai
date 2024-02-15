@@ -46,8 +46,8 @@ player::~player() {
 	}
 }
 
-bool player::Awake() {
-	return true;
+errorData* player::Awake() {
+	return nullptr;
 }
 bool player::Update() {
 	if (std::abs((int)coordFractionX) > 1) {

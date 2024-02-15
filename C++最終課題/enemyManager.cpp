@@ -44,13 +44,12 @@ enemyManager::~enemyManager() {
 	}
 	waves.clear();
 }
-bool enemyManager::Awake() {
+errorData* enemyManager::Awake() {
 	//プレイヤーマネージャー取得;
 	ptrPlayerManager = (playerManager*)ptrGameMain->GetManagerPtr("playerManager");
 	if (ptrPlayerManager == nullptr) {
-		errorData data = { errorCode::objectNotFound,errorSource::enemyManager ,"playerManagerがない"};
-		ptrGameMain->ChangeBlueScreen(&data);
-		return false;
+		errorData* data =new errorData { errorCode::objectNotFound,errorSource::enemyManager ,"playerManagerがない"};
+		return data;
 	}
 
 	//敵データ読み込み
@@ -59,9 +58,8 @@ bool enemyManager::Awake() {
 		ifstream ifs(ENEMY_DATA_PATH.c_str());
 		if (ifs.fail()) {//失敗でブルスク;
 			ifs.close();
-			errorData data = { errorCode::fileNotFound,errorSource::enemyManager ,"enemyDateのファイルがない" };
-			ptrGameMain->ChangeBlueScreen(&data);
-			return false;
+			errorData* data = new errorData{ errorCode::fileNotFound,errorSource::enemyManager ,"enemyDateのファイルがない" };
+			return data;
 		}
 
 		string input;
@@ -95,9 +93,8 @@ bool enemyManager::Awake() {
 					",atk:" << atkBuf << ",path:" << newPathBuf;
 				string* note = new string(ss.str());
 
-				errorData data = { errorCode::improperData,errorSource::enemyManager ,note };
-				ptrGameMain->ChangeBlueScreen(&data);
-				return false;
+				errorData* data =new errorData { errorCode::improperData,errorSource::enemyManager ,note };
+				return data;
 			}
 
 			datas.push_back(ed);
@@ -116,9 +113,8 @@ bool enemyManager::Awake() {
 		ifstream ifs(ENEMY_WAVE_DATA_PATH.c_str());
 		if (ifs.fail()) {//失敗でブルスク;
 			ifs.close();
-			errorData data = { errorCode::fileNotFound,errorSource::enemyManager ,"enemyWaveDataのファイルがない" };
-			ptrGameMain->ChangeBlueScreen(&data);
-			return false;
+			errorData* data = new errorData{ errorCode::fileNotFound,errorSource::enemyManager ,"enemyWaveDataのファイルがない" };
+			return data;
 		}
 
 		string input;
@@ -154,13 +150,12 @@ bool enemyManager::Awake() {
 	//画像読み込み;
 	for (enemyData* e : datas) {
 		if (!e->LoadImg()) {
-			errorData data = { errorCode::handleRoadFail,errorSource::enemyManager ,(string*)nullptr };
-			ptrGameMain->ChangeBlueScreen(&data);
-			return false;
+			errorData* data = new errorData{ errorCode::handleRoadFail,errorSource::enemyManager ,(string*)nullptr };
+			return data;
 		}
 	}
 
-	return true;
+	return nullptr;
 }
 bool enemyManager::Update() {
 	for (enemy* e : enemys) {

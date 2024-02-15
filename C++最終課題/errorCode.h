@@ -22,7 +22,8 @@ enum class errorSource //ƒGƒ‰[”­¶êŠ;
 	mapManager,
 	playerManager,
 	enemyManager,
-	playerShotManager
+	playerShotManager,
+	weaponManager
 };
 
 struct errorData {

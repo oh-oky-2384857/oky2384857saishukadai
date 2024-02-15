@@ -21,53 +21,48 @@ playerManager::~playerManager() {
 	delete oplayer;
 }
 
-bool playerManager::Awake() {
+errorData* playerManager::Awake() {
 	//playerShotManager取得;
 	ptrPlayerShotManager = (playerShotManager*)ptrGameMain->GetManagerPtr("playerShotManager");
 	if (ptrPlayerShotManager == nullptr) {
-		errorData data = { errorCode::objectNotFound, errorSource::playerManager ,"moveInputがない" };
-		ptrGameMain->ChangeBlueScreen(&data);
-		return false;
+		errorData* data =new errorData { errorCode::objectNotFound, errorSource::playerManager ,"プレイヤーショットがない" };
+		return data;
 	}
 	//インプットデータ取得;
 	//move;
 	moveInput = ptrGameMain->GetInputData()->move;
 	if (moveInput == nullptr) {
-		errorData data = { errorCode::objectNotFound, errorSource::playerManager ,"moveInputがない" };
-		ptrGameMain->ChangeBlueScreen(&data);
-		return false;
+		errorData* data = new errorData{ errorCode::objectNotFound, errorSource::playerManager ,"moveInputがない" };
+		return data;
 	}
 	//shot;
 	shotInput = ptrGameMain->GetInputData()->shot;
 	if (shotInput == nullptr) {
-		errorData data = { errorCode::objectNotFound,errorSource::playerShotManager ,"shotInputがない" };
-		ptrGameMain->ChangeBlueScreen(&data);
-		return false;
+		errorData* data = new errorData{ errorCode::objectNotFound,errorSource::playerShotManager ,"shotInputがない" };
+		return data;
 	}
 	//プレイヤーAwake処理;
 	oplayer->Awake();
 	//画像読み込み;
 	if (!oplayer->LoadPlayerHandle()) {
-		errorData data = { errorCode::handleRoadFail, errorSource::playerManager ,(std::string*)nullptr };
-		ptrGameMain->ChangeBlueScreen(&data);
-		return false;
+		errorData* data = new errorData{ errorCode::handleRoadFail, errorSource::playerManager ,(std::string*)nullptr };
+		return data;
 	}
 	//ステータス読み込み;
 	if (!oplayer->LoadStatus()) {
-		errorData data = { errorCode::fileNotFound, errorSource::playerManager ,"playerDateファイルがない" };
-		ptrGameMain->ChangeBlueScreen(&data);
-		return false;
+		errorData* data = new errorData{ errorCode::fileNotFound, errorSource::playerManager ,"playerDateファイルがない" };
+		return data;
 	}
 
-	return true;
+	return nullptr;
 }
-bool playerManager::Start() {
+errorData* playerManager::Start() {
 	nowShotData = ptrPlayerShotManager->GetShotPatternData(0);
 	if (nowShotData == nullptr) {
-		errorData data = { errorCode::objectNotFound,errorSource::playerShotManager ,"初期弾データがない" };
-		ptrGameMain->ChangeBlueScreen(&data);
-		return false;
+		errorData* data =new errorData { errorCode::objectNotFound,errorSource::playerShotManager ,"初期弾データがない" };
+		return data;
 	}
+	return nullptr;
 }
 bool playerManager::Update() {
 	oplayer->AddMovePower(moveInput->xPower, moveInput->yPower);

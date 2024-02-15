@@ -31,21 +31,18 @@ cursorManager::~cursorManager() {
 	}
 	delete[] cursorHandles;
 }
-bool cursorManager::Awake() {
+errorData* cursorManager::Awake() {
 	//inputdates取得;
 	inputManager* ptrim =(inputManager*)ptrGameManager->GetManagerPtr("inputManager");
 	if (ptrim == nullptr) {//なければブルスク行き;
-		errorData data = { errorCode::objectNotFound,errorSource::cursorManager,"inputManagerがない" };
-		sceneManager* bs = new blueScreenManager(ptrGameManager, &data);
-		ptrGameManager->SetNewScene(bs);
-		return false;
+		errorData* data = new errorData{ errorCode::objectNotFound,errorSource::cursorManager,"inputManagerがない" };
+		return data;
 	}
 	//mouseデータ取得;
 	inputDatas = ptrim->GetInputDataPtr()->mouse;
 	if (inputDatas == nullptr) {//なければブルスク行き;
-		errorData data = { errorCode::objectNotFound,errorSource::cursorManager,"inputManagerがない" };
-		sceneManager* bs = new blueScreenManager(ptrGameManager, &data);
-		ptrGameManager->SetNewScene(bs);
+		errorData* data = new errorData{ errorCode::objectNotFound,errorSource::cursorManager,"inputManagerがない" };
+		return data;
 	}
 	//ハンドル生成;
 	cursorHandles = new int[CURSOR_HANDLE_NUM];
@@ -53,14 +50,13 @@ bool cursorManager::Awake() {
 		//画像読み込み;
 		cursorHandles[i] = LoadGraph(CURSOR_HANDLE_PATH[i].c_str());
 		if (cursorHandles[i] == -1) {//失敗でブルスク行き;
-			errorData data = { errorCode::handleRoadFail,errorSource::cursorManager,(std::string*)nullptr };
-			sceneManager* bs = new blueScreenManager(ptrGameManager, &data);
-			ptrGameManager->SetNewScene(bs);
+			errorData* data = new errorData{ errorCode::handleRoadFail,errorSource::cursorManager,(std::string*)nullptr };
+			return data;
 		}
 	}
 	//画像サイズ取得;
 	GetGraphSize(cursorHandles[0], &cursorWidth, &cursorHeight);
-	return true;
+	return nullptr;
 }
 bool cursorManager::Update() {
 	return true;

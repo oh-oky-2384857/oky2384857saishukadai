@@ -11,8 +11,8 @@ soundManager::soundManager(gameManager* pgm)
 soundManager::~soundManager() {
 
 }
-bool soundManager::Awake() {
-	return true;
+errorData* soundManager::Awake() {
+	return nullptr;
 }
 bool soundManager::Update(){
 	return true;

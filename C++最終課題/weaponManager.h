@@ -6,6 +6,7 @@
 class weapon;
 class playerManager;
 class gameMainManager;
+struct weaponData;
 
 class weaponManager :public manager{
 private:
@@ -18,7 +19,7 @@ public:
 	weaponManager(gameMainManager* ptrGM);
 	~weaponManager();
 
-	bool Awake() override;
+	errorData* Awake() override;
 	bool Update()override;
 	void Print() override;
 

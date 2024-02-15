@@ -29,7 +29,7 @@ public:
 	gameManager();
 	~gameManager();
 
-	bool Awake() override;
+	errorData* Awake() override;
 	bool Update()override;
 	void Print() override;
 

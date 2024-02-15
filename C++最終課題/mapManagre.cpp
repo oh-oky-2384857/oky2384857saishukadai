@@ -29,20 +29,18 @@ ptrGameMain(pgmm),mapChipHandle(-1)
 mapManager::~mapManager() {
 	DeleteGraph(mapChipHandle);
 }
-bool mapManager::Awake() {
+errorData* mapManager::Awake() {
 	ptrPlayerManager = (playerManager*)ptrGameMain->GetManagerPtr("playerManager");
 	if (ptrPlayerManager == nullptr) {
-		errorData data = { errorCode::objectNotFound,errorSource::playerManager ,"playerManager‚ª‚È‚¢" };
-		ptrGameMain->ChangeBlueScreen(&data);
-		return false;
+		errorData* data =new errorData { errorCode::objectNotFound,errorSource::playerManager ,"playerManager‚ª‚È‚¢" };
+		return data;
 	}
 	mapChipHandle = LoadGraph(MAPCHIP_HANDLE_PATH.c_str());
 	if (mapChipHandle == -1) {
-		errorData data = {errorCode::handleRoadFail,errorSource::playerManager,(string*)nullptr };
-		ptrGameMain->ChangeBlueScreen(&data);
-		return false;
+		errorData* data =new errorData {errorCode::handleRoadFail,errorSource::playerManager,(string*)nullptr };
+		return data;
 	};
-	return true;
+	return nullptr;
 }
 bool mapManager::Update() {
 

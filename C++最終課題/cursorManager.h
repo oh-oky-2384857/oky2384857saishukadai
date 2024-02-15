@@ -23,7 +23,7 @@ private:
 public:
 	cursorManager(gameManager* ptrgm);
 	~cursorManager();
-	bool Awake() override;
+	errorData* Awake() override;
 	bool Update()override;
 	void Print() override;
 };

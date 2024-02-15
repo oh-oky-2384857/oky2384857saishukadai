@@ -31,8 +31,8 @@ inputManager::~inputManager() {
 	delete inputs->pause;
 	delete inputs;
 }
-bool inputManager::Awake(){
-	return true;
+errorData* inputManager::Awake(){
+	return nullptr;
 }
 bool inputManager::Update() {
 

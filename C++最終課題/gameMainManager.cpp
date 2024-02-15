@@ -40,34 +40,37 @@ gameMainManager::~gameMainManager() {
 	DeleteGraph(gameClearHandle);
 	DeleteGraph(gameOverHandle);
 }
-bool gameMainManager::Awake() {
+errorData* gameMainManager::Awake() {
 	//各種マネージャのAwakeを動かす;
+	errorData* e;
 	for (manager* m : managers) {
-		if (!m->Awake()) {
-			break;
+		e = m->Awake();
+		if (e != nullptr) {
+			return e;
 		}
 	}
 	for (manager* m : managers) {
-		if (!m->Start()) {
-			break;
+		e = m->Awake();
+		if (e != nullptr) {
+			sceneManager* newScene = new blueScreenManager(ptrGameManager, e);
+			sceneManager::ChangeNewScene(newScene);
+			return e;
 		}
 	}
 	//画像読み込みに失敗したら;
 	gameOverHandle = LoadGraph(GAMEOVER_HANDLE_PATH.c_str());
 	if (gameOverHandle == -1) {//ブルスク行き;
-		errorData data = { errorCode::handleRoadFail,errorSource::gameMainManager,(std::string*)nullptr };
-		ChangeBlueScreen(&data);
-		return false;
+		errorData* data =new errorData { errorCode::handleRoadFail,errorSource::gameMainManager,(std::string*)nullptr };
+		return data;
 	}
 	//画像読み込みに失敗したら2;
 	gameClearHandle = LoadGraph(GAMECLEAR_HANDLE_PATH.c_str());
 	if (gameOverHandle == -1) {//ブルスク行き;
-		errorData data = { errorCode::handleRoadFail,errorSource::gameMainManager,(std::string*)nullptr };
-		ChangeBlueScreen(&data);
-		return false;
+		errorData* data =new errorData { errorCode::handleRoadFail,errorSource::gameMainManager,(std::string*)nullptr };
+		return data;
 	}
 
-	return true;
+	return nullptr;
 }
 bool gameMainManager::Update(){
 	if (gamingFlag) {//ゲームが続いているなら;

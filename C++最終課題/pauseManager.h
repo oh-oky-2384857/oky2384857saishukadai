@@ -21,7 +21,7 @@ private:
 public:
 	pauseManager(gameManager* ptrGM);
 	~pauseManager();
-	bool Awake() override;
+	errorData* Awake() override;
 	bool Update()override;
 	void Print() override;
 

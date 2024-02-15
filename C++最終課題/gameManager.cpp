@@ -34,19 +34,25 @@ gameManager::~gameManager() {
 	InitGraph();
 }
 
-bool gameManager::Awake() {
+errorData* gameManager::Awake() {
 	//nowSceneのAwakeを動かす;
-	if (!nowScene->Awake()) {// Awakeに失敗したら;
-		return false;
+	errorData* e = nowScene->Awake();
+	if (nullptr != e) {// Awakeに失敗したら;
+
+		sceneManager* newScene = new blueScreenManager(this, e);
+		SetNewScene(newScene);
+		return nullptr;//処理を終わらせるためのreturn;
 	}
 	//各種managerのAwakeを動かす;
 	for (manager* m : managers) {
-		if (!m->Awake())
-		{
-			return false;
+		e = m->Awake();
+		if (e != nullptr){// Awakeに失敗したら;
+			sceneManager* newScene = new blueScreenManager(this, e);
+			SetNewScene(newScene);
+			return nullptr;//処理を終わらせるためのreturn;
 		}
 	}
-	return true;
+	return nullptr;//処理を終わらせるためのreturn;
 }
 bool gameManager::Update() {
 	//ポーズまたはオプションでないなら;

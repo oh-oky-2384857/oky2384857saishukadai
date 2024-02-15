@@ -48,8 +48,8 @@ enemy001::~enemy001() {
 
 }
 
-bool enemy001::Awake() {
-	return false;
+errorData* enemy001::Awake() {
+	return nullptr;
 }
 bool enemy001::Update() {
 	Move();

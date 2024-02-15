@@ -18,7 +18,7 @@ private:
 public:
 	blueScreenManager(gameManager* ptrGameManager, errorData* data);
 	~blueScreenManager();
-	bool Awake();
+	errorData* Awake();
 	bool Update();
 	void Print();
 };
