@@ -11,6 +11,7 @@ private:
 	weaponData* data;
 
 	playerManager* ptrPlayerManager;
+	bool Awake() override { return false; };
 public:
 	weapon(playerManager* ptrPM, coordinate pos, weaponData* d);
 	~weapon();

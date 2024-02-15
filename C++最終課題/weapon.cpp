@@ -7,9 +7,6 @@
 
 using namespace std;
 
-//weaponの画像パスが書かれているtxtファイルのパス;
-const string WEAPON_HANDLE_DATA_PATH = {"./resource/gameMainResource/weaponResource/weaponData.txt"};
-
 //weapon
 weapon::weapon(playerManager* ptrPM, coordinate pos, weaponData* d) 
 :ptrPlayerManager(ptrPM),data(d){
@@ -30,10 +27,10 @@ bool weapon::Awake(std::ifstream ifs) {
 		inputSt.clear(); inputSt.str("");//初期化;
 
 		std::getline(ifs,input);
-		inputSt << input;
 	}
 
 	string path;
+	inputSt << input;
 	inputSt >> path;
 
 	//画像読み込み;

@@ -7,3 +7,4 @@ mapManager
 playerManager
 enemyManager
 playerShotManager
+weaponManager
