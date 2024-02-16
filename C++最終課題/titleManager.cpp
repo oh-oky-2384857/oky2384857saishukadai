@@ -10,8 +10,12 @@
 
 using namespace std;
 
-const string TITLE_HANDLE_PATH = "./resource/titleResource/title.png";
+const string TITLE_HANDLE_PATH = "./resource/titleResource/title.png";//タイトル画像のパス;
+
+//タイトルのスタートボタンの場所:[0]左上[1]右上;
 const coordinate TITLE_BUTTON_START_POSITION[2] = { { 82,300},{245,400} };
+
+//タイトルの終了ボタンの場所:[0]左上[1]右上;
 const coordinate TITLE_BUTTON_END_POSITION[2]	= { {598,  2},{638, 42} };
 
 titleManager::titleManager(gameManager* pgm){
@@ -21,6 +25,7 @@ titleManager::titleManager(gameManager* pgm){
 }
 
 titleManager::~titleManager(){
+	//画像ハンドル削除;s
 	DeleteGraph(titleHandle);
 }
 
@@ -56,6 +61,7 @@ bool titleManager::Update() {
 		//シーン切り替え;
 		ptrGameManager->SetGameStatus(gameStatus::main);
 			
+		//メインシーンへ;
 		sceneManager* newScene = new gameMainManager(ptrGameManager);
 		sceneManager::ChangeNewScene(newScene);
 
@@ -74,5 +80,6 @@ bool titleManager::Update() {
 }
 void titleManager::Print()
 {
+	//画像描画;
 	DrawGraph(0, 0, titleHandle, false);
 }

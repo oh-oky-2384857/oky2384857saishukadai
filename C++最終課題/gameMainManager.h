@@ -24,7 +24,7 @@ private:
 	*/
 	bool gamingFlag;
 
-	int gameStateHandle;//表示する画像ハンドル;
+	int gameStateHandle;//ゲームオーバーまたはゲームクリアを代入;
 
 	//ゲームオーバー関連;
 	int gameOverHandle;	//画像ハンドル;
@@ -39,14 +39,25 @@ public:
 	bool Update()override;
 	void Print() override;
 
+	//マネージャーポインタ取得;
 	manager* GetManagerPtr(const char* managerName);
 
+	//ブルースクリーンシーンに強制変位;
 	void ChangeBlueScreen(errorData* data);
 
+	//インプットデータのポインタ取得;
 	const inputData* GetInputData();
 
+	/**
+	今ゲームが続いているか;
+	*@return true : 続いている,false : 続いていない;
+	*/
 	inline bool GetGamingFlag() { return gamingFlag; };
+
+	//ゲームオーバーにする;
 	void SetGameOver();
+
+	//ゲームクリアにする;
 	void SetGameClear();
 
 };

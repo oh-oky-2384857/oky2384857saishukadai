@@ -28,11 +28,11 @@ struct  shotPatternData {
 
 /**
 ショットデータのうち一発ごとに異なるもの;
-*@param const	<shotPatternData*>	pData			ショットデータの金型;
-*@param			<coordinate>		position		座標;
-*@param			<vector2>			positionFloat	座標のfloat番;
-*@param			<vector2>			vec2			この弾の方向ベクトル;
-*@param			<float>				damage			与えるダメージ;
+*@param	<const shotPatternData*>	pData			ショットデータの金型;
+*@param	<coordinate>		position		座標;
+*@param	<vector2>			positionFloat	座標のfloat番;
+*@param	<vector2>			vec2			この弾の方向ベクトル;
+*@param	<float>				damage			与えるダメージ;
 */
 struct shotData {
 public:
@@ -42,6 +42,7 @@ public:
 	vector2 vec2;
 	float damage;
 public:
+	//コンストラクタ;
 	shotData(coordinate pos, vector2 v2,float atk,const shotPatternData* pd) 
 		:pData(pd), position(pos), vec2(v2),
 		positionFloat(vector2{ position.x,position.y }){

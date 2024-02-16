@@ -21,8 +21,8 @@ gameMainManager::gameMainManager(gameManager* ptrGM) : gamingFlag(true){
 	sceneManager::ptrGameManager = ptrGM;
 	manager::SetManagerName("gameMainManager");
 
-	managers =
-	{
+	//各種マネージャ作成;
+	managers ={
 		new mapManager(this),
 		new enemyManager(this),
 		new playerManager(this),
@@ -31,10 +31,12 @@ gameMainManager::gameMainManager(gameManager* ptrGM) : gamingFlag(true){
 
 }
 gameMainManager::~gameMainManager() {
+	//各種マネージャ削除;
 	for (manager* m : managers) {
 		delete m;
 	}
 	managers.clear();
+
 	//画像ハンドル削除;
 	DeleteGraph(gameClearHandle);
 	DeleteGraph(gameOverHandle);
@@ -44,47 +46,54 @@ errorData* gameMainManager::Awake() {
 	errorData* e;
 	for (manager* m : managers) {
 		e = m->Awake();
-		if (e != nullptr) {
+		if (e != nullptr) {//エラーコードが帰ってきたら失敗;
+			//エラーコードをそのまま返す;
 			return e;
 		}
 	}
+
+	//各種マネージャのStartを動かす;
 	for (manager* m : managers) {
 		e = m->Start();
-		if (e != nullptr) {
+		if (e != nullptr) {//エラーコードが帰ってきたら失敗;
+			//エラーコードをそのまま返す;
 			return e;
 		}
 	}
+
 	//画像読み込みに失敗したら;
 	gameOverHandle = LoadGraph(GAMEOVER_HANDLE_PATH.c_str());
-	if (gameOverHandle == -1) {//ブルスク行き;
+	if (gameOverHandle == -1) {//失敗でエラーコードを返す;
 		errorData* data =new errorData { errorCode::handleRoadFail,errorSource::gameMainManager,(std::string*)nullptr };
 		return data;
 	}
 	//画像読み込みに失敗したら2;
 	gameClearHandle = LoadGraph(GAMECLEAR_HANDLE_PATH.c_str());
-	if (gameOverHandle == -1) {//ブルスク行き;
+	if (gameOverHandle == -1) {//失敗でエラーコードを返す;
 		errorData* data =new errorData { errorCode::handleRoadFail,errorSource::gameMainManager,(std::string*)nullptr };
 		return data;
 	}
 
+	//正常終了;
 	return nullptr;
 }
 bool gameMainManager::Update(){
 	if (gamingFlag) {//ゲームが続いているなら;
-		
+		//更新処理;
 		for (manager* m : managers) {
 			m->Update();
 		}
 
 	}else {
-		if (changeSceneCnt-- < 0) {
+		//カウント減少;
+		if (changeSceneCnt-- < 0) {//カウントが0になったら;
 			//シーン偏移;
 			sceneManager::ChangeNewScene(nextScene);
 			//輝度を戻す;
 			SetDrawBright(255, 255, 255);
 			return true;
 		}else {
-			//少しずつ輝度を下げる;
+			//時間経過で少しずつ輝度を下げる;
 			int brightness = 255 * (((float)changeSceneCnt / CHANGE_SCENE_TIME * 0.875) + 0.125);
 			SetDrawBright(brightness, brightness, brightness);
 		}
@@ -93,6 +102,7 @@ bool gameMainManager::Update(){
 	return true;
 }
 void gameMainManager::Print() {
+	//描画処理;
 	for (manager* m : managers) {
 		m->Print();
 	}
