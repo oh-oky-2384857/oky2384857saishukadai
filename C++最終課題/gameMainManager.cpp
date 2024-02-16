@@ -50,7 +50,7 @@ errorData* gameMainManager::Awake() {
 		}
 	}
 	for (manager* m : managers) {
-		e = m->Awake();
+		e = m->Start();
 		if (e != nullptr) {
 			sceneManager* newScene = new blueScreenManager(ptrGameManager, e);
 			sceneManager::ChangeNewScene(newScene);
