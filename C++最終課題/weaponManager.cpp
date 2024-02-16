@@ -5,8 +5,6 @@
 #include "gameMainManager.h"
 #include "playerManager.h"
 
-#include "errorCode.h"
-
 using namespace std;
 
 //weaponの画像パスが書かれているtxtファイルのパス;

@@ -8,8 +8,6 @@
 #include "shotData.h"
 #include "playerShotManager.h"
 
-#include "errorCode.h"
-
 playerManager::playerManager(gameMainManager* ptrGM) 
 	:ptrGameMain(ptrGM),nowShotData(nullptr){
 	//ê∂ê¨;

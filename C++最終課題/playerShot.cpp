@@ -1,8 +1,8 @@
+#include <DxLib.h>
 #include "playerShot.h"
 #include "playerShotManager.h"
 #include "player.h"
 #include "gameCommon.h"
-#include <DxLib.h>
 
 playerShotBase::playerShotBase(shotData* d, playerShotManager* ptrPS)
 	: data(d),ptrPlayerShot(ptrPS){}

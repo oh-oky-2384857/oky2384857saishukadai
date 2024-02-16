@@ -7,8 +7,6 @@
 #include "gameMainManager.h"
 #include "shotData.h"
 
-#include "errorCode.h"
-
 #include <string>
 #include <DxLib.h>
 #include <sstream>

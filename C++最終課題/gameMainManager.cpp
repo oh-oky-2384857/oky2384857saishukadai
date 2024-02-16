@@ -9,7 +9,6 @@
 #include "titleManager.h"
 
 #include "blueScreen.h"
-#include "errorCode.h"
 
 //ゲームオーバーとゲームクリアの画像のパス;
 const std::string GAMEOVER_HANDLE_PATH = {"./resource/gameMainResource/gameOver.png"};
@@ -52,8 +51,6 @@ errorData* gameMainManager::Awake() {
 	for (manager* m : managers) {
 		e = m->Start();
 		if (e != nullptr) {
-			sceneManager* newScene = new blueScreenManager(ptrGameManager, e);
-			sceneManager::ChangeNewScene(newScene);
 			return e;
 		}
 	}

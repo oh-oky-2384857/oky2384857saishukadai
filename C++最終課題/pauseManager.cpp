@@ -6,9 +6,6 @@
 #include "inputDate.h"
 #include "inputManager.h"
 
-#include "errorCode.h"
-#include "blueScreen.h"
-
 const std::string PAUSE_HANDLE_PATH = { "./resource/gameCommonResource/pause.png" };
 const coordinate PAUSE_PRINT_POSITION =  {80,20};
 

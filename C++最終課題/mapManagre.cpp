@@ -3,8 +3,6 @@
 
 #include "mapManager.h"
 #include "gameMainManager.h"
-#include "blueScreen.h"
-#include "errorCode.h"
 #include "gameCommon.h"
 #include "player.h"
 #include "playerManager.h"

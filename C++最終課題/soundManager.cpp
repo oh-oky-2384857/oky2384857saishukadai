@@ -1,7 +1,4 @@
-#include <string>
 #include "soundManager.h"
-
-using namespace std;
 
 soundManager::soundManager(gameManager* pgm)
 : ptrGameManager(pgm)

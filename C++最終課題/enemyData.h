@@ -25,6 +25,13 @@ public:
 	int height;				//      横幅;
 
 public :
+	/**
+	コンストラクタ
+	*@param <float>		ms		移動速度;
+	*@param <flaot>		hp		Hp;
+	*@param <flaot>		atk		攻撃力;
+	*@param <string*>	handleP	画像のパス;
+	*/
 	bool Load(float ms , float hp,float atk,std::string* handleP) {
 		if (ms < 0 || hp <= 0 || atk < 0||handleP->size() == 0) {//無効なデータが入ったら;
 			return false;
@@ -36,6 +43,7 @@ public :
 
 		return true;
 	}
+	//画像読み込み
 	bool LoadImg() {
 		handle = LoadGraph(handlePath->c_str());
 		if (handle == -1) {
@@ -44,6 +52,7 @@ public :
 		GetGraphSize(handle, &width, &height);
 		return true;
 	}
+	//デストラクタ
 	~enemyData(){
 		if (handle != -1) {
 			DeleteGraph(handle);

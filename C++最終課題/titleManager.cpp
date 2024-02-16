@@ -8,9 +8,6 @@
 
 #include "gameMainManager.h"
 
-#include "blueScreen.h"
-#include "errorCode.h"
-
 using namespace std;
 
 const string TITLE_HANDLE_PATH = "./resource/titleResource/title.png";

@@ -10,7 +10,6 @@
 #include "cursorManager.h"
 #include "pauseManager.h"
 
-#include "errorCode.h"
 using namespace std;
 
 gameManager::gameManager():gs(gameStatus::title) {

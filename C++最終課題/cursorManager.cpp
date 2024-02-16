@@ -6,9 +6,6 @@
 #include "inputDate.h"
 #include "inputManager.h"
 
-#include "errorCode.h"
-#include "blueScreen.h"
-
 static const int CURSOR_UPDATE_CNT = 5;
 static const int CURSOR_HANDLE_NUM = 2;//カーソルの画像の種類;
 //カーソルの画像のパス;

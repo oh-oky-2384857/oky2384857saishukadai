@@ -12,8 +12,6 @@
 #include "gameMainManager.h"
 #include "inputDate.h"
 
-#include "errorCode.h"
-
 using namespace std;
 
 const string PLAYER_SHOT_DATA_PATH = "./resource/gameMainResource/playerShotResource/psData.txt";

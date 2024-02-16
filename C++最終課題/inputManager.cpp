@@ -1,8 +1,8 @@
+#include <string>
+#include <DxLib.h>
 #include "inputManager.h"
 #include "inputDate.h"
 #include "gameManager.h"
-#include <string>
-#include <DxLib.h>
 
 //ゲームパッドのアナログスティックの入力値の幅;
 const int ANALOG_STICK_INPUT_MAX = 10;
