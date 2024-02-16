@@ -230,6 +230,9 @@ bool enemyManager::Add(enemyType et, coordinate pos) {
 	case enemyType::e001:
 		newEnemy = new enemy001(pos, this,datas[0]);
 		break;
+	case enemyType::e002:
+		newEnemy = new enemy002(pos, this, datas[1]);
+		break;
 	default:
 		break;
 	}

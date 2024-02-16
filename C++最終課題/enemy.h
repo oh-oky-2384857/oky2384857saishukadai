@@ -25,7 +25,7 @@ public:
 	virtual bool Update() { return true; };
 	virtual void Print() {};
 
-	virtual bool Move() { return true; };
+	virtual bool Move();
 
 	/**
 	*@returns bool true:ÚG,false:”ñÚG;
@@ -50,6 +50,15 @@ public:
 	errorData* Awake();
 	bool Update();
 	void Print();
+};
 
-	bool Move()override;
+class enemy002 : public enemy {
+private:
+public:
+	enemy002(coordinate coord, enemyManager* ptrEM, const enemyData* edata);
+	~enemy002();
+
+	errorData* Awake();
+	bool Update();
+	void Print();
 };

@@ -17,6 +17,7 @@ struct shotData;
 enum class enemyType {
 	none,
 	e001,
+	e002
 };
 
 //敵追加ウェーブの敵種類と追加数;
