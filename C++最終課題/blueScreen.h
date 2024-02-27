@@ -19,7 +19,7 @@ private:
 public:
 	blueScreenManager(gameManager* ptrGameManager, errorData* data);
 	~blueScreenManager();
-	errorData* Awake();
+	bool Awake();
 	bool Update();
 	void Print();
 };

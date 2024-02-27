@@ -79,8 +79,8 @@ enemy001::~enemy001() {
 	enemy::~enemy();
 }
 
-errorData* enemy001::Awake() {
-	return nullptr;
+bool enemy001::Awake() {
+	return true;
 }
 bool enemy001::Update() {
 	enemy::Move();
@@ -117,8 +117,8 @@ enemy002::enemy002(coordinate coord, enemyManager* ptrEM, const enemyData* edata
 enemy002::~enemy002() {
 	enemy::~enemy();
 }
-errorData* enemy002::Awake() {
-	return nullptr;
+bool enemy002::Awake() {
+	return true;
 }
 bool enemy002::Update() {
 	enemy::Move();

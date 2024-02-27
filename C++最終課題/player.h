@@ -27,7 +27,7 @@ public:
 	player(coordinate coord);
 	~player();
 
-	errorData* Awake() override;
+	bool Awake() override;
 	bool Update()override;
 	void Print() override;
 

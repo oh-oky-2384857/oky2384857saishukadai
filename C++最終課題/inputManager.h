@@ -15,7 +15,7 @@ private:
 public:
 	inputManager(gameManager* ptrGM);
 	~inputManager();
-	errorData* Awake() override;
+	bool Awake() override;
 	bool Update()override;
 	void Print() override;
 

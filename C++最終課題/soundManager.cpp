@@ -3,13 +3,13 @@
 soundManager::soundManager(gameManager* pgm)
 : ptrGameManager(pgm)
 {
-	manager::SetManagerName("inputManager");
+	manager::SetManagerName("soundManager");
 }
 soundManager::~soundManager() {
 
 }
-errorData* soundManager::Awake() {
-	return nullptr;
+bool soundManager::Awake() {
+	return true;
 }
 bool soundManager::Update(){
 	return true;

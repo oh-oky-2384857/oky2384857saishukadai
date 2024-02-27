@@ -12,6 +12,8 @@
 #include "gameMainManager.h"
 #include "inputDate.h"
 
+#include "errorCode.h"
+
 using namespace std;
 
 const string PLAYER_SHOT_DATA_PATH = "./resource/gameMainResource/playerShotResource/psData.txt";
@@ -37,25 +39,25 @@ playerShotManager::~playerShotManager() {
 	shotPD.clear();
 }
 
-errorData* playerShotManager::Awake() {
+bool playerShotManager::Awake() {
 	//プレイヤーマネージャー取得;
 	ptrPlayerManager = (playerManager*)ptrGameMain->GetManagerPtr("playerManager");
 	if (ptrPlayerManager == nullptr) {
 		errorData* data =new errorData { errorCode::objectNotFound,errorSource::playerShotManager ,"playerManagerがない" };
-		return data;
+		throw data;
 	}
 	//エネミーマネージャー取得;
 	ptrEnemyManager = (enemyManager*)ptrGameMain->GetManagerPtr("enemyManager");
 	if (ptrEnemyManager == nullptr) {
 		errorData* data = new errorData{ errorCode::objectNotFound,errorSource::playerShotManager ,"enemyManagerがない" };
-		return data;
+		throw data;
 	}
 	//ファイルを開く;
 	ifstream ifs(PLAYER_SHOT_DATA_PATH.c_str());
 	if (ifs.fail()) {//失敗でブルスク;
 		ifs.close();
 		errorData* data = new errorData{ errorCode::fileNotFound,errorSource::playerShotManager ,"ShotDataがない" };
-		return data;
+		throw data;
 	}
 	//データ読み込み;
 	{
@@ -86,7 +88,7 @@ errorData* playerShotManager::Awake() {
 				ifs.close();
 				string* note = new string(pathBuf);
 				errorData* data = new errorData{ errorCode::handleRoadFail,errorSource::playerShotManager ,note };
-				return data;
+				throw data;
 			}
 						
 			inputs >> spd->moveSpeed >> spd->damageMultiplier >> spd->shotCoolTime;
@@ -99,7 +101,7 @@ errorData* playerShotManager::Awake() {
 
 	shots.clear();
 
-	return nullptr;
+	return true;
 }
 bool playerShotManager::Update() {
 	for (playerShotBase* ps : shots) {

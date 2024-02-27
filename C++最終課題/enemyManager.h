@@ -47,7 +47,7 @@ public:
 	enemyManager(gameMainManager* ptrGM);
 	~enemyManager();
 
-	errorData* Awake() override;
+	bool Awake() override;
 	bool Update()override;
 	void Print() override;
 

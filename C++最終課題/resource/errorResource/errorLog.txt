@@ -1,0 +1,4 @@
+errorManagerAwakeSuccess
+gameManagerAwake
+gameManagerAwakeSuccess
+gameRoop

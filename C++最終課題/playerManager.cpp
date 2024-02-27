@@ -8,6 +8,8 @@
 #include "shotData.h"
 #include "playerShotManager.h"
 
+#include "errorCode.h"
+
 playerManager::playerManager(gameMainManager* ptrGM) 
 	:ptrGameMain(ptrGM),nowShotData(nullptr){
 	//生成;
@@ -19,48 +21,48 @@ playerManager::~playerManager() {
 	delete oplayer;
 }
 
-errorData* playerManager::Awake() {
+bool playerManager::Awake() {
 	//playerShotManager取得;
 	ptrPlayerShotManager = (playerShotManager*)ptrGameMain->GetManagerPtr("playerShotManager");
 	if (ptrPlayerShotManager == nullptr) {
 		errorData* data =new errorData { errorCode::objectNotFound, errorSource::playerManager ,"プレイヤーショットがない" };
-		return data;
+		throw data;
 	}
 	//インプットデータ取得;
 	//move;
 	moveInput = ptrGameMain->GetInputData()->move;
 	if (moveInput == nullptr) {
 		errorData* data = new errorData{ errorCode::objectNotFound, errorSource::playerManager ,"moveInputがない" };
-		return data;
+		throw data;
 	}
 	//shot;
 	shotInput = ptrGameMain->GetInputData()->shot;
 	if (shotInput == nullptr) {
 		errorData* data = new errorData{ errorCode::objectNotFound,errorSource::playerShotManager ,"shotInputがない" };
-		return data;
+		throw data;
 	}
 	//プレイヤーAwake処理;
 	oplayer->Awake();
 	//画像読み込み;
 	if (!oplayer->LoadPlayerHandle()) {
 		errorData* data = new errorData{ errorCode::handleRoadFail, errorSource::playerManager ,(std::string*)nullptr };
-		return data;
+		throw data;
 	}
 	//ステータス読み込み;
 	if (!oplayer->LoadStatus()) {
 		errorData* data = new errorData{ errorCode::fileNotFound, errorSource::playerManager ,"playerDateファイルがない" };
-		return data;
+		throw data;
 	}
 
-	return nullptr;
+	return true;
 }
-errorData* playerManager::Start() {
+bool playerManager::Start() {
 	nowShotData = ptrPlayerShotManager->GetShotPatternData(0);
 	if (nowShotData == nullptr) {
 		errorData* data =new errorData { errorCode::objectNotFound,errorSource::playerShotManager ,"初期弾データがない" };
-		return data;
+		throw data;
 	}
-	return nullptr;
+	return true;
 }
 bool playerManager::Update() {
 	oplayer->AddMovePower(moveInput->xPower, moveInput->yPower);

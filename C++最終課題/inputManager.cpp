@@ -15,7 +15,6 @@ const float SHOT_RANGE_STICK_INPUT_SMOUNT = 3.125;//shotのアナログスティックの入
 inputManager::inputManager(gameManager* ptrGM) :
 ptrGameManager(ptrGM) 
 {
-
 	manager::SetManagerName("inputManager");
 	inputs = new inputData;
 	inputs->mouse = new mouseInputData;
@@ -31,8 +30,8 @@ inputManager::~inputManager() {
 	delete inputs->pause;
 	delete inputs;
 }
-errorData* inputManager::Awake(){
-	return nullptr;
+bool inputManager::Awake(){
+	return true;
 }
 bool inputManager::Update() {
 

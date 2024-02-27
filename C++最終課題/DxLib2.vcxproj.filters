@@ -162,6 +162,9 @@
     <ClInclude Include="weaponData.h">
       <Filter>ヘッダー ファイル\gameMain\entity</Filter>
     </ClInclude>
+    <ClInclude Include="errorManager.h">
+      <Filter>ヘッダー ファイル\errorManagement</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="gameManager.cpp">
@@ -232,6 +235,12 @@
     </ClCompile>
     <ClCompile Include="weaponManager.cpp">
       <Filter>ソース ファイル\gameMain\manager</Filter>
+    </ClCompile>
+    <ClCompile Include="errorManager.cpp">
+      <Filter>ソース ファイル\errorManagement</Filter>
+    </ClCompile>
+    <ClCompile Include="errorCode.cpp">
+      <Filter>ソース ファイル\errorManagement</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

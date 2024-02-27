@@ -7,7 +7,7 @@ private:
 protected:
 	coordinate position;//’†SÀ•W;
 public:
-	virtual errorData* Awake() = 0;
+	virtual bool Awake() = 0;
 	virtual bool Update() = 0;
 	virtual void Print() = 0;
 

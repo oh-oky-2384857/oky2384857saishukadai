@@ -10,6 +10,8 @@
 
 #include "blueScreen.h"
 
+#include "errorCode.h"
+
 //ゲームオーバーとゲームクリアの画像のパス;
 const std::string GAMEOVER_HANDLE_PATH = {"./resource/gameMainResource/gameOver.png"};
 const std::string GAMECLEAR_HANDLE_PATH = { "./resource/gameMainResource/gameClear.png" };
@@ -41,41 +43,37 @@ gameMainManager::~gameMainManager() {
 	DeleteGraph(gameClearHandle);
 	DeleteGraph(gameOverHandle);
 }
-errorData* gameMainManager::Awake() {
+bool gameMainManager::Awake() {
+	//処理失敗時にはmainでエラーを受け取るため
+	//ここでは何もしない
+
+	ptrGameManager->SetGameStatus(gameStatus::main);
+	
 	//各種マネージャのAwakeを動かす;
-	errorData* e;
 	for (manager* m : managers) {
-		e = m->Awake();
-		if (e != nullptr) {//エラーコードが帰ってきたら失敗;
-			//エラーコードをそのまま返す;
-			return e;
-		}
+		m->Awake();
 	}
 
 	//各種マネージャのStartを動かす;
 	for (manager* m : managers) {
-		e = m->Start();
-		if (e != nullptr) {//エラーコードが帰ってきたら失敗;
-			//エラーコードをそのまま返す;
-			return e;
-		}
+		m->Start();
 	}
 
 	//画像読み込みに失敗したら;
 	gameOverHandle = LoadGraph(GAMEOVER_HANDLE_PATH.c_str());
 	if (gameOverHandle == -1) {//失敗でエラーコードを返す;
 		errorData* data =new errorData { errorCode::handleRoadFail,errorSource::gameMainManager,(std::string*)nullptr };
-		return data;
+		throw data;
 	}
 	//画像読み込みに失敗したら2;
 	gameClearHandle = LoadGraph(GAMECLEAR_HANDLE_PATH.c_str());
 	if (gameOverHandle == -1) {//失敗でエラーコードを返す;
 		errorData* data =new errorData { errorCode::handleRoadFail,errorSource::gameMainManager,(std::string*)nullptr };
-		return data;
+		throw data;
 	}
 
 	//正常終了;
-	return nullptr;
+	return true;
 }
 bool gameMainManager::Update(){
 	if (gamingFlag) {//ゲームが続いているなら;

@@ -6,6 +6,8 @@
 #include "inputDate.h"
 #include "inputManager.h"
 
+#include "errorCode.h"
+
 const std::string PAUSE_HANDLE_PATH = { "./resource/gameCommonResource/pause.png" };
 const coordinate PAUSE_PRINT_POSITION =  {80,20};
 
@@ -21,33 +23,33 @@ pauseManager::pauseManager(gameManager* ptrGM)
 }
 pauseManager::~pauseManager() {
 }
-errorData* pauseManager::Awake() {
+bool pauseManager::Awake() {
 	//inputdates取得;
 	inputManager* ptrim = (inputManager*)ptrGameManager->GetManagerPtr("inputManager");
 	if (ptrim == nullptr) {//なければブルスク行き;
 		errorData* data =new errorData { errorCode::objectNotFound,errorSource::pauseManager,"inputManagerがない" };
-		return data;
+		throw data;
 	}
 	//mouse入力取得;
 	mouseInput = ptrim->GetInputDataPtr()->mouse;
 	if (mouseInput == nullptr) {//なければブルスク行き;
 		errorData* data = new errorData{ errorCode::objectNotFound,errorSource::pauseManager,"moveInputがない" };
-		return data;
+		throw data;
 	}
 	//pause入力取得;
 	pauseInput = ptrim->GetInputDataPtr()->pause;
 	if (mouseInput == nullptr) {//なければブルスク行き;
 		errorData* data = new errorData{ errorCode::objectNotFound,errorSource::pauseManager,"moveInputがない" };
-		return data;
+		throw data;
 	}
 	//画像読み込み
 	pauseHandle = LoadGraph(PAUSE_HANDLE_PATH.c_str());
 	if (pauseHandle == -1) {//失敗でブルスク行き;
 		errorData* data = new errorData{ errorCode::handleRoadFail,errorSource::pauseManager,(std::string*) nullptr };
-		return data;
+		throw data;
 	}
 
-	return nullptr;
+	return true;
 }
 bool pauseManager::Update() {
 	//カウンタを減らす;

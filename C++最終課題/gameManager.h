@@ -27,9 +27,10 @@ private:
 	gameStatus gs;
 public:
 	gameManager();
+	gameManager(sceneManager* scene);//シーン指定コンストラクタ;
 	~gameManager();
 
-	errorData* Awake() override;
+	bool Awake() override;
 	bool Update()override;
 	void Print() override;
 

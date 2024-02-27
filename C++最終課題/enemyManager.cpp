@@ -7,6 +7,8 @@
 #include "gameMainManager.h"
 #include "shotData.h"
 
+#include "errorCode.h"
+
 #include <string>
 #include <DxLib.h>
 #include <sstream>
@@ -42,12 +44,12 @@ enemyManager::~enemyManager() {
 	}
 	waves.clear();
 }
-errorData* enemyManager::Awake() {
+bool enemyManager::Awake() {
 	//プレイヤーマネージャー取得;
 	ptrPlayerManager = (playerManager*)ptrGameMain->GetManagerPtr("playerManager");
 	if (ptrPlayerManager == nullptr) {
 		errorData* data =new errorData { errorCode::objectNotFound,errorSource::enemyManager ,"playerManagerがない"};
-		return data;
+		throw data;
 	}
 
 	//敵データ読み込み
@@ -57,7 +59,7 @@ errorData* enemyManager::Awake() {
 		if (ifs.fail()) {//失敗でブルスク;
 			ifs.close();
 			errorData* data = new errorData{ errorCode::fileNotFound,errorSource::enemyManager ,"enemyDateのファイルがない" };
-			return data;
+			throw data;
 		}
 
 		string input;
@@ -92,7 +94,7 @@ errorData* enemyManager::Awake() {
 				string* note = new string(ss.str());
 
 				errorData* data =new errorData { errorCode::improperData,errorSource::enemyManager ,note };
-				return data;
+				throw data;
 			}
 
 			datas.push_back(ed);
@@ -112,7 +114,7 @@ errorData* enemyManager::Awake() {
 		if (ifs.fail()) {//失敗でブルスク;
 			ifs.close();
 			errorData* data = new errorData{ errorCode::fileNotFound,errorSource::enemyManager ,"enemyWaveDataのファイルがない" };
-			return data;
+			throw data;
 		}
 
 		string input;
@@ -149,7 +151,7 @@ errorData* enemyManager::Awake() {
 	for (enemyData* e : datas) {
 		if (!e->LoadImg()) {
 			errorData* data = new errorData{ errorCode::handleRoadFail,errorSource::enemyManager ,(string*)nullptr };
-			return data;
+			throw data;
 		}
 	}
 

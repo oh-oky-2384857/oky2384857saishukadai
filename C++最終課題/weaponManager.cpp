@@ -5,6 +5,8 @@
 #include "gameMainManager.h"
 #include "playerManager.h"
 
+#include "errorCode.h"
+
 using namespace std;
 
 //weaponの画像パスが書かれているtxtファイルのパス;
@@ -23,14 +25,16 @@ weaponManager::~weaponManager() {
 	}
 	weapons.clear();
 }
-errorData* weaponManager::Awake() {
+bool weaponManager::Awake() {
 	//プレイヤーマネージャー取得;
 	ptrPlayerManager = (playerManager*)ptrGameMain->GetManagerPtr("playerManager");
 	if (ptrPlayerManager == nullptr) {
 		errorData* data = new errorData{ errorCode::objectNotFound,errorSource::weaponManager ,"playerManagerがない" };
-		return data;
+		throw data;
 	}
 	ifstream ifs(WEAPON_HANDLE_DATA_PATH.c_str());
+
+	return true;
 }
 bool weaponManager::Update(){
 	return true;

@@ -23,7 +23,7 @@ protected:
 	//デフォルトの移動、プレイヤーに近づく;
 	virtual bool Move();
 public:
-	virtual errorData* Awake() { return nullptr; };
+	virtual bool Awake() { return true; };
 	virtual bool Update() { return true; };
 	virtual void Print() {};
 
@@ -59,7 +59,7 @@ public:
 	enemy001(coordinate coord, enemyManager* ptrEM,const enemyData* edata);
 	~enemy001();
 
-	errorData* Awake();
+	bool Awake();
 	bool Update();
 	void Print();
 };
@@ -70,7 +70,7 @@ public:
 	enemy002(coordinate coord, enemyManager* ptrEM, const enemyData* edata);
 	~enemy002();
 
-	errorData* Awake();
+	bool Awake();
 	bool Update();
 	void Print();
 };

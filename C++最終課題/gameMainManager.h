@@ -35,7 +35,7 @@ public:
 	gameMainManager(gameManager* ptrGM);
 	~gameMainManager();
 
-	errorData* Awake() override;
+	bool Awake() override;
 	bool Update()override;
 	void Print() override;
 

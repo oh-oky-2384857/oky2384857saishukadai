@@ -1,8 +1,12 @@
-#include<DxLib.h>
+#include <DxLib.h>
 #include <algorithm>
 #include "gameManager.h"
 #include "colorSample.h"
 #include "stringHandle.h"
+
+#include "errorCode.h"
+#include "blueScreen.h"
+#include "errorManager.h"
 
 #include <crtdbg.h>
 
@@ -11,7 +15,11 @@
 #define	new	new(_NORMAL_BLOCK, __FILE__, __LINE__)
 #endif
 
-const int REFRESH_RATE = 17;//リフレッシュレート、17ミリ秒;
+using namespace std;
+
+const int REFRESH_RATE = 17;
+
+const string ERROR_LOG_FILE_PATH = "./resource/errorResource/errorLog.txt";//エラーログのパス;
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR IpCmdLine, int nCmdShow)
 {
@@ -32,8 +40,95 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR IpCmdLine
 	//gameManager生成;
 	gameManager* gm = new gameManager;
 
-	//初期設定;
-	gm->Awake();
+	//エラーメッセージ出力用;
+	errorManager* em = new errorManager;
+	
+	//初期設定失敗で強制終了;
+	if(!em->Awake()) {
+
+		delete gm, em;
+		DxLib_End();
+		return -1;
+
+	}
+
+	//エラーログ可読性向上のため処理ブロック終了時,開始時にログを出す;
+	em->AddErrorLog("errorManagerAwakeSuccess");
+	em->AddErrorLog("gameManagerAwake");
+
+	//起動時処理;
+	try {
+		gm->Awake();
+
+	//自前のエラー発生時;
+	}catch (errorData* d) {
+
+		//エラーログに書く;
+		em->AddErrorLog(d);
+		
+		//いったん削除;
+		delete gm;
+		
+		//titleマネージャが原因ならブルースクリーンに直結;
+		if (d->source == errorSource::titleManager) {
+
+			sceneManager* newScene = new blueScreenManager(gm, d);
+
+			//シーン指定コンストラクタを利用して直接ブルスクに;
+			gm = new gameManager(newScene);
+
+			//もう一度試す;
+			try {
+				gm->Awake();
+
+			//ダメだったら
+			}catch (errorData* d) {
+
+				//メッセージを出力して終了;
+				em->AddErrorLog("復帰失敗");
+
+				delete gm, em;
+				DxLib_End();
+				return -1;
+			}
+
+			//メッセージを出力して続行;
+			em->AddErrorLog("復帰完了");
+
+
+		}else {
+			//titleマネージャが原因でないなら終了;
+			delete gm, em;
+			DxLib_End();
+			return -1;
+		}
+
+		return -1;
+
+	//自作のエラー以外が発生時;
+	}catch (exception e) {
+
+		//エラーログに書く;
+		em->AddErrorLog(e.what());
+
+		delete gm, em;
+		DxLib_End();
+
+		return -1;
+
+	//その他エラー;
+	}catch (...) {
+		//エラーログに書く;
+		em->AddErrorLog("不明なエラー");
+
+		delete gm, em;
+		DxLib_End();
+
+		return -1;
+	}
+
+	//エラーログ出力;
+	em->AddErrorLog("gameManagerAwakeSuccess");
 
 	// 下準備,色作ったり文字作ったり;
 	colorSample::MakeColors();
@@ -41,27 +136,87 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR IpCmdLine
 
 	int refreshTime;
 
-	//エラー発生または状態が終了になったら;
-	while ((ProcessMessage() == 0) && (gm->GetGameStatus() != gameStatus::end)) {
-		//画面リセット
-		ClearDrawScreen();
+	//エラーログ出力;
+	em->AddErrorLog("gameRoop");
 
-		//リフレッシュタイムに現在時間を代入;
-		refreshTime = GetNowCount();
+	//ゲームループ;
+	try {
 
-		gm->Update();//更新処理;
-		gm->Print();//表示処理;
+		//エラー発生または状態が終了になったら;
+		while ((ProcessMessage() == 0) && (gm->GetGameStatus() != gameStatus::end)) {
+			//画面リセット
+			ClearDrawScreen();
 
-		//裏画面の内容を表画面に反映;
-		ScreenFlip();
-		int timeDist = GetNowCount() - refreshTime;//処理の経過時間;
-		//リフレッシュレートから経過時間を引いて処理間隔を一定に;
-		WaitTimer((std::max)(REFRESH_RATE - timeDist, 0));
+			//リフレッシュタイムに現在時間を代入;
+			refreshTime = GetNowCount();
+
+			gm->Update();//更新処理;
+			gm->Print();//表示処理;
+
+			//裏画面の内容を表画面に反映;
+			ScreenFlip();
+			int timeDist = GetNowCount() - refreshTime;//処理の経過時間;
+			//リフレッシュレートから経過時間を引いて処理間隔を一定に;
+			WaitTimer((std::max)(REFRESH_RATE - timeDist, 0));
+		}
+	//自前のエラー発生時;
+	}catch (errorData* d) {
+
+		//エラーログに書く;
+		em->AddErrorLog(d);
+
+		//ブルスクにシーン偏移;
+		sceneManager* newScene = new blueScreenManager(gm, d);
+
+		gm->SetNewScene(newScene);
+		//ブルスクを出すためのループ;
+		while ((ProcessMessage() == 0) && (gm->GetGameStatus() != gameStatus::end)) {
+			//画面リセット
+			ClearDrawScreen();
+
+			//リフレッシュタイムに現在時間を代入;
+			refreshTime = GetNowCount();
+
+			gm->Update();//更新処理;
+			gm->Print();//表示処理;
+
+			//裏画面の内容を表画面に反映;
+			ScreenFlip();
+			int timeDist = GetNowCount() - refreshTime;//処理の経過時間;
+			//リフレッシュレートから経過時間を引いて処理間隔を一定に;
+			WaitTimer((std::max)(REFRESH_RATE - timeDist, 0));
+		}
+
+
+	//自作のエラー以外が発生時;
+	}catch (exception e) {
+
+		//エラーログに書く;
+		em->AddErrorLog(e.what());
+
+		delete gm, em;
+		DxLib_End();
+
+		return -1;
+
+	//その他エラー;
+	}catch (...) {
+
+		//エラーログに書く;
+		em->AddErrorLog("不明なエラー");
+
+		delete gm, em;
+		DxLib_End();
+
+		return -1;
+
 	}
 
+
 	//後始末;
-	delete gm;
+	delete gm, em;
 
 	DxLib_End();
+
 	return 0;
 }

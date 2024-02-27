@@ -8,6 +8,7 @@
 
 #include "gameMainManager.h"
 
+#include "errorCode.h"
 using namespace std;
 
 const string TITLE_HANDLE_PATH = "./resource/titleResource/title.png";//タイトル画像のパス;
@@ -29,28 +30,28 @@ titleManager::~titleManager(){
 	DeleteGraph(titleHandle);
 }
 
-errorData* titleManager::Awake(){
+bool titleManager::Awake(){
 	//画像読み込み;
 	titleHandle = LoadGraph(TITLE_HANDLE_PATH.c_str());
 	if (titleHandle == -1) {//失敗でブルスク行き;
 		errorData* data =new errorData { errorCode::handleRoadFail, errorSource::titleManager ,(string*)nullptr };
-		return data;
+		throw data;
 	}
 	//インプットデータ取得;
 	//inputManager取得;
 	inputManager* ptrim = (inputManager*)ptrGameManager->GetManagerPtr("inputManager");
 	if (ptrim == nullptr) {//なければブルスク行き;
 		errorData* data = new errorData{ errorCode::objectNotFound , errorSource::titleManager ,"inputManagerがない" };
-		return data;
+		throw data;
 	}
 	//inputDara取得;
 	input = ptrim->GetInputDataPtr()->mouse;
 	if (input == nullptr) {//なければブルスク行き;
 		errorData* data = new errorData{ errorCode::objectNotFound , errorSource::titleManager ,"inputDataがない" };
-		return data;
+		throw data;
 	}
 
-	return nullptr;
+	return true;
 }
 
 bool titleManager::Update() {
@@ -58,8 +59,6 @@ bool titleManager::Update() {
 	if (input->isLeftClick && 
 		input->x > TITLE_BUTTON_START_POSITION[0].x && input->x < TITLE_BUTTON_START_POSITION[1].x &&
 		input->y > TITLE_BUTTON_START_POSITION[0].y && input->y < TITLE_BUTTON_START_POSITION[1].y) {
-		//シーン切り替え;
-		ptrGameManager->SetGameStatus(gameStatus::main);
 			
 		//メインシーンへ;
 		sceneManager* newScene = new gameMainManager(ptrGameManager);

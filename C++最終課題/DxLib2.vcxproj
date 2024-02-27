@@ -26,6 +26,7 @@
     <ClInclude Include="enemy.h" />
     <ClInclude Include="enemyManager.h" />
     <ClInclude Include="errorCode.h" />
+    <ClInclude Include="errorManager.h" />
     <ClInclude Include="gameCommon.h" />
     <ClInclude Include="gameManager.h" />
     <ClInclude Include="inputDate.h" />
@@ -55,6 +56,8 @@
     <ClCompile Include="cursorManager.cpp" />
     <ClCompile Include="enemy.cpp" />
     <ClCompile Include="enemyManager.cpp" />
+    <ClCompile Include="errorCode.cpp" />
+    <ClCompile Include="errorManager.cpp" />
     <ClCompile Include="gameMainManager.cpp" />
     <ClCompile Include="gameMainManager.h" />
     <ClCompile Include="gameManager.cpp" />

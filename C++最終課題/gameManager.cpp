@@ -10,11 +10,24 @@
 #include "cursorManager.h"
 #include "pauseManager.h"
 
+#include "errorCode.h"
 using namespace std;
 
 gameManager::gameManager():gs(gameStatus::title) {
 	manager::SetManagerName("gameManager");
 	nowScene = new titleManager(this);
+
+	managers =
+	{
+		new inputManager(this),
+		new pauseManager(this),
+		new cursorManager(this),
+	};
+}
+
+gameManager::gameManager(sceneManager* scene) {
+	manager::SetManagerName("gameManager");
+	nowScene = scene;
 
 	managers =
 	{
@@ -33,25 +46,19 @@ gameManager::~gameManager() {
 	InitGraph();
 }
 
-errorData* gameManager::Awake() {
-	//nowSceneのAwakeを動かす;
-	errorData* e = nowScene->Awake();
-	if (nullptr != e) {// Awakeに失敗したら;
+bool gameManager::Awake() {
+	//処理失敗時にはmainでエラーを受け取るため
+	//ここでは何もしない
 
-		sceneManager* newScene = new blueScreenManager(this, e);
-		SetNewScene(newScene);
-		return nullptr;//処理を終わらせるためのreturn;
-	}
+	//nowSceneのAwakeを動かす;
+	nowScene->Awake();
+
 	//各種managerのAwakeを動かす;
 	for (manager* m : managers) {
-		e = m->Awake();
-		if (e != nullptr){// Awakeに失敗したら;
-			sceneManager* newScene = new blueScreenManager(this, e);
-			SetNewScene(newScene);
-			return nullptr;//処理を終わらせるためのreturn;
-		}
+		m->Awake();
 	}
-	return nullptr;//処理を終わらせるためのreturn;
+
+	return true;
 }
 bool gameManager::Update() {
 	//ポーズまたはオプションでないなら;

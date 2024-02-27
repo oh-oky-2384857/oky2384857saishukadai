@@ -9,11 +9,16 @@ enum class errorCode //エラーの種類;
 	processingFailure,	//処理失敗;
 	objectNotFound,		//オブジェクトが見つからない;
 	improperData,		//不正なデータ;
-	others,				//その他;
+	others				//その他;
+
 };
+
+
+
 enum class errorSource //エラー発生場所;
 {
 	none,				//エラーなし;
+	errorManager,
 	gameManager,
 	cursorManager,
 	pauseManager,
@@ -25,6 +30,7 @@ enum class errorSource //エラー発生場所;
 	playerShotManager,
 	weaponManager
 };
+
 
 struct errorData {
 public:
@@ -48,3 +54,4 @@ public:
 		this->note = new std::string(note);
 	}
 };
+

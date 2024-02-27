@@ -64,8 +64,8 @@ blueScreenManager::~blueScreenManager() {
 	delete errorSourceMassage;
 	delete note;
 }
-errorData* blueScreenManager::Awake(){
-	return nullptr;
+bool blueScreenManager::Awake(){
+	return true;
 }
 bool blueScreenManager::Update() {
 

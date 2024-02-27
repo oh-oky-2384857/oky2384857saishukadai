@@ -27,8 +27,8 @@ private:
 public:
 	playerManager(gameMainManager* ptrGM);
 	~playerManager();
-	errorData* Awake() override;
-	errorData* Start() override;
+	bool Awake() override;
+	bool Start() override;
 	bool Update()override;
 	void Print() override;
 

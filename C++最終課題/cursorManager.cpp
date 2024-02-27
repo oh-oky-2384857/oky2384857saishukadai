@@ -6,6 +6,8 @@
 #include "inputDate.h"
 #include "inputManager.h"
 
+#include "errorCode.h"
+
 static const int CURSOR_UPDATE_CNT = 5;
 static const int CURSOR_HANDLE_NUM = 2;//カーソルの画像の種類;
 //カーソルの画像のパス;
@@ -28,18 +30,18 @@ cursorManager::~cursorManager() {
 	}
 	delete[] cursorHandles;
 }
-errorData* cursorManager::Awake() {
+bool cursorManager::Awake() {
 	//inputdates取得;
 	inputManager* ptrim =(inputManager*)ptrGameManager->GetManagerPtr("inputManager");
 	if (ptrim == nullptr) {//なければブルスク行き;
 		errorData* data = new errorData{ errorCode::objectNotFound,errorSource::cursorManager,"inputManagerがない" };
-		return data;
+		throw data;
 	}
 	//mouseデータ取得;
 	inputDatas = ptrim->GetInputDataPtr()->mouse;
 	if (inputDatas == nullptr) {//なければブルスク行き;
 		errorData* data = new errorData{ errorCode::objectNotFound,errorSource::cursorManager,"inputManagerがない" };
-		return data;
+		throw data;
 	}
 	//ハンドル生成;
 	cursorHandles = new int[CURSOR_HANDLE_NUM];
@@ -48,12 +50,12 @@ errorData* cursorManager::Awake() {
 		cursorHandles[i] = LoadGraph(CURSOR_HANDLE_PATH[i].c_str());
 		if (cursorHandles[i] == -1) {//失敗でブルスク行き;
 			errorData* data = new errorData{ errorCode::handleRoadFail,errorSource::cursorManager,(std::string*)nullptr };
-			return data;
+			throw data;
 		}
 	}
 	//画像サイズ取得;
 	GetGraphSize(cursorHandles[0], &cursorWidth, &cursorHeight);
-	return nullptr;
+	return true;
 }
 bool cursorManager::Update() {
 	return true;

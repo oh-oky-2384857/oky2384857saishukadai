@@ -7,6 +7,8 @@
 #include "player.h"
 #include "playerManager.h"
 
+#include "errorCode.h"
+
 using namespace std;
 
 const string MAPCHIP_HANDLE_PATH =
@@ -27,18 +29,18 @@ ptrGameMain(pgmm),mapChipHandle(-1)
 mapManager::~mapManager() {
 	DeleteGraph(mapChipHandle);
 }
-errorData* mapManager::Awake() {
+bool mapManager::Awake() {
 	ptrPlayerManager = (playerManager*)ptrGameMain->GetManagerPtr("playerManager");
 	if (ptrPlayerManager == nullptr) {
 		errorData* data =new errorData { errorCode::objectNotFound,errorSource::playerManager ,"playerManager‚ª‚È‚¢" };
-		return data;
+		throw data;
 	}
 	mapChipHandle = LoadGraph(MAPCHIP_HANDLE_PATH.c_str());
 	if (mapChipHandle == -1) {
 		errorData* data =new errorData {errorCode::handleRoadFail,errorSource::playerManager,(string*)nullptr };
-		return data;
+		throw data;
 	};
-	return nullptr;
+	return true;
 }
 bool mapManager::Update() {
 

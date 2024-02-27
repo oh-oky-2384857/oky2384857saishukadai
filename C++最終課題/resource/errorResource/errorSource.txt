@@ -1,3 +1,4 @@
+errorManager
 gameManager
 cursorManager
 pauseManager

@@ -14,7 +14,7 @@ private:
 public:
 	soundManager(gameManager* pgm);
 	~soundManager();
-	errorData* Awake() override;
+	bool Awake() override;
 	bool Update()override;
 	void Print() override {};
 };

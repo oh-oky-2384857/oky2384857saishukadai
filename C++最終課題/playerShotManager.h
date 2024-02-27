@@ -30,7 +30,7 @@ public:
 	playerShotManager(gameMainManager* ptrGM);
 	~playerShotManager();
 
-	errorData* Awake() override;
+	bool Awake() override;
 	bool Update()override;
 	void Print() override;
 
